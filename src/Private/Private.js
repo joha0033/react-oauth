@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom'
+
 
 class Private extends Component {
   constructor(props) {
@@ -15,12 +15,14 @@ class Private extends Component {
 
 
   render() {
+    console.log(this.props.auth)
+    if(this.props.auth){
 
+    }
     return (
       <div>
         <div>
-          <p>yes: {this.props.isAuthenticated}</p>
-          <Link to="/">back</Link>
+          <p>yes: {this.props.auth.toString()}</p>
         </div>
       </div>
 
