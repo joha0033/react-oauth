@@ -1,7 +1,9 @@
 
 import React, {Component} from 'react';
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import Login from '../Login/Login'
+import Private from '../Private/Private'
+
 class Welcome extends Component {
   constructor(props) {
 
@@ -9,17 +11,18 @@ class Welcome extends Component {
 
     this.state = {
       isAuthenticated: false,
-      loginError: false,
-      redirect: false
      };
      this.signin = this.signin.bind(this);
      this.signout = this.signout.bind(this);
   }
 
   signout() {
+    console.log('signout hit');
     this.setState({isAuthenticated: false})
   }
+
   signin() {
+    console.log('signin hit');
     this.setState({isAuthenticated: true})
   }
 
@@ -27,10 +30,12 @@ class Welcome extends Component {
 
     const AuthButton = withRouter(
       ({ history }) =>
+
         this.state.isAuthenticated ? (
           <div>
             <p>You are Logged in!</p>
-            <Link className="Links" to="/private">Private Page</Link>
+            <Private auth={this.state.isAuthenticated}/>
+            <Link to="/profile">profile</Link>
             <br/><br/>
             <button
               onClick={() => {
@@ -55,13 +60,9 @@ class Welcome extends Component {
     return (
       <div>
 
-        <h2 id="welcomeText">Welcome!</h2>
         <hr/>
         <AuthButton />
         <br/>
-        {/* {this.state.isAuthenticated ?
-        <Link className="Links" to="/private">Private Page</Link> :
-        null } */}
 
       </div>
 

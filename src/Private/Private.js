@@ -7,43 +7,24 @@ class Private extends Component {
     super(props);
 
     this.state = {
-       redirect: false
+
      };
 
   }
 
+
+
   render() {
-    console.log(this.props);
+
     return (
-
       <div>
-        <h2 id="welcomeText">Private!</h2>
-
+        <div>
+          <p>yes: {this.props.isAuthenticated}</p>
           <Link to="/">back</Link>
-
-
+        </div>
       </div>
 
     );
   }
 }
 export default Private;
-
-
-// const PrivateRoute = ({ component: Component, ...rest }) => (
-//   <Route
-//     {...rest}
-//     render={props =>
-//       fakeAuth.isAuthenticated ? (
-//         <Component {...props} />
-//       ) : (
-//         <Redirect
-//           to={{
-//             pathname: "/login",
-//             state: { from: props.location }
-//           }}
-//         />
-//       )
-//     }
-//   />
-// );

@@ -13,10 +13,7 @@ const Routes = () => (
     <Route path="/login" component={Login}/>
     <Route path="/private" component={Private}/>
     <Route path="/home" component={Home}/>
-    {/* <Route path="/private" component={Private}/> */}
-    {/* <PrivateRoute path="/home" component={Home} /> */}
-    {/* <Route path="*" component={NotFound}/> */}
-   </Switch>
+  </Switch>
 </BrowserRouter>
 );
 
