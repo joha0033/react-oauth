@@ -35,7 +35,7 @@ class Welcome extends Component {
           <div>
             <p>You are Logged in!</p>
             <Private auth={this.state.isAuthenticated}/>
-            <Link to="/profile">profile</Link>
+            <Link to="/private">profile</Link>
             <br/><br/>
             <button
               onClick={() => {
