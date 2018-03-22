@@ -23,7 +23,7 @@ class Welcome extends Component {
   signin() {
     this.setState({isAuthenticated: true})
   }
-  
+
 
   render() {
 
@@ -47,7 +47,7 @@ class Welcome extends Component {
             <p><small>You are not logged in.</small></p>
             <Login
               auth={this.state.isAuthenticated}
-              authToggle={this.signin}
+              singin={this.signin}
             />
           </div>
 
