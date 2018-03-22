@@ -1,6 +1,8 @@
+
+
 import React, {Component} from 'react';
 import FacebookLogin from 'react-facebook-login';
-import { Redirect} from 'react-router-dom';
+// import { Redirect} from 'react-router-dom';
 
 import {PostData} from '../services/PostData';
 
@@ -43,9 +45,10 @@ class Login extends Component {
     if (postData) {
 
       PostData('signup', postData).then((result) => {
+         console.log('PostData',result);
          let responseJson = result;
          sessionStorage.setItem("userData", JSON.stringify(responseJson));
-         this.setState({redirect: true});
+        //  this.setState({redirect: true});
        });
 
     } else {
@@ -58,9 +61,10 @@ class Login extends Component {
   render() {
 
     const responseFacebook = (response) => {
+        console.log('response from Facebook: ', response);
         this.props.authToggle()
         this.signup(response, 'facebook');
-        return (<Redirect to={'/Home'}/>)
+        // return (<Redirect to={'/home'}/>)
     }
 
     return (

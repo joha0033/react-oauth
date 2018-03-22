@@ -23,6 +23,7 @@ class Welcome extends Component {
   signin() {
     this.setState({isAuthenticated: true})
   }
+  
 
   render() {
 
