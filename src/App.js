@@ -1,34 +1,53 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Routes from './routes'
-
+// import Routes from './routes'
+import Header from './Shared/Header/Header'
+import Footer from './Shared/Footer/Footer'
+import { AuthorizeToken } from './services/auth.js'
+import Welcome from './Welcome/Welcome';
 
 class App extends Component {
-  constructor(){
-    super();
-        this.state={
-        appName: "Login with Facebook and Google using ReactJS and RESTful APIs"
-    }
+
+  constructor(props){
+    super(props);
+      this.state={
+        isAuthenticated: false
+      }
+    this.signin = this.signin.bind(this);
+    this.signout = this.signout.bind(this);
   }
 
+  signout() {
+    sessionStorage.clear()
+    this.setState({isAuthenticated: false})
+  }
 
+  signin() {
+    this.setState({isAuthenticated: false})
+    AuthorizeToken(sessionStorage.getItem('userData')).then((result) => {
+      if(result.secret){
+        this.setState({isAuthorized: true})
+        sessionStorage.setItem("userAuthorized", true);
+        console.log(sessionStorage.getItem('userAuthorized'));
+      } else {
+        this.signout()
+        console.log('bad token');
+      }
+    })
+    this.setState({isAuthenticated: true})
+  }
   render() {
 
     return (
 
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to my attempt a Facebook OAuth</h1>
-        </header>
+        <Header signin={this.signin} signout={this.signout}/>
         <div className="App-intro">
           <div>
-            <div>
-              <Routes name={this.state.appName}/>
-            </div>
+            <Welcome auth={this.state.isAuthenticated} signout={this.signout}/>
           </div>
         </div>
+        <Footer />
       </div>
 
     );

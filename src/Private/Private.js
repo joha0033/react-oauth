@@ -15,18 +15,17 @@ class Private extends Component {
 
 
   render() {
-    console.log(this.props.auth)
-    if(this.props.auth){
-
-    }
+    
     return (
       <div>
         <div>
-          <p>yes: {this.props.auth.toString()}</p>
+          <h2>PRIVATE ROUTE!!!</h2>
+          <p>yes, you made it!</p>
         </div>
       </div>
 
     );
   }
 }
+
 export default Private;

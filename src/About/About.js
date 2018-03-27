@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Jumbotron, Button, Row, Col, Panel } from 'react-bootstrap'
+import { Jumbotron, Row, Col, Panel } from 'react-bootstrap'
 class Home extends Component {
 
 
@@ -10,18 +10,17 @@ render() {
 return (
 <div className="container">
   <Jumbotron>
-    <h1>Welcome to some OAuth stuff.</h1>
+    <h1>About some OAuth stuff.</h1>
     <p>
-      This is a simple OAuth app, a simple OAuth-styled app for calling
-      extra attention to my skills.
+      OAuth is a simple way to publish and interact with protected data. That's about it.
     </p>
     <p>
-      <Button bsStyle="primary" href="/About">Learn more</Button>
+      <small>Bellow are the strategies I plan to use for this project</small>
     </p>
   </Jumbotron>
   <hr/>
   <Row className="show-grid ">
-    <Col xs={12} md={4}>
+    <Col xs={6} md={4}>
       <Panel>
         <Panel.Body>LOCAL STRATS</Panel.Body>
         <Panel.Footer>
@@ -33,7 +32,7 @@ return (
         </Panel.Footer>
       </Panel>
     </Col>
-    <Col xs={12} md={4}>
+    <Col xs={6} md={4}>
       <Panel>
         <Panel.Body>FACEBOOK STRATS</Panel.Body>
         <Panel.Footer>
@@ -43,7 +42,7 @@ return (
         </Panel.Footer>
       </Panel>
     </Col>
-    <Col xs={12} md={4}>
+    <Col xsHidden md={4}>
       <Panel>
         <Panel.Body>GOOGLE STRAS</Panel.Body>
         <Panel.Footer>
