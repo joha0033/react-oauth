@@ -10,7 +10,7 @@ export async function PostData(type, data) {
 
   //Post data with fetch
   let response = await fetch(BaseURL, payload)
-
+  
   //if the response in gold
   if(response.status === 200) {
     return response.json();

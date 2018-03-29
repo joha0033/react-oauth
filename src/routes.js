@@ -1,9 +1,10 @@
+
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Home from './Home/Home';
 // import Welcome from './Welcome/Welcome';
 import About from './About/About';
-// import Signup from './Login/Signup/Signup';
+// import Signup from './Signup/Signup';
 import Private from './Private/Private';
 
 

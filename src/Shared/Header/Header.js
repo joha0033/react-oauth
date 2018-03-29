@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, MenuItem, NavItem, Nav, NavDropdown, Modal } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
-import Signup from '../../Login/Signup/Signup'
+import Signup from '../../Signup/Signup'
 
 bootstrapUtils.addStyle(Navbar, 'custom2');
 
@@ -17,12 +17,15 @@ class Header extends Component{
     };
   }
 
+  componentWillMount(){
+
+  }
    handleClose() {
      console.log('this.props.signin hit?');
 
      console.log('handledHide!');
      this.setState({ show: false });
-     return this.props.signin()
+    
    }
 
    handleShow() {
@@ -61,7 +64,7 @@ class Header extends Component{
               <MenuItem eventKey={3.2} onClick={this.handleShow}>Signup</MenuItem>
               {/* DISPLAY WHEN USER SIGNED IN */}
               <MenuItem divider />
-              <MenuItem eventKey={3.3} onClick={this.props.signout}>Signout</MenuItem>
+              <MenuItem eventKey={3.3} onClick={this.props.signoutHeader}>Signout</MenuItem>
               {/* //////////////////////////////////// */}
             </NavDropdown>
           </Nav>
@@ -74,6 +77,7 @@ class Header extends Component{
          <Modal.Body>
            <Signup
              hideModal={this.handleClose}
+             signinValid={this.props.signin}
            />
          </Modal.Body>
       </Modal>

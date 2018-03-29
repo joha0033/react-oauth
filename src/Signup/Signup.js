@@ -69,13 +69,16 @@ class Signup extends React.Component {
     console.log(postData);
       if (postData) {
         PostData(postData.method, postData).then((result) => {
+          console.log(result);
           if(result.error){
 
             alert('email already exists. Try signing in, or sign up witha different email address.')
 
           }else{
-            sessionStorage.setItem("userData", JSON.stringify(result));
-            console.log('seesion storage!', sessionStorage.getItem('userData'));
+            sessionStorage.clear()
+            sessionStorage.setItem("token", result.token);
+            console.log('seesion storage!', sessionStorage.getItem('token'));
+            this.props.signinValid()
           }
         }).catch(alert);
     }

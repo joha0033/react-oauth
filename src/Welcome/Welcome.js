@@ -31,26 +31,7 @@ class Welcome extends Component {
 
   render() {
 
-    const AuthButton =
-      ({ history }) =>
-        this.props.auth ? (
-          <div>
-            <p>You are Logged in!</p>
-            <Private
-              path='/protected'
-              component={Private}
-            />
-            <button
-              onClick={this.props.signout}
-            >
-              Sign out
-            </button>
-          </div>
-        ) : (
-          <div>
-            <p><small>You are not logged in </small></p>
-            <Home />
-          </div>
+    const
 
     );
 
