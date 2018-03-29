@@ -1,6 +1,5 @@
 export const URL = (URLtype) => {
 
-  //
   switch(URLtype) {
     case 'facebook':
       URLtype = 'https://murmuring-everglades-26713.herokuapp.com/users/oauth/facebook';

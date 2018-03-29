@@ -21,15 +21,13 @@ class Header extends Component{
 
   }
    handleClose() {
-     console.log('this.props.signin hit?');
 
-     console.log('handledHide!');
      this.setState({ show: false });
-    
+
    }
 
    handleShow() {
-     console.log('handledShow!');
+     
      this.setState({ show: true });
    }
 

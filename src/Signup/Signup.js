@@ -26,9 +26,11 @@ class Signup extends React.Component {
 
 
   signup(res, type) {
+
     let postData;
 
     if (type === 'facebook' && res.email) {
+
       postData = {
           method: type,
           name: res.name,
@@ -39,7 +41,7 @@ class Signup extends React.Component {
     }
 
     if(type === 'local' && res.email){
-      console.log('hit type local');
+
       postData = {
         method: type,
         email: res.email,
@@ -48,7 +50,7 @@ class Signup extends React.Component {
     }
 
     if(type === 'FAKElocal' && res.email){
-      console.log('hit type fake local');
+
       postData = {
         method: type,
         email: res.email,
@@ -57,7 +59,7 @@ class Signup extends React.Component {
     }
 
     if(type === 'FAKEfacebook' && res.email){
-      console.log('hit type fake fb');
+
       postData = {
         _id: 5968,
         method: type,
@@ -66,10 +68,12 @@ class Signup extends React.Component {
       }
     }
 
-    console.log(postData);
+
       if (postData) {
+
         PostData(postData.method, postData).then((result) => {
-          console.log(result);
+
+
           if(result.error){
 
             alert('email already exists. Try signing in, or sign up witha different email address.')
@@ -77,10 +81,10 @@ class Signup extends React.Component {
           }else{
             sessionStorage.clear()
             sessionStorage.setItem("token", result.token);
-            console.log('seesion storage!', sessionStorage.getItem('token'));
+
             this.props.signinValid()
           }
-        }).catch(alert);
+        }).catch();
     }
 }
 
@@ -126,8 +130,10 @@ class Signup extends React.Component {
   render() {
 
     const sendData = (data, type) => {
+
       this.props.hideModal()
       this.signup(data, type)
+
     }
 
 
@@ -188,6 +194,7 @@ class Signup extends React.Component {
                   <br/>
                   <br/>
 
+                  <Facebook signinFB = {sendData}/>
 
                 <p><small>already have an account?</small></p>
                 <p><small>click here</small></p>
@@ -198,7 +205,7 @@ class Signup extends React.Component {
 
             </form>
 
-            <Facebook signinFB = {sendData}/>
+
 
         <br/>
       </div>

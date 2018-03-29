@@ -26,9 +26,7 @@ class App extends Component {
 
 
   componentWillMount() {
-    console.log(sessionStorage);
     this.loadIfTokenPresent()
-
   }
 
   loadIfTokenPresent () {
@@ -39,15 +37,15 @@ class App extends Component {
     }
 
     AuthorizeToken(sessionStorage.getItem('token')).then((result) => {
-      console.log(result.token);
+
       sessionStorage.setItem('token', result.token);
       this.setState({isAuthenticated: true})
-    }).catch(alert)
+    }).catch()
 
   }
 
   signin() {
-    console.log('sign in hit');
+
     this.setState({isAuthenticated: true})
   }
 
