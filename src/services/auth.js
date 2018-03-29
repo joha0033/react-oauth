@@ -1,6 +1,6 @@
 export async function AuthorizeToken(token) {
 
-  let BaseURL ='http://localhost:5000/users/tokencheck'
+  let BaseURL ='https://murmuring-everglades-26713.herokuapp.com/users/tokencheck'
 
   let response = await fetch(BaseURL, {
       headers: {
