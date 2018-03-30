@@ -22,7 +22,7 @@ class Facebook extends Component {
 
         this.props.signinFB(response, 'FAKEfacebook')
       } else {
-
+        // console.log('response form fb', response);
         this.props.signinFB(response, 'facebook')
       }
 

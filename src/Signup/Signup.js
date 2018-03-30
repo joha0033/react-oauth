@@ -28,7 +28,7 @@ class Signup extends React.Component {
 
 
   signup(res, type) {
-
+    console.log('res, type', res, type);
 
     let postData;
 
@@ -86,12 +86,12 @@ class Signup extends React.Component {
       }
     }
 
-
+    // console.log(' 89 postData', postData);
 
       if (postData) {
 
         PostData(postData.method, postData).then((result) => {
-
+          // console.log(' 94 result', result);
 
           if(result.error){
 
@@ -149,7 +149,7 @@ class Signup extends React.Component {
   render() {
 
     const sendData = (data, type) => {
-
+      // console.log('sendData, data, type', data, type);
       this.props.hideModal()
       this.signup(data, type)
 
@@ -168,7 +168,13 @@ class Signup extends React.Component {
             (e) => {
               e.preventDefault()
               if(process.env.NODE_ENV !== 'development'){
-                return sendData(this.state.input, 'local')
+                // console.log('not development, ');
+                if(this.props.newUserFromHeader){
+                  return sendData(this.state.input, 'signup')
+                } else{
+                  return sendData(this.state.input, 'local')
+                }
+
               } else {
 
                 if(this.props.newUserFromHeader){
@@ -216,7 +222,7 @@ class Signup extends React.Component {
                   <br/>
                   <br/>
 
-                  <Facebook signinFB = {sendData}/>
+
 
 
 
@@ -234,6 +240,7 @@ class Signup extends React.Component {
 
             }
           <br/>
+          <Facebook signinFB = {sendData}/>
       </div>
     );
   }

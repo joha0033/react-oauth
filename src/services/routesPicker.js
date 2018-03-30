@@ -1,7 +1,7 @@
 export const URL = (URLtype) => {
-
+  // console.log('URLtype', URLtype);
   switch(URLtype) {
-    case 'sinup':
+    case 'signup':
       URLtype = 'https://murmuring-everglades-26713.herokuapp.com/users/signup';
       break;
     case 'facebook':
