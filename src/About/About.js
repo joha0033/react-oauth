@@ -44,7 +44,7 @@ return (
     </Col>
     <Col xsHidden md={4}>
       <Panel>
-        <Panel.Body>GOOGLE STRAS</Panel.Body>
+        <Panel.Body>GOOGLE STRATS</Panel.Body>
         <Panel.Footer>
           This is ok, much like facebook, I can pass all my work to Google and
         all I have to do is mess wtih a little token and gather

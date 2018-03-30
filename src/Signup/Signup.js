@@ -1,14 +1,16 @@
 import React from 'react'
 import {PostData} from '../services/PostData';
 import Facebook from './Facebook/Facebook.js'
+import { withRouter } from 'react-router-dom'
+
 
 
 class Signup extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      newUser: true,
       fakeInput: {
-        method: 'local',
         email: "testLocal@gmail.com",
         password: "test321"
       },
@@ -26,11 +28,19 @@ class Signup extends React.Component {
 
 
   signup(res, type) {
+    console.log('signup hit');
 
     let postData;
 
-    if (type === 'facebook' && res.email) {
+    if(type === 'signup' && res.email){
+      postData = {
+        method: type,
+        email: res.email,
+        password: res.password
+      }
+    }
 
+    if (type === 'facebook' && res.email) {
       postData = {
           method: type,
           name: res.name,
@@ -41,9 +51,17 @@ class Signup extends React.Component {
     }
 
     if(type === 'local' && res.email){
-
       postData = {
         method: type,
+        email: res.email,
+        password: res.password
+      }
+    }
+
+    if(type === 'FAKE' && res.email){
+
+      postData = {
+        method: 'FAKE',
         email: res.email,
         password: res.password
       }
@@ -52,7 +70,7 @@ class Signup extends React.Component {
     if(type === 'FAKElocal' && res.email){
 
       postData = {
-        method: type,
+        method: 'FAKElocal',
         email: res.email,
         password: res.password
       }
@@ -62,13 +80,14 @@ class Signup extends React.Component {
 
       postData = {
         _id: 5968,
-        method: type,
+        method: 'FAKEfacebook',
         email: res.email,
         password: res.password
       }
     }
 
 
+      console.log(postData);
       if (postData) {
 
         PostData(postData.method, postData).then((result) => {
@@ -79,10 +98,10 @@ class Signup extends React.Component {
             alert('email already exists. Try signing in, or sign up witha different email address.')
 
           }else{
-            sessionStorage.clear()
-            sessionStorage.setItem("token", result.token);
-
+            localStorage.clear()
+            localStorage.setItem("token", result.token);
             this.props.signinValid()
+            this.props.history.push("/profile");
           }
         }).catch();
     }
@@ -144,19 +163,22 @@ class Signup extends React.Component {
       <div>
         <br/>
         <form
+
           onSubmit={
             (e) => {
               e.preventDefault()
               if(process.env.NODE_ENV !== 'development'){
                 return sendData(this.state.input, 'local')
               } else {
-                return sendData(this.state.fakeInput, 'FAKElocal')
+                // console.log(this.props.newUserFromHeader);
+                if(this.props.newUserFromHeader){
+                  return sendData(this.state.fakeInput, 'FAKE')
+                } else{
+                  return sendData(this.state.fakeInput, 'FAKElocal')
+                }
               }
             }
           }>
-
-              <h2> Sign up </h2>
-
                 <label>
                   Email:
                   <input
@@ -196,21 +218,25 @@ class Signup extends React.Component {
 
                   <Facebook signinFB = {sendData}/>
 
-                <p><small>already have an account?</small></p>
-                <p><small>click here</small></p>
+
+
               <br/>
               {blurred.email && !!errors.email && <span>{errors.email}</span>}
               <br/>
               {blurred.password && !!errors.password && <span>{errors.password}</span>}
 
             </form>
+            {
+              this.props.newUserFromHeader ?
+              <a><small onClick={()=>this.props.newUserToggleFromHeader(false)}>Already signed up?</small></a>
+              :
+              <a><small onClick={()=>this.props.newUserToggleFromHeader(true)}>Need an Account?</small></a>
 
-
-
-        <br/>
+            }
+          <br/>
       </div>
     );
   }
 }
 
-export default Signup
+export default withRouter(Signup)

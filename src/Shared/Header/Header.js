@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Navbar, MenuItem, NavItem, Nav, NavDropdown, Modal } from 'react-bootstrap';
+import { Navbar, Modal } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
+
+import Dropdown from './Dropdown'
+import NavList from './NavList'
+import NavLogo from './NavLogo'
 import Signup from '../../Signup/Signup'
 
 bootstrapUtils.addStyle(Navbar, 'custom2');
@@ -11,73 +15,77 @@ class Header extends Component{
 
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.newUserToggle= this.newUserToggle.bind(this);
 
     this.state = {
-      show: false
+      showModal: false
     };
   }
 
-  componentWillMount(){
-
-  }
    handleClose() {
-
-     this.setState({ show: false });
-
+     console.log('close hit');
+     this.setState({ showModal: false });
    }
 
-   handleShow() {
-     
-     this.setState({ show: true });
+   handleShow(userStatus) {
+     this.newUserToggle(userStatus)
+     this.setState({ showModal: true });
    }
+
+   newUserToggle(status) {
+     console.log(status);
+     status ?
+     this.setState({newUser: true})
+     :
+     this.setState({newUser: false})
+   }
+
 
   render() {
-    var styles = {
-                "borderRadius" : '0'
-            };
+
+    var styles = { "borderRadius" : '0' };
 
     return (
 
     <div>
       <Navbar inverse collapseOnSelect style={styles}>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="/">My OAUTH</a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
-            <NavItem eventKey={1} href="/home">
-              Home
-            </NavItem>
-            <NavItem eventKey={2} href="/about">
-              About
-            </NavItem>
 
-          </Nav>
-          <Nav pullRight>
-            <NavDropdown eventKey={3} title="you can..." id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1} onClick={this.handleShow}>Signin</MenuItem>
-              <MenuItem eventKey={3.2} onClick={this.handleShow}>Signup</MenuItem>
-              {/* DISPLAY WHEN USER SIGNED IN */}
-              <MenuItem divider />
-              <MenuItem eventKey={3.3} onClick={this.props.signoutHeader}>Signout</MenuItem>
-              {/* //////////////////////////////////// */}
-            </NavDropdown>
-          </Nav>
+        <NavLogo />
+
+        <Navbar.Collapse>
+          <NavList />
+
+          <Dropdown
+            toggleShow={this.handleShow}
+            signoutFromHeader = {this.props.signoutFromApp}
+            tokenCheckFromHeader = {this.props.tokenChangeFromApp} />
         </Navbar.Collapse>
+
       </Navbar>
-      <Modal show={this.state.show} onHide={this.handleClose}>
+
+      <Modal show={this.state.showModal} onHide={this.handleClose}>
+
         <Modal.Header closeButton>
-           <Modal.Title>Signup</Modal.Title>
+
+           {this.state.newUser ?
+             <Modal.Title>Signup</Modal.Title>
+             :
+             <Modal.Title>Signin</Modal.Title>
+           }
+
          </Modal.Header>
+
          <Modal.Body>
+
            <Signup
-             hideModal={this.handleClose}
-             signinValid={this.props.signin}
+             hideModal = {this.handleClose}
+             signinValid = {this.props.signin}
+             newUserToggleFromHeader = {this.newUserToggle}
+             newUserFromHeader = {this.state.newUser}
            />
+
          </Modal.Body>
+
       </Modal>
     </div>
   )
