@@ -37,27 +37,3 @@ class Private extends Component {
 }
 
 export default Private;
-
-// const Profile = withRouter(
-//   ({history}) =>
-//     this.state.isAuthenticated ? (
-//       <div>
-//         <p>You are Logged in!</p>
-//         <Profile
-//           path='/profile'
-//           component={Profile}
-//         />
-//         <button
-//           onClick={this.signout}
-//         >
-//           Sign out
-//         </button>
-//       </div>
-//     ) : (
-//       null
-//       // <div>
-//       //   <p><small>You are not logged in </small></p>
-//       //   <Home />
-//       // </div>)
-//     )
-//   )

@@ -23,7 +23,7 @@ class Header extends Component{
   }
 
    handleClose() {
-     console.log('close hit');
+    
      this.setState({ showModal: false });
    }
 
@@ -33,7 +33,7 @@ class Header extends Component{
    }
 
    newUserToggle(status) {
-     console.log(status);
+    
      status ?
      this.setState({newUser: true})
      :

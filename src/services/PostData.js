@@ -3,7 +3,6 @@ import { userData } from './userData'
 
 //async fetch function for posting user data.
 export async function PostData(type, data) {
-  console.log(type, data);
   //work done by improts
   let BaseURL = URL(type)
   let payload = userData(data)

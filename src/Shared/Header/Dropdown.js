@@ -11,18 +11,6 @@ class Dropdown extends Component{
 
     }
 
-    this.tokenChange = this.tokenChange.bind(this)
-    // this.signinForm = this.signinForm.bind(this)
-
-  }
-
-  // change on token creds!
-  componentWillMount() {
-    this.tokenChange()
-  }
-
-  tokenChange() {
-    console.log(this.props.tokenCheckFromHeader);
   }
 
     render() {

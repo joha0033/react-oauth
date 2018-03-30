@@ -31,7 +31,7 @@ class App extends Component {
 
 
   signout() {
-    console.log('signout hit');
+
     localStorage.clear()
     this.setState({isAuthenticated: false})
 
@@ -43,15 +43,15 @@ class App extends Component {
   }
 
   loadIfTokenPresent () {
-    console.log('loadToken hit');
+
     let token = localStorage.getItem('token')
     if(!token || token === '') {
-      console.log('no token');
+  
       return;
     }
 
     AuthorizeToken(localStorage.getItem('token')).then((result) => {
-      console.log('AuthorizeToken hit');
+  
       localStorage.setItem('token', result.token);
       this.setState({isAuthenticated: true})
     }).catch()
@@ -59,7 +59,7 @@ class App extends Component {
   }
 
   signin() {
-    console.log('signin hit in App 60.');
+
     this.setState({isAuthenticated: true})
   }
 

@@ -28,7 +28,7 @@ class Signup extends React.Component {
 
 
   signup(res, type) {
-    console.log('signup hit');
+
 
     let postData;
 
@@ -87,7 +87,7 @@ class Signup extends React.Component {
     }
 
 
-      console.log(postData);
+
       if (postData) {
 
         PostData(postData.method, postData).then((result) => {
@@ -170,7 +170,7 @@ class Signup extends React.Component {
               if(process.env.NODE_ENV !== 'development'){
                 return sendData(this.state.input, 'local')
               } else {
-                // console.log(this.props.newUserFromHeader);
+
                 if(this.props.newUserFromHeader){
                   return sendData(this.state.fakeInput, 'FAKE')
                 } else{
