@@ -59,7 +59,11 @@ class Header extends Component{
 
   render() {
 
+
+
     return (
+
+
 
     <div>
       <style type="text/css">{`
@@ -67,12 +71,12 @@ class Header extends Component{
               opacity: .85;
         }
         `}</style>
-      <Navbar inverse fixedTop fluid collapseOnSelect>
+      <Navbar inverse fixedTop fluid collapseOnSelect >
+        <div className='container'>
+          <NavLogo />
 
-        <NavLogo />
-
-        <Navbar.Collapse>
-          <NavList />
+          <Navbar.Collapse>
+            <NavList />
 
             <Dropdown
               toggleShow={this.handleShowModal}
@@ -80,7 +84,9 @@ class Header extends Component{
               tokenCheckFromHeader = {this.props.tokenChangeFromApp} />
 
 
-        </Navbar.Collapse>
+          </Navbar.Collapse>
+        </div>
+
 
       </Navbar>
 

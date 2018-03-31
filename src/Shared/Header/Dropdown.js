@@ -14,13 +14,13 @@ class Dropdown extends Component{
   }
 
     render() {
+
       return (
-        
+
         <Nav pullRight>
 
           {
             this.props.tokenCheckFromHeader ?
-
 
 
               <NavDropdown eventKey={3} title="Welcome" id="basic-nav-dropdown">
@@ -57,6 +57,7 @@ class Dropdown extends Component{
           }
 
           </Nav>
+
 
       )
 
