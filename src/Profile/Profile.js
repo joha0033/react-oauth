@@ -82,8 +82,6 @@ class Private extends Component {
                 <div className='topOverlay container'>
                   <Row>
 
-
-
                     <Col className='center' smHidden xsHidden md={3}>
                       <div className='profilePicture'>
                         <Image src="https://source.unsplash.com/random/300x300" responsive circle />
@@ -116,7 +114,7 @@ class Private extends Component {
                       </div>
                     </Col>
 
-                    <Col xs={7}>
+                    <Col xs={12} md={7}>
 
                       <Col smHidden xsHidden>
                         <PageHeader style={{paddingTop: "8em", paddingLeft: "2em"}}>
