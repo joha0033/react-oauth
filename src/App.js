@@ -14,6 +14,8 @@ import Profile from './Profile/Profile'
 import Home from './Home/Home'
 import Footer from './Shared/Footer/Footer'
 
+
+
 class App extends Component {
 
   constructor(props){
@@ -46,15 +48,17 @@ class App extends Component {
 
     let token = localStorage.getItem('token')
     if(!token || token === '') {
-  
+
       return;
     }
 
     AuthorizeToken(localStorage.getItem('token')).then((result) => {
-  
+      console.log(result.payload.userData.local.email);
       localStorage.setItem('token', result.token);
+      localStorage.setItem('email', result.payload.userData.local.email)
+      localStorage.setItem('userData', result.payload.userData.local)
       this.setState({isAuthenticated: true})
-    }).catch()
+    }).catch(alert)
 
   }
 
@@ -68,6 +72,11 @@ class App extends Component {
 
     return (
       <div>
+        <style type="text/css">{`
+          body {
+            padding-top: 50px;
+          }
+          `}</style>
         <Router>
 
 
