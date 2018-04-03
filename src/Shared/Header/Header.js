@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Modal } from 'react-bootstrap';
+import { Nav, Navbar, Modal, Alert } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 
 import Dropdown from './Dropdown'
@@ -7,33 +7,48 @@ import NavList from './NavList'
 import NavLogo from './NavLogo'
 import Signup from '../../Signup/Signup'
 
-bootstrapUtils.addStyle(Navbar, 'custom2');
+bootstrapUtils.addStyle(Nav, 'custom');
 
 class Header extends Component{
   constructor(props, context) {
     super(props, context);
 
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleShowModal = this.handleShowModal.bind(this);
+    this.handleShowAlert = this.handleShowAlert.bind(this);
+    this.handleDismissAlert = this.handleDismissAlert.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
     this.newUserToggle= this.newUserToggle.bind(this);
-
     this.state = {
-      showModal: false
+      showModal: false,
+      showAlert: false,
+      errorMsg: 'error'
     };
   }
 
-   handleClose() {
-    
+
+  handleDismissAlert() {
+    this.newUserToggle(false)
+     this.setState({ showAlert: false });
+   }
+
+    handleShowAlert(error) {
+     this.setState({ showAlert: true });
+     error.toString() === 'Error: 403'
+     ? this.setState({errorMsg: 'That email is already taken. Try Signing.'})
+     : this.setState({errorMsg: 'error'})
+   }
+
+
+   handleCloseModal() {
      this.setState({ showModal: false });
    }
 
-   handleShow(userStatus) {
+   handleShowModal(userStatus) {
      this.newUserToggle(userStatus)
      this.setState({ showModal: true });
    }
 
    newUserToggle(status) {
-    
      status ?
      this.setState({newUser: true})
      :
@@ -43,27 +58,33 @@ class Header extends Component{
 
   render() {
 
-    var styles = { "borderRadius" : '0' };
-
     return (
 
     <div>
-      <Navbar inverse collapseOnSelect style={styles}>
+      <style type="text/css">{`
+        .navbar {
+              opacity: .85;
+        }
+        `}</style>
+      <Navbar inverse fixedTop fluid collapseOnSelect>
+        <div className="container">
+          <NavLogo />
 
-        <NavLogo />
+          <Navbar.Collapse>
+            <NavList />
 
-        <Navbar.Collapse>
-          <NavList />
+            <Dropdown
+              toggleShow={this.handleShowModal}
+              signoutFromHeader = {this.props.signoutFromApp}
+              tokenCheckFromHeader = {this.props.tokenChangeFromApp} />
 
-          <Dropdown
-            toggleShow={this.handleShow}
-            signoutFromHeader = {this.props.signoutFromApp}
-            tokenCheckFromHeader = {this.props.tokenChangeFromApp} />
-        </Navbar.Collapse>
 
+          </Navbar.Collapse>
+        </div>
       </Navbar>
 
-      <Modal show={this.state.showModal} onHide={this.handleClose}>
+
+      <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
 
         <Modal.Header closeButton>
 
@@ -76,9 +97,18 @@ class Header extends Component{
          </Modal.Header>
 
          <Modal.Body>
+          { this.state.showAlert ?
+            <Alert bsStyle="danger" onDismiss={this.handleDismissAlert}>
+                {this.state.errorMsg}
+            </Alert>
+            :
+            null
+          }
+
 
            <Signup
-             hideModal = {this.handleClose}
+             showAlertFromHeader={this.handleShowAlert}
+             hideModal = {this.handleCloseModal}
              signinValid = {this.props.signin}
              newUserToggleFromHeader = {this.newUserToggle}
              newUserFromHeader = {this.state.newUser}

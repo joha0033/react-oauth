@@ -8,7 +8,7 @@ render() {
 
 
 return (
-<div className="container">
+<div>
   <Jumbotron>
     <h1>About some OAuth stuff.</h1>
     <p>

@@ -2,6 +2,7 @@ import React from 'react'
 import {PostData} from '../services/PostData';
 import Facebook from './Facebook/Facebook.js'
 import { withRouter } from 'react-router-dom'
+// import { Alert } from 'react-bootstrap'
 
 
 
@@ -28,7 +29,6 @@ class Signup extends React.Component {
 
 
   signup(res, type) {
-    console.log('res, type', res, type);
 
     let postData;
 
@@ -91,19 +91,22 @@ class Signup extends React.Component {
       if (postData) {
 
         PostData(postData.method, postData).then((result) => {
-          // console.log(' 94 result', result);
 
-          if(result.error){
+          console.log(' 94 result', result);
 
-            alert('email already exists. Try signing in, or sign up witha different email address.')
-
-          }else{
             localStorage.clear()
             localStorage.setItem("token", result.token);
+            localStorage.setItem("userData", result.newUser);
             this.props.signinValid()
+            this.props.hideModal()
             this.props.history.push("/profile");
-          }
-        }).catch();
+
+        }).catch((error) =>{
+
+          this.props.showAlertFromHeader(error.toString())
+
+
+        });
     }
 }
 
@@ -150,7 +153,7 @@ class Signup extends React.Component {
 
     const sendData = (data, type) => {
       // console.log('sendData, data, type', data, type);
-      this.props.hideModal()
+
       this.signup(data, type)
 
     }
@@ -221,10 +224,6 @@ class Signup extends React.Component {
 
                   <br/>
                   <br/>
-
-
-
-
 
               <br/>
               {blurred.email && !!errors.email && <span>{errors.email}</span>}
