@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import { HelpBlock, FormControl, Checkbox, FormGroup, PageHeader, Row, Col, Clearfix } from 'react-bootstrap'
 import styled from 'styled-components';
 import { Post } from '../services/posts'
@@ -123,6 +124,14 @@ class Home extends Component {
 
 
 render() {
+  // var stylesJtrn = {
+  //   // "paddingTop" : '120px',
+  //   // "backgroundColor" : "#FFE66D",
+  //   "opacity" : '.8'
+  //
+  //   // "background-color" : 'yellow'
+  //
+  //  };
 
 
 
@@ -130,6 +139,7 @@ return (
 <div >
 
     <Row>
+
 
       <PageHeader className='container'>
         small things tech. <small>learning + exploring</small>
@@ -186,82 +196,8 @@ return (
 
         </Col>
 
-
-
-
-      {/* <Col xs={12} md={4}>
-        <Panel >
-          <Panel.Body >LOCAL STRATS</Panel.Body>
-          <Panel.Footer>
-            I can log you in locally, meaning no facebook login, and save all
-            your things to my database.
-            This is great and all, but you can login with just a click with
-            either Facebook or Google+.
-            Crazy, I know...
-          </Panel.Footer>
-        </Panel>
-      </Col>
-      <Col xs={12} md={4}>
-        <Panel>
-          <Panel.Body>FACEBOOK STRATS</Panel.Body>
-          <Panel.Footer>
-            This is great, I can pass all my work to facebook and
-            all I have to do is mess wtih a little token and gather
-            all of your sensative information you've given to facebook. Got you now!
-          </Panel.Footer>
-        </Panel>
-      </Col>
-      <Col xs={12} md={4}>
-        <Panel>
-          <Panel.Body>GOOGLE STRAS</Panel.Body>
-          <Panel.Footer>
-            This is ok, much like facebook, I can pass all my work to Google and
-          all I have to do is mess wtih a little token and gather
-          all of your sensative information you've given to Google, which isn't as
-          much as facebook I bet. Got you now!
-        </Panel.Footer>
-        </Panel>
-      </Col>
-      <Col xs={12} md={4}>
-        <Panel>
-          <Panel.Body>LOCAL STRATS</Panel.Body>
-          <Panel.Footer>
-            I can log you in locally, meaning no facebook login, and save all
-            your things to my database.
-            This is great and all, but you can login with just a click with
-            either Facebook or Google+.
-            Crazy, I know...
-          </Panel.Footer>
-        </Panel>
-      </Col>
-      <Col xs={12} md={4}>
-        <Panel>
-          <Panel.Body>FACEBOOK STRATS</Panel.Body>
-          <Panel.Footer>
-            This is great, I can pass all my work to facebook and
-            all I have to do is mess wtih a little token and gather
-            all of your sensative information you've given to facebook. Got you now!
-          </Panel.Footer>
-        </Panel>
-      </Col>
-      <Col xs={12} md={4}>
-        <Panel>
-          <Panel.Body>GOOGLE STRAS</Panel.Body>
-          <Panel.Footer>
-            This is ok, much like facebook, I can pass all my work to Google and
-          all I have to do is mess wtih a little token and gather
-          all of your sensative information you've given to Google, which isn't as
-          much as facebook I bet. Got you now!
-        </Panel.Footer>
-        </Panel>
-      </Col> */}
-    </Row>
-  </div>
-
-
-
-  <hr/>
-
+  </Row>
+</div>
 </div>
 );
 }

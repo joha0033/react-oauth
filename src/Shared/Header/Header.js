@@ -20,7 +20,9 @@ class Header extends Component{
     this.newUserToggle= this.newUserToggle.bind(this);
     this.state = {
       showModal: false,
+
       showAlert: false,
+
       errorMsg: 'error'
     };
   }
@@ -28,6 +30,7 @@ class Header extends Component{
 
   handleDismissAlert() {
     this.newUserToggle(false)
+
      this.setState({ showAlert: false });
    }
 
@@ -37,6 +40,7 @@ class Header extends Component{
      ? this.setState({errorMsg: 'That email is already taken. Try Signing.'})
      : this.setState({errorMsg: 'error'})
    }
+
 
 
    handleCloseModal() {
@@ -49,10 +53,11 @@ class Header extends Component{
    }
 
    newUserToggle(status) {
-     status ?
-     this.setState({newUser: true})
-     :
-     this.setState({newUser: false})
+
+     status
+     ? this.setState({newUser: true})
+     : this.setState({newUser: false})
+
    }
 
 
@@ -60,14 +65,18 @@ class Header extends Component{
 
     return (
 
+
+
     <div>
       <style type="text/css">{`
         .navbar {
               opacity: .85;
         }
         `}</style>
+
       <Navbar inverse fixedTop fluid collapseOnSelect>
         <div className="container">
+
           <NavLogo />
 
           <Navbar.Collapse>
@@ -81,6 +90,7 @@ class Header extends Component{
 
           </Navbar.Collapse>
         </div>
+
       </Navbar>
 
 
@@ -97,7 +107,9 @@ class Header extends Component{
          </Modal.Header>
 
          <Modal.Body>
+
           { this.state.showAlert ?
+
             <Alert bsStyle="danger" onDismiss={this.handleDismissAlert}>
                 {this.state.errorMsg}
             </Alert>
@@ -108,6 +120,7 @@ class Header extends Component{
 
            <Signup
              showAlertFromHeader={this.handleShowAlert}
+
              hideModal = {this.handleCloseModal}
              signinValid = {this.props.signin}
              newUserToggleFromHeader = {this.newUserToggle}

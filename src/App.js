@@ -95,11 +95,11 @@ class App extends Component {
 
               <div className='App-intro'>
 
-                {/* <Route exact path='/' render={(props) => {
-                  return (<Home />)
-                }}/> */}
-
                 <Route exact path='/' render={(props) => {
+                  return (<Home />)
+                }}/>
+
+                <Route exact path='/profile' render={(props) => {
                   return (<Profile
                     tokenValidationFromApp = {this.state.isAuthenticated}
                   />)

@@ -16,7 +16,7 @@ class Private extends Component {
   componentWillMount() {
     if(localStorage.getItem('userData')){
       let email = localStorage.getItem('email')
-      console.log(email);
+      console.log('email', email);
       this.setState({email})
     }
 
@@ -67,10 +67,10 @@ class Private extends Component {
             position: realtive;
 
           }
-
           `}
         </style>
         {!this.props.tokenValidationFromApp ?
+
           <Redirect to= "/"/>
           :
             <div className='profile'>
@@ -82,7 +82,6 @@ class Private extends Component {
 
                 <div className='topOverlay container'>
                   <Row>
-
 
 
                     <Col className='center' smHidden xsHidden md={3}>
@@ -98,15 +97,16 @@ class Private extends Component {
                         <h5 >Age: 31</h5>
                       </div>
                     </Col>
-
+                    <Col sm={1}></Col>
 
 
                     <Col mdHidden lgHidden className='center' md={6}>
                       <div className='smallProfilePicture'>
                         <Image className='profilePicture' src="https://source.unsplash.com/300x300" responsive circle />
-
                       </div>
+
                       <div style={{marginTop: "2em"}}>
+
                         <h4 >{this.state.email}</h4>
                         <h5 >From: Florida</h5>
                         <h5 >Freelance Software Engineer</h5>
@@ -114,7 +114,9 @@ class Private extends Component {
                       </div>
                     </Col>
 
-                    <Col xs={12} md={9}>
+
+                    <Col xs={12} md={7}>
+
 
                       <Col smHidden xsHidden>
                         <PageHeader style={{paddingTop: "8em", paddingLeft: "2em"}}>
