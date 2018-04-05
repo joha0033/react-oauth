@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { HelpBlock, FormControl, Checkbox, FormGroup, PageHeader, Row, Col, Clearfix } from 'react-bootstrap'
 import styled from 'styled-components';
 import { Post } from '../services/posts'
+import { filterPost } from './HomeHelpers'
 
 
 const PostLink = styled.div`
@@ -30,34 +31,163 @@ class Home extends Component {
     super(props)
     this.state = {
       posts: [],
-      filter: {
-        categories:{
-          Github: false,
-          CLI: false,
-          Editor: false
+      filterCriteria: [], //NEED AN ARRAY FOR ORDERING PURPOSES
+      filterGroups: [ //NEED AN ARRAY FOR ORDERING PURPOSES
+        {
+          category:{
+            Github: false,
+            CLI: false,
+            Editor: false
+          }
         },
-        levels: {
-          Beginner: false,
-          Intermediate: false,
-          Epert: false
+        {
+          level: {
+            Beginner: false,
+            Intermediate: false,
+            Epert: false
+          }
         }
-      }
+      ]
     }
+
+    this.fetchPosts = this.fetchPosts.bind(this)
+    this.sideBarCreator = this.sideBarCreator.bind(this)
+    this.filterGroupUpdate = this.filterGroupUpdate.bind(this)
+    this.postsMap = this.postsMap.bind(this)
+    this.filterParams = this.filterParams.bind(this)
+
   }
 
+  // FETCH ALL POSTS AT MOUNT
   componentWillMount(){
-    this.filterMap()
     this.fetchPosts()
   }
 
+  // IMPLEMENTS POSTDATA FUNCTION
   fetchPosts() {
+
+    //DONT MANIPULATE STATE
+    let filterCriteriaFromState = this.state.filterCriteria
+
+    // FETCH ROUTE
     Post.fetchAllPosts().then((result)=>{
-      this.setState({posts: result})
+
+      // FILL FILTER CRITERIA IF EMPTY
+      result.map((el)=>{
+
+        // NO CATEGORY? ADD IT
+        if(!el.category || el.category === ''){
+          el['category'] = 'none'
+        }
+
+        //  NO LEVEL, ADD IT
+        if(!el.level || el.level === ''){
+          el['level'] = 'none'
+        }
+
+        if(el.category === 'Text Editor'){
+          el.category = 'editor'
+        }
+
+        // MAKE THEM LOWERCASE FOR COMPARISON PURPOSES
+        el.category = el.category.toLowerCase()
+        el.level = el.level.toLowerCase()
+
+        // WHAT DO I DO WITH THIS?
+        return null // SUCCESS MESSAGE? TAG UPDATED RESULTS
+
+      })
+
+      // IF THERE'S NO FILTER, DISPLAY ALL
+      filterCriteriaFromState.length <= 0
+      ? this.setState({ posts: result })
+      : this.setState({posts: filterPost(result, filterCriteriaFromState)})
+
     }).catch(alert)
   }
 
+  // SIDEBAR CREATOR
+  sideBarCreator(){
+
+    // CREATE A NEW OBJECT OUT OF FILTER GROUP STATE
+    let filterArray = this.state.filterGroups
+
+    // MAP OVER NEW FILTER GROUP OBJECT
+    // CREATE A FILTER GROUP TO RENDER
+    let filterGroup = filterArray.map((element, index)=>{
+
+        // GET THE KEYS FOR FILTER GROUPS
+        let group = Object.keys(element)
+        //////////////////////////////////
+        // THIS WILL HEADER FOR EACH GROUP
+        group = group[0].charAt(0).toUpperCase() + group[0].slice(1)
+
+        // 'FILTER ARRAY' CONTAINS OBJECTS
+        // KEY/(GROUP NAME): VALUE/(ARRAY OF TYPES)
+        let type = Object.values(element)
+        /////////////////////////////////
+        // CREATING CHECKBOXES/SUB-HEADERS THAT WILL HELP MANIPULATE DATA
+        type = Object.keys(type[0]).map((element, index)=>{
+
+          // 'ELEMENT' = TYPE USED FOR FILTER
+          return (
+                  <Checkbox
+                    key={index}// FILTER GROUP CREATES FILTER CRITERIA ARRAY
+                    onChange={()=>this.filterGroupUpdate(element)}>
+                    {element}
+                  </Checkbox>
+          )
+        })
+
+        // CREATE THE ELEMENT THAT WILL RENDER TO SIDE-NAV-BAR
+        return (
+          <div key={index}>
+            <h3>{group}</h3>
+            <div>{type}</div>
+          </div>
+        )
+
+      })
+
+      return filterGroup
+
+  }
+
+  // CALLED FORM CHECKBOXES
+  // CREATE/UPDATE CURRENT FILTER CRITERIA
+  filterGroupUpdate(filterType) {
+
+    //CREATE A NEW ARRAY OF FILTER GROUPS FROM STATE
+    let newArray = this.state.filterGroups
+
+      // MAP OVER EACH OBJECT TO ACCESS EACH KEY
+      newArray = newArray.map((element1, index)=>{
+
+        // MAP OVER KEYS TO TARGET DATA MANIPULATION
+        Object.keys(Object.values(element1)[0]).map((element) => {
+
+          let key = Object.keys(element1)[0]
+
+          return (// TOGGLE DATA ON CHECKBOX CHANGE
+            element === filterType // FILTER TYPE IS SENT FROM CHECKBOX
+            ? (newArray[index][key][element] = !newArray[index][key][element])
+            : null
+          )
+
+        })
+
+        // SET/UPDATE STATE WITH THE NEW ARRAY
+        return this.setState({filterGroups: newArray})
+
+      })
+
+      return this.filterParams()
+  }
+
   postsMap() {
-    return this.state.posts.map((post, index)=>{
+    // DISPLAYS POSTS (ALL OR FILTERED FORM SIDEBAR)
+    let newPostArray = this.state.posts
+    return newPostArray.map((post, index)=>{
       return(<div key={index}>
               <h3>{post.title}</h3>
               <p>{post.content}</p>
@@ -67,72 +197,100 @@ class Home extends Component {
     })
   }
 
-  filterMap(){
+  // THIS CREATES THE FILTER CRITERIA
+  // WHENEVER THE SIDEBAR/CHECKBOXES ARE MANIPULATED
+  filterParams(){
 
-    let newObject = {...this.state.filter}
+      // CLEAR CURRENT STATE WITH CALLBACK
+      return this.setState({filterCriteria: []}, function(){
 
-    return Object.entries(newObject).map((filterGroup, index)=>{
+        // KEEPING STATE IMMUTABLE
+        let filterState = this.state.filterGroups // ARRAY OF OBJECTS FROM STATE
 
-        let filterType = Object.keys(filterGroup[1]).map((element, index)=>{
+        //USING ARRAY FOR ORDERING PURPOSES -> FILTER!
+        let filterArray = this.state.filterCriteria // EMPTY ARRAY.. for now...
 
-          return (
-            <Checkbox
-              key={index}
-              onChange={()=>this.filterGroup(element)}>
-              {element}
-            </Checkbox>
-          )
+        // MAPPING OVER FILTER STATE COPY
+        return filterState.map((el, i)=> { // el = OBJECT IN ARRAY @ i
 
-        })
+          // CREATES AN ARRAY OF KEYS FROM el = ["category"]
+          let key = Object.keys(el) // FIRST INTERATION = 1ST IN STATE
 
-        let filterHeader = filterGroup[0].charAt(0).toUpperCase() + filterGroup[0].slice(1);
+          // VALUE OF OBJECT KEYS: WHY NOT USE MAP OR REDUCE??
+          Object.values(el).filter((el2)=>{ //  el2 = {GitHub: false, CLI: false... }
 
-        return (
-          <div key={index}>
-            <h3 >
-              {filterHeader}
-            </h3>
-            <h4>
-              {filterType}
-            </h4>
-          </div>
-        )
+              // VALUE OF OBJECT KEYS: WHY NOT USE MAP OR REDUCE??
+              Object.keys(el2).filter((el3)=>{ // KEY OF VALUE OBJECT el3 = 'GitHub'
 
-    })
-  }
 
-  filterGroup(filterType) {
+                // VARIABLE RECIEVES BOOLEAN FROM FINDKEY FUNC
+                // ARGS ARE CURRENT KEY INTERATION AND FILTER CRITERIA
+                let isKeyPresent = this.findKey(key[0], filterArray)
 
-    let newObject = {...this.state.filter}
+                // CHECK IF THE KEY VALUE PAIR IS TRUE AND NEW || undefined
+                if(el2[el3] && !isKeyPresent){
 
-    return (Object.entries(newObject).map(( keyElement ) => {
+                  // CREATE A NEW OBJECT TO PUSH TO FILTER ARRAY
+                  let newFilterObject = {[key[0]] : [el3.toLowerCase()]}
 
-      Object.keys( keyElement[1] ).map(( element ) => {
+                  // COULD JUST RETURN filterArray.push(newFilterObject)
+                  // NO NEED TO SPREAD OP, BUT ITS COOL
+                  return filterArray.push({...newFilterObject}) //ARRAY W/ OBJECTS
 
-        return (
-          element === filterType
-          ? keyElement[1][element]= !keyElement[1][element]
-          : null
-        )
+                  // IF VALUE OF OBJECT'S VALUE AND KEY EXISTS AND IS TRUE
+                } else if ( el2[el3] && isKeyPresent ) {
+
+                  // FIND MATCHING OBJECT IN ARRAY TO PUSH INTO
+                  filterArray.map((obj) => {
+
+                    // IF OBJECT KEY MATCHES CURRENT INTERATION KEY
+                    // PUSH FILTER TYPE TO OBJECT IN ARRAY
+                    return Object.keys(obj)[0] === key[0]
+                           ? obj[key[0]].push(el3.toLowerCase())
+                           :null
+
+                  })
+                }
+
+                return null
+
+              })
+
+              // SET STATE TO NEW FILTER CRITERIA ARRAY
+              return this.setState({filterCriteria: filterArray})
+
+            })
+
+            // RECALL FETCH AND FILTER RESULTS, REINITIALIZE STATE
+            // SHOULD I MANIPULATE STATE INSTEAD OF FETCH?
+            return this.fetchPosts()
+
+          })
       })
 
-      return this.setState({filters: {...newObject}})
+}
 
-    }))
+
+
+  findKey(key, array) {
+    // console.log(key, array);
+      // INITIALIZE EMPTY ARRAY FOR KEYS
+      let keys = []
+
+      // GET KEY(S) FROM EACH ELEMENT
+      array.map((obj)=> Object.keys(obj).map(el => keys.push(el)))
+
+      // BOOLEAN VARIABLE CHECKS IF KEY ARG IS PRESENT
+      let keyFound = keys.some((k) => {
+        return k === key
+      })
+
+      // RETURN THE BOOLEAN VALUE
+      return  keyFound
 
   }
 
-
 render() {
-  // var stylesJtrn = {
-  //   // "paddingTop" : '120px',
-  //   // "backgroundColor" : "#FFE66D",
-  //   "opacity" : '.8'
-  //
-  //   // "background-color" : 'yellow'
-  //
-  //  };
-
 
 
 return (
@@ -153,7 +311,7 @@ return (
       <br/>
     <Row className="show-grid container">
 
-        <Col xs={3}>
+        <Col xs={2}>
           <SideNav>
             <Clearfix>
               <ul>
@@ -169,9 +327,9 @@ return (
                     placeholder="Enter Search stuff..."
                   />
 
-                  {this.filterMap()}
+                  {this.sideBarCreator()}
 
-              </FormGroup>
+                </FormGroup>
 
                 <hr />
 
@@ -185,6 +343,7 @@ return (
 
 
         </Col>
+        <Col xs={1}></Col>
 
         <Col xs={8}>
 
