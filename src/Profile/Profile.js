@@ -14,9 +14,9 @@ class Private extends Component {
   }
 
   componentWillMount() {
-    if(localStorage.getItem('userData')){
-      let email = localStorage.getItem('email')
-      console.log('email', email);
+    if(sessionStorage.getItem('userData')){
+      let email = sessionStorage.getItem('email')
+
       this.setState({email})
     }
 
@@ -68,6 +68,7 @@ class Private extends Component {
 
           }
           `}
+          
         </style>
         {!this.props.tokenValidationFromApp ?
 
@@ -86,7 +87,8 @@ class Private extends Component {
 
                     <Col className='center' smHidden xsHidden md={3}>
                       <div className='profilePicture'>
-                        <Image src="https://source.unsplash.com/random/300x300" responsive circle />
+
+                        <Image src="https://picsum.photos/300/300" responsive circle />
 
                       </div>
                       <div style={{paddingTop: "1em"}}>
@@ -102,7 +104,9 @@ class Private extends Component {
 
                     <Col mdHidden lgHidden className='center' md={6}>
                       <div className='smallProfilePicture'>
-                        <Image className='profilePicture' src="https://source.unsplash.com/300x300" responsive circle />
+
+                        <Image className='profilePicture' src="https://picsum.photos/300/300" responsive circle />
+
                       </div>
 
                       <div style={{marginTop: "2em"}}>

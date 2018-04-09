@@ -5,7 +5,8 @@ import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 import Dropdown from './Dropdown'
 import NavList from './NavList'
 import NavLogo from './NavLogo'
-import Signup from '../../Signup/Signup'
+import Signup from '../../Register/Signup/SignupNEW'
+// import Signin from '../../Register/Signin/Signin'
 
 bootstrapUtils.addStyle(Nav, 'custom');
 

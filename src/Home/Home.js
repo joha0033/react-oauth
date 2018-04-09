@@ -31,8 +31,14 @@ class Home extends Component {
     super(props)
     this.state = {
       posts: [],
+      searchCriteria: [],
       filterCriteria: [], //NEED AN ARRAY FOR ORDERING PURPOSES
-      filterGroups: [ //NEED AN ARRAY FOR ORDERING PURPOSES
+      filterGroups: [
+        {
+          search: {
+            input: false
+          }
+        }, //NEED AN ARRAY FOR ORDERING PURPOSES
         {
           category:{
             Github: false,
@@ -50,6 +56,7 @@ class Home extends Component {
       ]
     }
 
+    // this.searchPosts = this.searchPosts.bind(this)
     this.fetchPosts = this.fetchPosts.bind(this)
     this.sideBarCreator = this.sideBarCreator.bind(this)
     this.filterGroupUpdate = this.filterGroupUpdate.bind(this)
@@ -60,21 +67,23 @@ class Home extends Component {
 
   // FETCH ALL POSTS AT MOUNT
   componentWillMount(){
+    console.log('componentWillMount');
     this.fetchPosts()
   }
 
   // IMPLEMENTS POSTDATA FUNCTION
   fetchPosts() {
-
+    console.log('fetchPosts START');
     //DONT MANIPULATE STATE
     let filterCriteriaFromState = this.state.filterCriteria
+    let searchCriteriaFromState = this.state.searchCriteria
 
     // FETCH ROUTE
     Post.fetchAllPosts().then((result)=>{
 
       // FILL FILTER CRITERIA IF EMPTY
       result.map((el)=>{
-
+        // CLOUD FUNCTION ON POST EVENTUALLY
         // NO CATEGORY? ADD IT
         if(!el.category || el.category === ''){
           el['category'] = 'none'
@@ -93,22 +102,24 @@ class Home extends Component {
         el.category = el.category.toLowerCase()
         el.level = el.level.toLowerCase()
 
+        // MOVE FILTERPOST HERE AND ADD SEARCH ARG
+
         // WHAT DO I DO WITH THIS?
         return null // SUCCESS MESSAGE? TAG UPDATED RESULTS
 
       })
-
+      console.log('fetchPosts FINISH');
       // IF THERE'S NO FILTER, DISPLAY ALL
-      filterCriteriaFromState.length <= 0
+      filterCriteriaFromState.length <= 0 && searchCriteriaFromState === ''
       ? this.setState({ posts: result })
-      : this.setState({posts: filterPost(result, filterCriteriaFromState)})
+      : this.setState({ posts: filterPost(result, filterCriteriaFromState, searchCriteriaFromState)})
 
     }).catch(alert)
   }
 
   // SIDEBAR CREATOR
   sideBarCreator(){
-
+    console.log('sideBarCreator');
     // CREATE A NEW OBJECT OUT OF FILTER GROUP STATE
     let filterArray = this.state.filterGroups
 
@@ -128,7 +139,18 @@ class Home extends Component {
         /////////////////////////////////
         // CREATING CHECKBOXES/SUB-HEADERS THAT WILL HELP MANIPULATE DATA
         type = Object.keys(type[0]).map((element, index)=>{
-
+          if(element === 'input'){
+            return (
+              <FieldGroup
+                id="formControlsText"
+                key={index}
+                type="text"
+                onChange={(event)=>{this.sendSearchEventValue(event.target.value, element)}}
+                label="Search"
+                placeholder="Search..."
+              />
+            )
+          }
           // 'ELEMENT' = TYPE USED FOR FILTER
           return (
                   <Checkbox
@@ -153,10 +175,19 @@ class Home extends Component {
 
   }
 
+  sendSearchEventValue(input) {
+
+
+    input = input.split(' ')
+    return this.setState({searchCriteria: input}, () =>{
+        this.fetchPosts()
+      })
+  }
+
   // CALLED FORM CHECKBOXES
   // CREATE/UPDATE CURRENT FILTER CRITERIA
   filterGroupUpdate(filterType) {
-
+    console.log('filterGroupUpdate');
     //CREATE A NEW ARRAY OF FILTER GROUPS FROM STATE
     let newArray = this.state.filterGroups
 
@@ -185,8 +216,11 @@ class Home extends Component {
   }
 
   postsMap() {
+    console.log('postsMap');
     // DISPLAYS POSTS (ALL OR FILTERED FORM SIDEBAR)
     let newPostArray = this.state.posts
+    console.log(newPostArray);
+
     return newPostArray.map((post, index)=>{
       return(<div key={index}>
               <h3>{post.title}</h3>
@@ -200,7 +234,7 @@ class Home extends Component {
   // THIS CREATES THE FILTER CRITERIA
   // WHENEVER THE SIDEBAR/CHECKBOXES ARE MANIPULATED
   filterParams(){
-
+    console.log('filterParams');
       // CLEAR CURRENT STATE WITH CALLBACK
       return this.setState({filterCriteria: []}, function(){
 
@@ -255,7 +289,6 @@ class Home extends Component {
                 return null
 
               })
-
               // SET STATE TO NEW FILTER CRITERIA ARRAY
               return this.setState({filterCriteria: filterArray})
 
@@ -273,6 +306,7 @@ class Home extends Component {
 
 
   findKey(key, array) {
+    console.log('findKey');
     // console.log(key, array);
       // INITIALIZE EMPTY ARRAY FOR KEYS
       let keys = []
@@ -289,6 +323,13 @@ class Home extends Component {
       return  keyFound
 
   }
+
+
+
+
+
+
+
 
 render() {
 
@@ -319,13 +360,14 @@ return (
 
                 <FormGroup>
 
-                  <h3>Search</h3>
-                  <FieldGroup
+                  {/*<h3>Search</h3>
+                   <FieldGroup
                     id="formControlsText"
                     type="text"
+                    onChange={(event)=>{this.sendSearchEventValue(event.target.value)}}
                     label="Search"
-                    placeholder="Enter Search stuff..."
-                  />
+                    placeholder="Search..."
+                  /> */}
 
                   {this.sideBarCreator()}
 

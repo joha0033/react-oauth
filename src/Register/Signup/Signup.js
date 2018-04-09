@@ -1,6 +1,6 @@
 import React from 'react'
-import {PostData} from '../services/PostData';
-import Facebook from './Facebook/Facebook.js'
+import {PostData} from '../../services/PostData';
+import Facebook from '../Facebook/Facebook.js'
 import { withRouter } from 'react-router-dom'
 // import { Alert } from 'react-bootstrap'
 
@@ -8,23 +8,31 @@ import { withRouter } from 'react-router-dom'
 
 class Signup extends React.Component {
   constructor(props){
+
     super(props)
+
     this.state = {
+
       newUser: true,
       fakeInput: {
         email: "testLocal@gmail.com",
         password: "test321"
       },
+
       input: {
             email: "",
             password: ""
         },
+
         blurred: {
             email: false,
             password: false
         }
+        
       }
+
     this.signup = this.signup.bind(this)
+
   }
 
 

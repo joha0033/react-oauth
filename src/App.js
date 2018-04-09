@@ -34,29 +34,29 @@ class App extends Component {
 
   signout() {
 
-    localStorage.clear()
+    sessionStorage.clear()
     this.setState({isAuthenticated: false})
 
   }
 
 
   componentWillMount() {
-    this.loadIfTokenPresent()
+    // this.loadIfTokenPresent()
   }
 
   loadIfTokenPresent () {
 
-    let token = localStorage.getItem('token')
+    let token = sessionStorage.getItem('token')
     if(!token || token === '') {
 
       return;
     }
 
-    AuthorizeToken(localStorage.getItem('token')).then((result) => {
+    AuthorizeToken(sessionStorage.getItem('token')).then((result) => {
       console.log(result.payload.userData.local.email);
-      localStorage.setItem('token', result.token);
-      localStorage.setItem('email', result.payload.userData.local.email)
-      localStorage.setItem('userData', result.payload.userData.local)
+      sessionStorage.setItem('token', result.token);
+      sessionStorage.setItem('email', result.payload.userData.local.email)
+      sessionStorage.setItem('userData', result.payload.userData.local)
       this.setState({isAuthenticated: true})
     }).catch(alert)
 
@@ -65,6 +65,7 @@ class App extends Component {
   signin() {
 
     this.setState({isAuthenticated: true})
+
   }
 
   render() {
