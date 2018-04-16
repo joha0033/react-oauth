@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import { HelpBlock, FormControl, Checkbox, FormGroup, PageHeader, Row, Col, Clearfix } from 'react-bootstrap'
 import styled from 'styled-components';
 import { Post } from '../services/posts'
@@ -38,20 +37,6 @@ class Home extends Component {
           search: {
             input: false
           }
-        }, //NEED AN ARRAY FOR ORDERING PURPOSES
-        {
-          category:{
-            Github: false,
-            CLI: false,
-            Editor: false
-          }
-        },
-        {
-          level: {
-            Beginner: false,
-            Intermediate: false,
-            Epert: false
-          }
         }
       ]
     }
@@ -73,7 +58,7 @@ class Home extends Component {
 
   // IMPLEMENTS POSTDATA FUNCTION
   fetchPosts() {
-    console.log('fetchPosts START');
+
     //DONT MANIPULATE STATE
     let filterCriteriaFromState = this.state.filterCriteria
     let searchCriteriaFromState = this.state.searchCriteria
@@ -108,7 +93,80 @@ class Home extends Component {
         return null // SUCCESS MESSAGE? TAG UPDATED RESULTS
 
       })
-      console.log('fetchPosts FINISH');
+
+      if (this.state.filterGroups.length === 1){
+        // console.log('firstRun');
+        let filterGroupCreator = []
+        // PROMT USER WITH KEYS+CHECKBOXES TO MARK KEYS!!!
+        // WOULD YOU LIKE TO OMIT VALUES??
+        //
+        /////////////////////////////
+        // IF YOU KNOW WHAT TO OMIT
+        /////////////////////////////
+        // let ignoreTheseKeys = [ 'title', 'content' ]
+        // let dash = '_'
+        // get each Object from result
+        // result.forEach((obj) =>{
+        //
+        //   // get the objects key and map to filter
+        //   Object.keys(obj).map((key) =>{
+        //
+        //     // if the key is in the ingnored keys list + '_'
+        //     ignoreTheseKeys.includes(key)
+        //       ? key = '_' + key
+        //       : null
+        //
+        //     // filter anything that begins with '_' and push others to Marked Keys
+        //     key[0] !== dash
+        //       ? markTheseKeys.push(key)
+        //       : null
+        //
+        //   })
+        //
+        // })
+        //
+        /////////////////////////////
+        // IF YOU KNOW WHAT YOU WANT
+        /////////////////////////////
+        let markTheseKeys = ['category', 'level']
+        // markTheseKeys = markTheseKeys.filter(function(item, pos) {
+        //   return markTheseKeys.indexOf(item) === pos;
+        // })
+
+        markTheseKeys.forEach((key)=>{
+          filterGroupCreator.push({[key]: {}})
+        })
+
+        filterGroupCreator.forEach((obj) => {
+
+          markTheseKeys.forEach((markedKey) => {
+            result.forEach((post)=>{
+
+            return  !!obj[markedKey] && post[markedKey] !== 'none'
+              ? obj[markedKey][post[markedKey]] = false
+              : null
+
+            })
+
+          })
+        })
+
+        // console.log(filterGroupCreator);
+
+        this.setState({filterGroups: this.state.filterGroups.concat(filterGroupCreator)}, () => {
+          return console.log('filter\'s set');
+        })
+
+      }
+
+
+
+      // ENDING
+      /////////////////////////////////////////
+
+      // console.log(filterCriteriaFromState.length);
+
+
       // IF THERE'S NO FILTER, DISPLAY ALL
       filterCriteriaFromState.length <= 0 && searchCriteriaFromState === ''
       ? this.setState({ posts: result })
@@ -119,7 +177,7 @@ class Home extends Component {
 
   // SIDEBAR CREATOR
   sideBarCreator(){
-    console.log('sideBarCreator');
+    // console.log('sideBarCreator');
     // CREATE A NEW OBJECT OUT OF FILTER GROUP STATE
     let filterArray = this.state.filterGroups
 
@@ -139,6 +197,7 @@ class Home extends Component {
         /////////////////////////////////
         // CREATING CHECKBOXES/SUB-HEADERS THAT WILL HELP MANIPULATE DATA
         type = Object.keys(type[0]).map((element, index)=>{
+          let displayName =  element[0].charAt(0).toUpperCase() + element.substring(1, element.length)
           if(element === 'input'){
             return (
               <FieldGroup
@@ -156,7 +215,7 @@ class Home extends Component {
                   <Checkbox
                     key={index}// FILTER GROUP CREATES FILTER CRITERIA ARRAY
                     onChange={()=>this.filterGroupUpdate(element)}>
-                    {element}
+                    {displayName}
                   </Checkbox>
           )
         })
@@ -187,7 +246,7 @@ class Home extends Component {
   // CALLED FORM CHECKBOXES
   // CREATE/UPDATE CURRENT FILTER CRITERIA
   filterGroupUpdate(filterType) {
-    console.log('filterGroupUpdate');
+
     //CREATE A NEW ARRAY OF FILTER GROUPS FROM STATE
     let newArray = this.state.filterGroups
 
@@ -198,7 +257,7 @@ class Home extends Component {
         Object.keys(Object.values(element1)[0]).map((element) => {
 
           let key = Object.keys(element1)[0]
-
+          console.log(element, filterType.toLowerCase());
           return (// TOGGLE DATA ON CHECKBOX CHANGE
             element === filterType // FILTER TYPE IS SENT FROM CHECKBOX
             ? (newArray[index][key][element] = !newArray[index][key][element])
@@ -216,10 +275,10 @@ class Home extends Component {
   }
 
   postsMap() {
-    console.log('postsMap');
+    // console.log('postsMap');
     // DISPLAYS POSTS (ALL OR FILTERED FORM SIDEBAR)
     let newPostArray = this.state.posts
-    console.log(newPostArray);
+    // console.log(newPostArray);
 
     return newPostArray.map((post, index)=>{
       return(<div key={index}>
@@ -256,17 +315,18 @@ class Home extends Component {
               // VALUE OF OBJECT KEYS: WHY NOT USE MAP OR REDUCE??
               Object.keys(el2).filter((el3)=>{ // KEY OF VALUE OBJECT el3 = 'GitHub'
 
-
                 // VARIABLE RECIEVES BOOLEAN FROM FINDKEY FUNC
                 // ARGS ARE CURRENT KEY INTERATION AND FILTER CRITERIA
                 let isKeyPresent = this.findKey(key[0], filterArray)
-
+                // console.log(el2[el3]);
                 // CHECK IF THE KEY VALUE PAIR IS TRUE AND NEW || undefined
+                // console.log(el2[el3], !isKeyPresent);
+                // console.log(el2[el3], isKeyPresent);
                 if(el2[el3] && !isKeyPresent){
 
                   // CREATE A NEW OBJECT TO PUSH TO FILTER ARRAY
                   let newFilterObject = {[key[0]] : [el3.toLowerCase()]}
-
+                  // console.log(newFilterObject);
                   // COULD JUST RETURN filterArray.push(newFilterObject)
                   // NO NEED TO SPREAD OP, BUT ITS COOL
                   return filterArray.push({...newFilterObject}) //ARRAY W/ OBJECTS
@@ -279,6 +339,7 @@ class Home extends Component {
 
                     // IF OBJECT KEY MATCHES CURRENT INTERATION KEY
                     // PUSH FILTER TYPE TO OBJECT IN ARRAY
+                    console.log(Object.keys(obj)[0] === key[0]);
                     return Object.keys(obj)[0] === key[0]
                            ? obj[key[0]].push(el3.toLowerCase())
                            :null
@@ -289,8 +350,11 @@ class Home extends Component {
                 return null
 
               })
+
               // SET STATE TO NEW FILTER CRITERIA ARRAY
-              return this.setState({filterCriteria: filterArray})
+              return this.setState({filterCriteria: filterArray}, () => {
+                return this.fetchPosts()
+              })
 
             })
 
@@ -306,7 +370,7 @@ class Home extends Component {
 
 
   findKey(key, array) {
-    console.log('findKey');
+    // console.log('findKey');
     // console.log(key, array);
       // INITIALIZE EMPTY ARRAY FOR KEYS
       let keys = []

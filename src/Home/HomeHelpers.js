@@ -1,20 +1,23 @@
-export const filterPost = (results, filters, searchInput) => {
+export const filterPost = (posts, filters, searchInput) => {
 
     // FIRST HOLDS ALL POSTS THEN GETS FILTERED
     // HOLDER FOR COMPLETED FILTERS COMBINED
-    let filteredPosts = results
+
 
     // MAP THROUGH EACH OF THE 'FILTERS' = ITEM(OBJECT)(S)
     // 'FILTERGROUP' WILL BE AN OBJECT FROM 'FILTERS' ARRAY
     filters.map((filterGroup, mainIndex) => {
+      //array of objects
 
       // MANIPULATE DATA PER KEY THEN VALUE
       return Object.keys(filterGroup).map((filterKey) => {
+        //category
 
         return Object.values(filterGroup).map((filterValue)=> {
+          //github
 
           // HOLDS WHICH ARRAY TO FILTER
-          let toBeFiltered = filteredPosts
+          let toBeFiltered = posts
           let toBeFlattened = [] //FLATTENED LATER
 
           // DELIVERS A FILTERED ARRAY FOR EACH INTERATION
@@ -29,7 +32,7 @@ export const filterPost = (results, filters, searchInput) => {
           }) //END OF FOR EACH
 
           // ARRAY OF ARRAYS TO SINGLE FILTERED ARRAY, 'FILTERED POSTS'
-          return filteredPosts = toBeFlattened
+          return posts = toBeFlattened
             .reduce((acc, cur) => {
               // seachPost?
               return acc.concat(cur);
@@ -43,8 +46,8 @@ export const filterPost = (results, filters, searchInput) => {
 
     // SEACH ALGORITHM IF NEEDED
     return searchInput[0] === undefined || searchInput[0] === ""
-           ? filteredPosts
-           : searchPosts(filteredPosts, searchInput)
+           ? posts
+           : searchPosts(posts, searchInput)
 
 } // FUNC END
 
