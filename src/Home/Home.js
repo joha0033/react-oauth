@@ -141,7 +141,7 @@ class Home extends Component {
 
           markTheseKeys.forEach((markedKey) => {
             result.forEach((post)=>{
-
+              
             return  !!obj[markedKey] && post[markedKey] !== 'none'
               ? obj[markedKey][post[markedKey]] = false
               : null

@@ -52,6 +52,14 @@ export const filterPost = (posts, filters, searchInput) => {
 } // FUNC END
 
 
+
+
+
+
+///////////////////////////////
+// IT SEARCHES THE CONTENT AS A WHOLE...
+// CAN YOU ORDER BY HOW EXACT IT IS... ??
+// IF THE BEGINNING
 // USED TO SEACH FILTERED POSTS
 const searchPosts = ( posts, criteria ) => {
 
@@ -116,10 +124,18 @@ const searchPosts = ( posts, criteria ) => {
         let postLower = post[i].toLowerCase()
         let itemLower = item.toLowerCase()
 
+
+        ///////////////////////////
+        // HERE YOU GET THE PASSING POSTS, CAN I PRIORITIZE AFTER THAT??
+        // CAN I HOLD THE MATCHING RESULT??
+        // IF CRITERIA FOUND DEEPLY MATCHES CRITERIA, PUT IT "FIRST"
         // SEARCH THE POST FOR CRITERIA AND PUSH PASSING POSTS TO ARRAY
         if(postLower.search(itemLower) !== -1 && !undefined){
+
           return passingPosts.push(post)
         }
+
+
 
       }) // END OF KEYS FOR EACH
 
@@ -134,12 +150,15 @@ const searchPosts = ( posts, criteria ) => {
 
   })
 
+  console.log(uniqueArray);
+
   return uniqueArray
 
 }
 
-
-
+//////////////////////////////
+// ADD WILD CARDS TO BEGINNING AND END OF QUOTED SEARCHES??
+// SPACES AND PUNCUATION??
 // USED TO COMINE QUOTED SEARCH CRITERIA
 const combineQuotedCriteria = (array, open, close) =>{
 
