@@ -125,10 +125,7 @@ const searchPosts = ( posts, criteria ) => {
         let itemLower = item.toLowerCase()
 
 
-        ///////////////////////////
-        // HERE YOU GET THE PASSING POSTS, CAN I PRIORITIZE AFTER THAT??
-        // CAN I HOLD THE MATCHING RESULT??
-        // IF CRITERIA FOUND DEEPLY MATCHES CRITERIA, PUT IT "FIRST"
+
         // SEARCH THE POST FOR CRITERIA AND PUSH PASSING POSTS TO ARRAY
         if(postLower.search(itemLower) !== -1 && !undefined){
 
@@ -150,6 +147,16 @@ const searchPosts = ( posts, criteria ) => {
 
   })
 
+  ///////////////////////////
+  // HERE YOU GET THE PASSING POSTS, CAN I PRIORITIZE AFTER THAT??
+  // CAN I HOLD THE MATCHING RESULT??
+  let match;
+  uniqueArray.forEach((post) =>{
+    /////// DO YOU SEARCH ALL KEYS?
+    /////// IS THERE PRIORITIES???
+    return console.log('match', match );
+
+  })
   console.log(uniqueArray);
 
   return uniqueArray
@@ -189,3 +196,38 @@ const combineQuotedCriteria = (array, open, close) =>{
   return array
 
 }
+
+export const PageHelper = (state) => {
+
+  // GRAB DATA FROM STATE
+  let { itemsPerPage, posts } = state
+  console.log(itemsPerPage);
+  // CREATE ARRAY TO SEND
+  const pageNumbers = [];
+
+  // INTERATE THE LENGTH OF DATA TO CREATE PAGES
+  for (let i = 1; i <= Math.ceil(posts.length / itemsPerPage); i++) {
+
+    pageNumbers.push(i);
+
+  }
+
+  // SEND FILLED ARRAY
+  return pageNumbers
+
+}
+
+export const SplitDataHelper = (state) => {
+
+    // QUICK HELPER TO CRATE SPLIT DATA FOR EAHC PAGE
+    const { currentPage, itemsPerPage, posts } = state
+
+    // PAGE LOGIC FOR EACH PAGE'S LIST
+    const indexOfLastData = currentPage * itemsPerPage;
+    const indexOfFirstData = indexOfLastData - itemsPerPage;
+
+    // RETURN THE SHORTENED LIST
+    return posts.slice(indexOfFirstData, indexOfLastData);
+
+
+  }

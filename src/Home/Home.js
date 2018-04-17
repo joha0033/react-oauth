@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { HelpBlock, FormControl, Checkbox, FormGroup, PageHeader, Row, Col, Clearfix } from 'react-bootstrap'
+import { Pagination, HelpBlock, FormControl, Checkbox, FormGroup, PageHeader, Row, Col, Clearfix } from 'react-bootstrap'
 import styled from 'styled-components';
 import { Post } from '../services/posts'
-import { filterPost } from './HomeHelpers'
+import { filterPost, PageHelper, SplitDataHelper} from './HomeHelpers'
 
 
 const PostLink = styled.div`
@@ -38,7 +38,9 @@ class Home extends Component {
             input: false
           }
         }
-      ]
+      ],
+      itemsPerPage: 6,
+      currentPage: 1
     }
 
     // this.searchPosts = this.searchPosts.bind(this)
@@ -141,7 +143,7 @@ class Home extends Component {
 
           markTheseKeys.forEach((markedKey) => {
             result.forEach((post)=>{
-              
+
             return  !!obj[markedKey] && post[markedKey] !== 'none'
               ? obj[markedKey][post[markedKey]] = false
               : null
@@ -274,13 +276,23 @@ class Home extends Component {
       return this.filterParams()
   }
 
+  handlePages(event) {
+    this.setState({
+          currentPage: Number(event)
+        });
+  }
+
   postsMap() {
+
+    let currentData = SplitDataHelper(this.state)
+
     // console.log('postsMap');
     // DISPLAYS POSTS (ALL OR FILTERED FORM SIDEBAR)
     let newPostArray = this.state.posts
     // console.log(newPostArray);
 
-    return newPostArray.map((post, index)=>{
+    let postToRender = currentData.map((post, index)=>{
+    // let postToRender = newPostArray.map((post, index)=>{
       return(<div key={index}>
               <h3>{post.title}</h3>
               <p>{post.content}</p>
@@ -288,6 +300,40 @@ class Home extends Component {
               <p>{post.level}</p>
             </div>)
     })
+
+
+    let pageNumbers = PageHelper(this.state)
+
+    ////////////////////////////////
+    // CREATES PAGINATION NAVIGATION
+    const renderPageNumbers = pageNumbers.map(number => {
+
+     return (
+       <Pagination.Item
+         key={number}
+         id={number}
+         active={number === this.state.currentPage}
+         onClick={(event) => this.handlePages(event.target.id)}
+       >
+         {number}
+       </Pagination.Item>
+     );
+     })
+
+     return (
+
+      <div>
+        <div>
+          <Pagination bsSize="medium">{renderPageNumbers}</Pagination>
+        </div>
+        {postToRender}
+        <div>
+          <Pagination bsSize="medium">{renderPageNumbers}</Pagination>
+        </div>
+      </div>
+
+     )
+
   }
 
   // THIS CREATES THE FILTER CRITERIA
