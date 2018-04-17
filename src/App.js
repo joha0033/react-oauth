@@ -53,10 +53,13 @@ class App extends Component {
     }
 
     AuthorizeToken(sessionStorage.getItem('token')).then((result) => {
-      console.log(result.payload.userData.local.email);
+
+      console.log(result);
       sessionStorage.setItem('token', result.token);
-      sessionStorage.setItem('email', result.payload.userData.local.email)
-      sessionStorage.setItem('userData', result.payload.userData.local)
+      sessionStorage.setItem('email', result.payload.userData.email)
+      sessionStorage.setItem('userData', result.payload.userData)
+      let data = sessionStorage.getItem('email')
+      console.log(data);
       this.setState({isAuthenticated: true})
     }).catch(alert)
 
