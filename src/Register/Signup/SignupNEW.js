@@ -92,7 +92,7 @@ class Signup extends React.Component {
     return (
 
       PostData(isNewUser, data).then((result) => {
-
+        console.log(result);
         this.setToken(result)
 
       }).catch((error) => {
@@ -108,7 +108,6 @@ class Signup extends React.Component {
     console.log(data);
     //CONSOLIDATE THESE FUNCTIONS??
     // CHECK EXISTENCE OF TOKEN AND NEWUSER
-    console.log();
     sessionStorage.clear()
     sessionStorage.setItem("token", data.token);
     sessionStorage.setItem("email", data.userData.email);
