@@ -14,9 +14,10 @@ class Private extends Component {
   }
 
   componentWillMount() {
-    if(sessionStorage.getItem('userData')){
+    if(sessionStorage.getItem('email')){
       let email = sessionStorage.getItem('email')
 
+      console.log(email);
       this.setState({email})
     }
 
@@ -68,7 +69,7 @@ class Private extends Component {
 
           }
           `}
-          
+
         </style>
         {!this.props.tokenValidationFromApp ?
 

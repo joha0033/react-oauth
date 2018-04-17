@@ -105,12 +105,13 @@ class Signup extends React.Component {
 
   // JWOT SETTING
   setToken(data) {
-
+    console.log(data);
     //CONSOLIDATE THESE FUNCTIONS??
     // CHECK EXISTENCE OF TOKEN AND NEWUSER
+    console.log();
     sessionStorage.clear()
     sessionStorage.setItem("token", data.token);
-    sessionStorage.setItem("userData", data.newUser);
+    sessionStorage.setItem("email", data.userData.email);
     this.props.signinValid() //PROP PASSED FROM APP TO HEADER TO HERE
     this.props.hideModal() // TRIGGERS HIDE MODAL FROM HEADER
     this.props.history.push("/profile"); // GO TO PROFILE, WILL REROUTE IF NOT VALID
