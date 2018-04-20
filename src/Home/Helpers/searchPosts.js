@@ -1,67 +1,8 @@
-export const filterPost = (posts, filters, searchInput) => {
-
-    // FIRST HOLDS ALL POSTS THEN GETS FILTERED
-    // HOLDER FOR COMPLETED FILTERS COMBINED
-
-
-    // MAP THROUGH EACH OF THE 'FILTERS' = ITEM(OBJECT)(S)
-    // 'FILTERGROUP' WILL BE AN OBJECT FROM 'FILTERS' ARRAY
-    filters.map((filterGroup, mainIndex) => {
-      //array of objects
-
-      // MANIPULATE DATA PER KEY THEN VALUE
-      return Object.keys(filterGroup).map((filterKey) => {
-        //category
-
-        return Object.values(filterGroup).map((filterValue)=> {
-          //github
-
-          // HOLDS WHICH ARRAY TO FILTER
-          let toBeFiltered = posts
-          let toBeFlattened = [] //FLATTENED LATER
-
-          // DELIVERS A FILTERED ARRAY FOR EACH INTERATION
-          filterValue.forEach((filterType)=>{
-
-            // PUSH FILTERED VALUES TO PLACE HOLDER BY 'FILTER TYPE'
-            toBeFlattened.push(toBeFiltered.filter((post) => {
-              // console.log(post);
-              return post[filterKey] === filterType
-            })) // END OF FILTER
-
-          }) //END OF FOR EACH
-
-          // ARRAY OF ARRAYS TO SINGLE FILTERED ARRAY, 'FILTERED POSTS'
-          return posts = toBeFlattened
-            .reduce((acc, cur) => {
-              // seachPost?
-              return acc.concat(cur);
-            }, []);
-
-        }) // END OF VALUES MAP
-
-      })// END OF KEYS MAP
-
-    })// END OF FILTERS MAP
-
-    // SEACH ALGORITHM IF NEEDED
-    return searchInput[0] === undefined || searchInput[0] === ""
-           ? posts
-           : searchPosts(posts, searchInput)
-
-} // FUNC END
-
-
-
-
-
-
 ///////////////////////////////
 // IT SEARCHES THE CONTENT AS A WHOLE...
-// CAN YOU ORDER BY HOW EXACT IT IS... ??
-// IF THE BEGINNING
+// CALLED FROM FILTERPOSTS WITH AGS
 // USED TO SEACH FILTERED POSTS
-const searchPosts = ( posts, criteria ) => {
+export const searchPosts = ( posts, criteria ) => {
 
   // FILTER ANY BLANK CRITERIA FROM ARRAY
   criteria = criteria.filter(i => i !== '')
@@ -74,7 +15,7 @@ const searchPosts = ( posts, criteria ) => {
   // USED TO FIND IF COMBINATION OF QUOTES IS NECESSARY
   criteria.forEach((item, index)=>{
 
-    // USED TO FIND IF QUOTE IS IN LAST POSITION OF ANY ARRAY ITEM
+    // USED TO FIND OUT IF QUOTE CHARACTER IS IN LAST POSITION OF ANY ARRAY ITEM
     let len = item.length -1
 
     // HOLD ITEM INDEX, USED IN SPLICING TO COMBINE ITEMS
@@ -196,38 +137,3 @@ const combineQuotedCriteria = (array, open, close) =>{
   return array
 
 }
-
-export const PageHelper = (state) => {
-
-  // GRAB DATA FROM STATE
-  let { itemsPerPage, posts } = state
-  console.log(itemsPerPage);
-  // CREATE ARRAY TO SEND
-  const pageNumbers = [];
-
-  // INTERATE THE LENGTH OF DATA TO CREATE PAGES
-  for (let i = 1; i <= Math.ceil(posts.length / itemsPerPage); i++) {
-
-    pageNumbers.push(i);
-
-  }
-
-  // SEND FILLED ARRAY
-  return pageNumbers
-
-}
-
-export const SplitDataHelper = (state) => {
-
-    // QUICK HELPER TO CRATE SPLIT DATA FOR EAHC PAGE
-    const { currentPage, itemsPerPage, posts } = state
-
-    // PAGE LOGIC FOR EACH PAGE'S LIST
-    const indexOfLastData = currentPage * itemsPerPage;
-    const indexOfFirstData = indexOfLastData - itemsPerPage;
-
-    // RETURN THE SHORTENED LIST
-    return posts.slice(indexOfFirstData, indexOfLastData);
-
-
-  }
