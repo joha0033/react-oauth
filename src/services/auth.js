@@ -8,6 +8,7 @@ let BaseURL;
   }
 
 
+console.log(token);
 
   let response = await fetch(BaseURL, {
       headers: {

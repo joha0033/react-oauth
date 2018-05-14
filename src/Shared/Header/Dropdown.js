@@ -1,26 +1,22 @@
 import React, { Component } from 'react'
 import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Route, withRouter } from "react-router-dom"
+import { connect } from 'react-redux'
+import { userActions } from "../../actions/userActions"
 
 class Dropdown extends Component{
-  constructor(props){
 
-    super(props)
-
-    this.state= {
-
-    }
-
-  }
 
     render() {
 
       return (
-
+        
         <Nav pullRight>
-
+        {console.log(this.props.user)}
           {
-            this.props.tokenCheckFromHeader ?
+            // !!sessionStorage.getItem('token') ?
+            this.props.user.loggedIn === true ?
 
 
               <NavDropdown eventKey={3} title="Welcome" id="basic-nav-dropdown">
@@ -41,7 +37,7 @@ class Dropdown extends Component{
 
                   <MenuItem
                     eventKey={3.2}
-                    onClick={this.props.signoutFromHeader}>
+                    onClick={this.props.logout}>
                     Signout
                   </MenuItem>
 
@@ -50,8 +46,10 @@ class Dropdown extends Component{
               :
 
               <NavDropdown eventKey={3} title="you can..." id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1} onClick={()=>this.props.toggleShow(false)}>Signin</MenuItem>
-                <MenuItem eventKey={3.2} onClick={()=>this.props.toggleShow(true)}>Signup</MenuItem>
+              <Route>
+                <MenuItem eventKey={3.1} onClick={()=>this.props.toggleShow(false)}>Signin (existing users)</MenuItem>
+              </Route>
+                <MenuItem eventKey={3.2} onClick={()=>this.props.toggleShow(true)}>Register (new users)</MenuItem>
               </NavDropdown>
 
           }
@@ -60,10 +58,28 @@ class Dropdown extends Component{
 
 
       )
-
-
-
-
   }
 }
-export default Dropdown
+
+const mapStateToProps = (state) => {
+  const { user } = state
+  return {
+    user
+  }
+};
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: () => {
+      dispatch(userActions.login())
+    },
+    logout: () => {
+      dispatch(userActions.logout())
+    }
+  }
+};
+
+
+
+export default (connect(mapStateToProps, mapDispatchToProps)(Dropdown))

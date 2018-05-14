@@ -1,42 +1,46 @@
-import React from 'react'
-import {PostData} from '../../services/PostData';
+import React from 'react';
 import Facebook from '../Facebook/Facebook.js'
-import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { userActions } from "../../actions/userActions"
 
+// import { withRouter } from 'react-router-dom'
 
 
 class Signup extends React.Component {
   constructor(props){
-
     super(props)
 
     this.state = {
-
       //  DEV ENV CHANGES INPUT TO FAKE DATA
       input: {
             email: "",
             password: ""
-        },
-        // HANDLES INPUT CHANGES
-        blurred: {
-            email: false,
-            password: false
-        }
+      },
+      // HANDLES INPUT VALIDATION AFTER INPUT LOSES FOCUS
+      blurred: {
+          email: false,
+          password: false
+      },
+      // HANDLES SUBMIT EVENT
+      submitted: false
+    }
 
-      }
-
-      this.setToken = this.setToken.bind(this)
-      this.dataToPost = this.dataToPost.bind(this)
       this.developmentData = this.developmentData.bind(this)
-      this.callPostFetch = this.callPostFetch.bind(this)
-      this.postForToken = this.postForToken.bind(this)
+      this.facebookLogin = this.facebookLogin.bind(this)
 
   }
 
   componentWillMount(){
 
-    return process.env.NODE_ENV === 'development'?this.developmentData():null
+    return process.env.NODE_ENV === 'development' ? this.developmentData() : null
 
+  }
+
+  facebookLogin(res) {
+    console.log(res);
+
+    return res ? (this.props.hideModal(), this.props.signinValid()) : console.log(res);
+    
   }
 
   // /////////////////
@@ -50,80 +54,27 @@ class Signup extends React.Component {
           ...prevState.input,
             email: "testLocal@gmail.com",
             password: "test321"
-        }
-    }))
+        }, 
 
+    }))
   }
 
   ///////////////
   // SIGNUP FLOW
-  postForToken(res) {
-
-
-    let postData = this.dataToPost(res)
-
-      return !postData
-        ? console.log('missing some credential in the form... email or password') // ERROR MESSAGE
-        : this.callPostFetch(postData)
-
-  }
-
-  // DATA TO POST
-  dataToPost(data){
-
-    let { email, password } = data
-
-    let credentials = {
-        email,
-        password
-      }
-
-    return !!email && !!password
-      ? credentials
-      : false
-
-  }
-
-  //POST DATA
-  callPostFetch(data) {
-
-    let isNewUser = this.props.newUserFromHeader
-
-    return (
-
-      PostData(isNewUser, data).then((result) => {
-        console.log(result);
-        this.setToken(result)
-
-      }).catch((error) => {
-
-        this.props.showAlertFromHeader(error.toString())
-
-      })
-    )
-  }
-
-  // JWOT SETTING
-  setToken(data) {
-    console.log(data);
-    //CONSOLIDATE THESE FUNCTIONS??
-    // CHECK EXISTENCE OF TOKEN AND NEWUSER
-    sessionStorage.clear()
-    sessionStorage.setItem("token", data.token);
-    sessionStorage.setItem("email", data.userData.email);
-    this.props.signinValid() //PROP PASSED FROM APP TO HEADER TO HERE
+  postForToken() {
+    const { email, password } = this.state.input
+    this.props.login(email, password)
     this.props.hideModal() // TRIGGERS HIDE MODAL FROM HEADER
-    this.props.history.push("/profile"); // GO TO PROFILE, WILL REROUTE IF NOT VALID
+    // this.props.history.push("/profile"); // GO TO PROFILE, WILL REROUTE IF NOT VALID
 
   }
-
-
-
 
 
   // ////////////////////////////
-  // FORM INPUT DATA HANDLING
+  // FORM INPUT DATA HANDLING //
   handleInputChange(newPartialInput) {
+    console.log(newPartialInput);
+    
     this.setState(state => ({
       ...state,
       input: {
@@ -131,9 +82,13 @@ class Signup extends React.Component {
         ...newPartialInput
       }
     }))
+    console.log('input',this.state.input);
+    
   }
 
   handleBlur(fieldName) {
+    console.log(fieldName);
+    
   this.setState(state => ({
       ...state,
       blurred: {
@@ -141,6 +96,7 @@ class Signup extends React.Component {
           [fieldName]: true
         }
     }))
+    console.log('blur',this.state.blurred);
   }
 
   ///////////////
@@ -187,7 +143,7 @@ class Signup extends React.Component {
               return this.postForToken(this.state.input)
 
               }
-              // END OF FORM
+              // START OF FORM
             }>
                 {/*  EMAIL INPUT*/}
                 <label>
@@ -244,16 +200,31 @@ class Signup extends React.Component {
             {
 
               this.props.newUserFromHeader ?
-              <a><small onClick={()=>this.props.newUserToggleFromHeader(false)}>Already signed up?</small></a>
+              <a><small onClick={()=>this.props.newUserToggleFromHeader(false)}>Already signed up? <br/> Signin here!</small></a>
               :
-              <a><small onClick={()=>this.props.newUserToggleFromHeader(true)}>Need an Account?</small></a>
+              <a><small onClick={()=>this.props.newUserToggleFromHeader(true)}>New user? <br/>Register here!</small></a>
 
             }
           <br/>
-          <Facebook signinFB = {this.signup}/>
+          <Facebook fbClick = {this.facebookLogin}/>
       </div>
     );
   }
 }
 
-export default withRouter(Signup)
+const mapStateToProps = (state) => {
+  const {  user } = state;
+  return {
+    user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    login: (email, password) => {
+      dispatch(userActions.login(email, password))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)

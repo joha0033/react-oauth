@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import FacebookLogin from 'react-facebook-login';
 
 class Facebook extends Component {
-
+  
   render() {
 
     const responseFacebook = (response) => {
       // SEND FAKE FB DATA ON DEV ENV
+      
+      
       return process.env.NODE_ENV === 'development'
         // IF
         ?   (
@@ -17,12 +19,13 @@ class Facebook extends Component {
               password: 'test321',
               provider_id: "10102721646989662"
             },
+         console.log('response from FB', response),
           // SEND IT
-         this.props.signinFB(response)
+         this.props.fbClick(response)
 
             )
         // ELSE
-        : this.props.signinFB(response)
+        : this.props.fbClick(response)
       }
 
 

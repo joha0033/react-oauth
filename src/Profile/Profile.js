@@ -6,7 +6,7 @@ class Private extends Component {
   constructor(props) {
 
     super(props);
-
+    
     this.state = {
       email: null
      };
@@ -14,13 +14,7 @@ class Private extends Component {
   }
 
   componentWillMount() {
-    if(sessionStorage.getItem('email')){
-      let email = sessionStorage.getItem('email')
-
-      console.log(email);
-      this.setState({email})
-    }
-
+    console.log('will Mount');
   }
 
 
@@ -71,10 +65,14 @@ class Private extends Component {
           `}
 
         </style>
-        {!this.props.tokenValidationFromApp ?
-
+        {console.log(!sessionStorage.getItem('token'), 'no token found?')}
+        {!sessionStorage.getItem('token') ?
+          
+          
           <Redirect to= "/"/>
+
           :
+          
             <div className='profile'>
               <div className='overlay'>
 
@@ -167,11 +165,11 @@ class Private extends Component {
               </div>
           </div>
 
-         }
+        }
       </div>
 
     );
   }
 }
 
-export default Private;
+export default Private

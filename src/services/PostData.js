@@ -10,6 +10,7 @@ export async function PostData(isNewUser, data) {
 
   //Post data with fetch
   let response = await fetch(BaseURL, payload)
+  
   let res = response.json()
 
   //if the response in gold

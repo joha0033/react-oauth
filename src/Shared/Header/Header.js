@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Nav, Navbar, Modal, Alert } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
-
+import { withRouter } from 'react-router-dom';
+import {connect} from "react-redux"
 import Dropdown from './Dropdown'
 import NavList from './NavList'
 import NavLogo from './NavLogo'
-import Signup from '../../Register/Signup/SignupNEW'
+import Signup from '../../UserCredentials/Signup/SignupNEW'
+
 // import Signin from '../../Register/Signin/Signin'
 
 bootstrapUtils.addStyle(Nav, 'custom');
@@ -28,23 +30,24 @@ class Header extends Component{
     };
   }
 
-
   handleDismissAlert() {
     this.newUserToggle(false)
-
-     this.setState({ showAlert: false });
+    this.setState({ showAlert: false });
    }
 
-    handleShowAlert(error) {
-     this.setState({ showAlert: true });
-     error.toString() === 'Error: 403'
-     ? this.setState({errorMsg: 'That email is already taken. Try Signing.'})
-     : this.setState({errorMsg: 'error'})
-   }
+  handleShowAlert(error) {
+    console.log(error);
+    
+    this.setState({ showAlert: true });
+    error.toString() === 'Error: 403'
+    ? this.setState({errorMsg: 'That email is already taken. Try Signing.'})
+    : this.setState({errorMsg: 'error'})
+  }
 
 
 
    handleCloseModal() {
+     console.log(this.props.authFromApp);
      this.setState({ showModal: false });
    }
 
@@ -54,7 +57,6 @@ class Header extends Component{
    }
 
    newUserToggle(status) {
-
      status
      ? this.setState({newUser: true})
      : this.setState({newUser: false})
@@ -75,6 +77,7 @@ class Header extends Component{
         }
         `}</style>
 
+
       <Navbar inverse fixedTop fluid collapseOnSelect>
         <div className="container">
 
@@ -82,12 +85,11 @@ class Header extends Component{
 
           <Navbar.Collapse>
             <NavList />
-
+      
             <Dropdown
               toggleShow={this.handleShowModal}
-              signoutFromHeader = {this.props.signoutFromApp}
-              tokenCheckFromHeader = {this.props.tokenChangeFromApp} />
-
+               />
+         
 
           </Navbar.Collapse>
         </div>
@@ -118,15 +120,16 @@ class Header extends Component{
             null
           }
 
-
-           <Signup
-             showAlertFromHeader={this.handleShowAlert}
-
-             hideModal = {this.handleCloseModal}
-             signinValid = {this.props.signin}
-             newUserToggleFromHeader = {this.newUserToggle}
-             newUserFromHeader = {this.state.newUser}
-           />
+          
+              <Signup
+              showAlertFromHeader={this.handleShowAlert}
+              hideModal = {this.handleCloseModal}
+              newUserToggleFromHeader = {this.newUserToggle}
+              newUserFromHeader = {this.state.newUser}
+            />
+          
+            
+           
 
          </Modal.Body>
 
@@ -136,4 +139,11 @@ class Header extends Component{
   }
 }
 
-export default Header
+const mapStateToProps = (state) => {
+  const { loggedIn } = state.user
+  return {
+    loggedIn
+  }
+}
+
+export default (connect(mapStateToProps)(Header))
