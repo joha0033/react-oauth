@@ -10,7 +10,6 @@ import store from "./store"
 import { Route, Router} from 'react-router-dom'
 import history from "./_Helpers/history"
 
-//adding redux
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>

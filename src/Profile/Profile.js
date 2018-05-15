@@ -12,13 +12,7 @@ class Private extends Component {
      };
 
   }
-
-  componentWillMount() {
-    console.log('will Mount');
-  }
-
-
-
+  
   render() {
 
     return (
@@ -65,7 +59,6 @@ class Private extends Component {
           `}
 
         </style>
-        {console.log(!sessionStorage.getItem('token'), 'no token found?')}
         {!sessionStorage.getItem('token') ?
           
           

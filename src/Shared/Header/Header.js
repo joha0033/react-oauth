@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
+
 import { Nav, Navbar, Modal, Alert } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
-import { withRouter } from 'react-router-dom';
-import {connect} from "react-redux"
+
 import Dropdown from './Dropdown'
 import NavList from './NavList'
 import NavLogo from './NavLogo'
-import Signup from '../../UserCredentials/Signup/SignupNEW'
-
-// import Signin from '../../Register/Signin/Signin'
+import Signin from '../../UserCredentials/Signin/Signin'
+import Register from '../../UserCredentials/Register/Register'
 
 bootstrapUtils.addStyle(Nav, 'custom');
 
 class Header extends Component{
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      newUser: true,
+      showModal: false,
+      showAlert: false,
+      errorMsg: 'error'
+    };
 
     this.handleShowModal = this.handleShowModal.bind(this);
     this.handleShowAlert = this.handleShowAlert.bind(this);
     this.handleDismissAlert = this.handleDismissAlert.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.newUserToggle= this.newUserToggle.bind(this);
-    this.state = {
-      showModal: false,
-
-      showAlert: false,
-
-      errorMsg: 'error'
-    };
   }
 
   handleDismissAlert() {
@@ -44,10 +43,7 @@ class Header extends Component{
     : this.setState({errorMsg: 'error'})
   }
 
-
-
    handleCloseModal() {
-     console.log(this.props.authFromApp);
      this.setState({ showModal: false });
    }
 
@@ -67,83 +63,73 @@ class Header extends Component{
   render() {
 
     return (
-
-
-
-    <div>
-      <style type="text/css">{`
-        .navbar {
-              opacity: .85;
-        }
-        `}</style>
-
-
-      <Navbar inverse fixedTop fluid collapseOnSelect>
-        <div className="container">
-
-          <NavLogo />
-
-          <Navbar.Collapse>
-            <NavList />
-      
-            <Dropdown
-              toggleShow={this.handleShowModal}
-               />
-         
-
-          </Navbar.Collapse>
-        </div>
-
-      </Navbar>
-
-
-      <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
-
-        <Modal.Header closeButton>
-
-           {this.state.newUser ?
-             <Modal.Title>Signup</Modal.Title>
-             :
-             <Modal.Title>Signin</Modal.Title>
-           }
-
-         </Modal.Header>
-
-         <Modal.Body>
-
-          { this.state.showAlert ?
-
-            <Alert bsStyle="danger" onDismiss={this.handleDismissAlert}>
-                {this.state.errorMsg}
-            </Alert>
-            :
-            null
+      <div>
+        <style type="text/css">{`
+          .navbar {
+                opacity: .85;
           }
+          `}</style>
 
-          
-              <Signup
-              showAlertFromHeader={this.handleShowAlert}
-              hideModal = {this.handleCloseModal}
-              newUserToggleFromHeader = {this.newUserToggle}
-              newUserFromHeader = {this.state.newUser}
-            />
-          
-            
-           
+        <Navbar inverse fixedTop fluid collapseOnSelect>
+          <div className="container">
 
-         </Modal.Body>
+            <NavLogo />
 
-      </Modal>
-    </div>
-  )
+            <Navbar.Collapse>
+              <NavList />
+        
+              <Dropdown toggleShow={this.handleShowModal} />
+            </Navbar.Collapse>
+
+          </div>
+        </Navbar>
+
+
+        <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+
+          <Modal.Header closeButton>
+
+            {this.state.newUser ?
+              <Modal.Title>Signup</Modal.Title>
+              :
+              <Modal.Title>Signin</Modal.Title>
+            }
+
+          </Modal.Header>
+
+          <Modal.Body>
+
+            { this.state.showAlert ?
+
+              <Alert bsStyle="danger" onDismiss={this.handleDismissAlert}>
+                  {this.state.errorMsg}
+              </Alert>
+              :
+              null
+            }
+
+            {
+              this.state.newUser ? 
+              <Register
+                showAlertFromHeader={this.handleShowAlert}
+                hideModal = {this.handleCloseModal}
+                newUserToggleFromHeader = {this.newUserToggle}
+                newUserFromHeader = {this.state.newUser}
+              />:
+              <Signin
+                showAlertFromHeader={this.handleShowAlert}
+                hideModal = {this.handleCloseModal}
+                newUserToggleFromHeader = {this.newUserToggle}
+                newUserFromHeader = {this.state.newUser}
+              />
+            }     
+
+          </Modal.Body>
+
+        </Modal>
+      </div>
+    )
   }
 }
 
-const mapStateToProps = (state) => {
-  const { loggedIn } = state.user
-  return {
-    loggedIn
-  }
-}
-
-export default (connect(mapStateToProps)(Header))
+export default (Header)

@@ -3,24 +3,25 @@ let token = sessionStorage.getItem('token')
 const initialState = token ? { loggedIn: true, token } : { loggedIn: false };
 
 export const user = (
-state = initialState
-, action) => {
+	state = initialState,
+	action
+) => {
 	switch (action.type) {
-	case "LOGGIN_IN":
+	case "CHECKING_CREDENTIALS":
 		return {
 			...state,
-			loggingIn: true,
-			user: action.payload.email
+			loading: true,
+			user: action.payload.credentials
 		};
-	case "LOGIN_SUCCESS":
+	case "CERDENTIAL_SUCCESS":
 		return {
 			...state,
 			loggedIn: true,
 			token: action.payload.token
 		};
-	case "LOGIN_FAILURE":
+	case "CERDENTIAL_FAILURE":
 		return {};
-	case "LOGOUT":
+	case "CLEAR_CREDENTIALS":
 		return {
 			loggedIn: false
 		};

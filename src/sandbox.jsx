@@ -643,5 +643,4 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-// store.subscribe(render);
  

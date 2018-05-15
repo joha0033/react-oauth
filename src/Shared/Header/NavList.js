@@ -15,19 +15,12 @@ class NavList extends Component{
       return (
         <Nav>
 
-          <LinkContainer to="/home">
+          <LinkContainer exact to="/">
             <NavItem eventKey={1}>Home</NavItem>
           </LinkContainer>
-          {/* <NavItem eventKey={1} href="/home">
-            Home
-          </NavItem> */}
           <LinkContainer to="/about">
             <NavItem eventKey={2}>About</NavItem>
           </LinkContainer>
-          {/* <NavItem eventKey={2} href="/about">
-            About
-          </NavItem> */}
-
         </Nav>
       )
 

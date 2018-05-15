@@ -1,7 +1,7 @@
 import React from 'react';
-import Facebook from '../Facebook/Facebook.js'
+import Facebook from '../Facebook/Facebook'
 import { connect } from 'react-redux'
-import { userActions } from "../../actions/userActions"
+import { userActions } from "./userActions"
 
 // import { withRouter } from 'react-router-dom'
 
@@ -30,15 +30,13 @@ class Signup extends React.Component {
 
   }
 
-  componentWillMount(){
+  componentDidMount(){
 
     return process.env.NODE_ENV === 'development' ? this.developmentData() : null
 
   }
 
   facebookLogin(res) {
-    console.log(res);
-
     return res ? (this.props.hideModal(), this.props.signinValid()) : console.log(res);
     
   }
@@ -73,8 +71,6 @@ class Signup extends React.Component {
   // ////////////////////////////
   // FORM INPUT DATA HANDLING //
   handleInputChange(newPartialInput) {
-    console.log(newPartialInput);
-    
     this.setState(state => ({
       ...state,
       input: {
@@ -82,13 +78,10 @@ class Signup extends React.Component {
         ...newPartialInput
       }
     }))
-    console.log('input',this.state.input);
     
   }
 
   handleBlur(fieldName) {
-    console.log(fieldName);
-    
   this.setState(state => ({
       ...state,
       blurred: {
@@ -96,7 +89,6 @@ class Signup extends React.Component {
           [fieldName]: true
         }
     }))
-    console.log('blur',this.state.blurred);
   }
 
   ///////////////
@@ -198,15 +190,11 @@ class Signup extends React.Component {
 
             </form>
             {
-
-              this.props.newUserFromHeader ?
-              <a><small onClick={()=>this.props.newUserToggleFromHeader(false)}>Already signed up? <br/> Signin here!</small></a>
-              :
               <a><small onClick={()=>this.props.newUserToggleFromHeader(true)}>New user? <br/>Register here!</small></a>
 
             }
           <br/>
-          <Facebook fbClick = {this.facebookLogin}/>
+          <Facebook hideModal = {this.props.hideModal}/>
       </div>
     );
   }

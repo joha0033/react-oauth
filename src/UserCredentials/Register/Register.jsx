@@ -1,46 +1,76 @@
 import React from "react";
-import {PostData} from "../../services/PostData";
-import Facebook from "../Facebook/Facebook.js";
-import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+import { registerActions } from "./registerActions"
+import Facebook from "../Facebook/Facebook";
 
 
 
-class Signup extends React.Component {
+class Register extends React.Component {
 	constructor(props){
 		super(props);
 
 		this.state = {
 			//  DEV ENV CHANGES INPUT TO FAKE DATA
 			input: {
+        firstName:"",
+        lastName: "",
 				email: "",
 				password: ""
 			},
 			// HANDLES INPUT CHANGES
 			blurred: {
-				email: false,
-				password: false
+				firstName:"",
+        lastName: "",
+				email: "",
+				password: ""
 			},
 			// HANDLES SUBMIT EVENT
 			submitted: false
         };
         
-        this.handleBlur = this.handleBlur.bind(this)
-        this.handleInputChange= this.handleInputChange.bind(this)
-
-		this.setToken = this.setToken.bind(this);
-		this.dataToPost = this.dataToPost.bind(this);
+    this.handleBlur = this.handleBlur.bind(this)
+    this.handleInputChange= this.handleInputChange.bind(this)
 		this.developmentData = this.developmentData.bind(this);
-		this.callPostFetch = this.callPostFetch.bind(this);
-		this.postForToken = this.postForToken.bind(this);
-		this.facebookLogin = this.facebookLogin.bind(this);
 
-	}
+  }
+
+  componentDidMount(){
+    return process.env.NODE_ENV === 'development' ? 
+      this.developmentData() : 
+      null
+  }
+
+  ///////////////
+  // SIGNUP FLOW
+  postForToken() {
+    const { firstName, lastName, email, password } = this.state.input
+    this.props.register(firstName, lastName, email, password)
+    this.props.hideModal() // TRIGGERS HIDE MODAL FROM HEADER
+  }
+  
+    // /////////////////
+    // DEVELOPMENT DATA
+    developmentData() {
+
+      // DEVELOPMENT ENV FOUND, SET MOCK STATE
+      return this.setState(prevState => ({
+        ...prevState,
+          input: {
+            ...prevState.input,
+              firstName: 'Taylor',
+              lastName: 'Swift',
+              email: "testLocal@gmail.com",
+              password: "test321"
+          }, 
+
+      }))
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////
     // HANDLE FORM DATA INPUTS AND CHANGES
 
     // BLURRRRR CHANGES
     handleBlur(fieldName) {
-        console.log(fieldName);
         this.setState(state => ({
             ...state,
             blurred: {
@@ -48,13 +78,11 @@ class Signup extends React.Component {
                 [fieldName]: true
             }
         }))
-        console.log(this.state);
         
     }
 
     // INPUT CHANGEES
     handleInputChange(newPartialInput) {
-        console.log(newPartialInput)
         this.setState(state => ({
           ...state,
           input: {
@@ -62,7 +90,6 @@ class Signup extends React.Component {
             ...newPartialInput
           }
         }))
-        console.log(this.state);
         
     }
 
@@ -84,75 +111,8 @@ class Signup extends React.Component {
             isValid: Object.keys(errors).length === 0
         };
     }
-
     // END OF HANDLE FORM DATA
     ////////////////////////////////////////////////////////////////////////////////////
-    
-
-    postForToken(res) {
-
-
-        let postData = this.dataToPost(res)
-    
-          return !postData
-            ? console.log('missing some credential in the form... email or password') // ERROR MESSAGE
-            : this.callPostFetch(postData)
-    
-    }
-
-
-    dataToPost(data){
-
-        let { email, password } = data
-    
-        let credentials = {
-            email,
-            password
-          }
-    
-        return !!email && !!password
-          ? credentials
-          : false
-    
-    }
-
-    callPostFetch(data) {
-        console.log('data', data);
-        
-        let isNewUser = this.props.newUserFromHeader
-    
-        console.log('isNewUser', isNewUser);
-        
-    
-        return (
-    
-          PostData(isNewUser, data).then((result) => {
-            console.log(result);
-            this.setToken(result)
-    
-          }).catch((error) => {
-    
-            this.props.showAlertFromHeader(error.toString())
-    
-          })
-        )
-    }
-
-    setToken(data) {
-        console.log(data);
-        //CONSOLIDATE THESE FUNCTIONS??
-        // CHECK EXISTENCE OF TOKEN AND NEWUSER
-        sessionStorage.clear()
-        sessionStorage.setItem("token", data.token);
-        // console.log(!!data.userData.email);
-        
-        // sessionStorage.setItem("email", data.userData.email);
-        this.props.signinValid() //PROP PASSED FROM APP TO HEADER TO HERE
-        this.props.hideModal() // TRIGGERS HIDE MODAL FROM HEADER
-        this.props.history.push("/profile"); // GO TO PROFILE, WILL REROUTE IF NOT VALID
-    
-    }
-
     render() {
 
         const { input, blurred } = this.state;
@@ -164,25 +124,57 @@ class Signup extends React.Component {
           <div>
             <br/>
             <form
-    
-              // DATA SUBMIT
-              onSubmit={
-                (e) => {
-    
-                  // PREVENT DEFUALT
-                  e.preventDefault()
-    
-                  return this.postForToken(this.state.input)
-    
-                  }
-                  // START OF FORM
-                }>
+
+            // DATA SUBMIT
+            onSubmit={
+              (e) => {
+
+                // PREVENT DEFUALT
+                e.preventDefault()
+
+                return this.postForToken(this.state.input)
+
+                }
+                // START OF FORM
+              }>
+
+                    {/*  FIRST NAME INPUT*/}
+                    <label>
+        
+                    First name:
+
+                    <input
+                      name="firstName"
+                      type="text"
+                      value={input.firstName}
+                      onBlur={() => this.handleBlur('firstName')}
+                      onChange={e => this.handleInputChange({firstName: e.target.value})}
+                    />
+
+                    </label>
+                    <br/>
+                    {/*  LAST NAME INPUT*/}
+                    <label>
+
+                    Last name:
+
+                    <input
+                      name="lastName"
+                      type="text"
+                      value={input.lastName}
+                      onBlur={() => this.handleBlur('lastName')}
+                      onChange={e => this.handleInputChange({lastName: e.target.value})}
+                    />
+
+                    </label>
+                    <br/>
                     {/*  EMAIL INPUT*/}
                     <label>
     
-                      Email:
+                      *Email: 
     
                       <input
+
                         name="email"
                         type="text"
                         value={input.email}
@@ -193,12 +185,11 @@ class Signup extends React.Component {
                     </label>
     
                     <br/>
-                    <br/>
     
                     {/*  PASSWORD INPUT */}
                     <label>
     
-                      Password:
+                      *Password:
     
                       <input
                         name="password"
@@ -222,6 +213,9 @@ class Signup extends React.Component {
     
                       <br/>
                       <br/>
+                      <p>* Required</p>
+
+                      <a><small onClick={()=>this.props.newUserToggleFromHeader(false)}>Already signed up? <br/> Signin here!</small></a>
     
                   <br/>
                   {blurred.email && !!errors.email && <span>{errors.email}</span>}
@@ -230,10 +224,25 @@ class Signup extends React.Component {
     
                 </form>
               <br/>
-              <Facebook fbClick = {this.facebookLogin}/>
+              <Facebook hideModal = {this.props.hideModal}/>
           </div>
         );
       }
     }
     
-    export default withRouter(Signup)
+   const mapStateToProps = (state) => {
+  const {  user } = state;
+  return {
+    user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    register: (firstName, lastName, email, password) => {
+      dispatch(registerActions.register(firstName, lastName, email, password))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

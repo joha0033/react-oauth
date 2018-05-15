@@ -1,23 +1,27 @@
 
-// import React from 'react';
-// import {BrowserRouter, Route, Switch} from 'react-router-dom';
-// import Home from './Home/Home';
-// // import Welcome from './Welcome/Welcome';
-// import About from './About/About';
-// // import Signup from './Signup/Signup';
-// import Private from './Private/Private';
+import React from 'react';
+import {Router, Route, Switch} from 'react-router-dom';
 
+import Header from './Shared/Header/Header';
+import Home from './Home/Home';
+import About from './About/About';
+import Profile from './Profile/Profile';
+import Footer from './Shared/Footer/Footer';
 
-// const Routes = () => (
-// <BrowserRouter >
-//     <Switch>
-//     <Route exact path="/" component={Welcome} />
-//     <Route path="/signup" component={Signup}/>
-//     <Route path="/private" component={Private}/>
-//     <Route path="/home" component={Home}/>
-//     <Route path="/about" component={About}/>
-//   </Switch>
-// </BrowserRouter>
-// );
+const Routes = () => (
+<Router >
+    
+    <Route path='/' component={Header} />
 
-// export default Routes;
+      <div className='App-intro'>
+        <Route exact path='/' component={Home} />
+        <Route path='/profile' component={Profile} />
+        <Route path='/about' component={About}/>
+      </div>
+
+      <Route path='/' component={Footer}/>
+  
+</Router>
+);
+
+export default Routes;

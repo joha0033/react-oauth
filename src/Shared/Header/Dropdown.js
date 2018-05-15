@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Route, withRouter } from "react-router-dom"
+import { Route } from "react-router-dom"
 import { connect } from 'react-redux'
-import { userActions } from "../../actions/userActions"
+import { dropdownActions} from "./dropdownActions"
 
 class Dropdown extends Component{
 
@@ -13,10 +13,8 @@ class Dropdown extends Component{
       return (
         
         <Nav pullRight>
-        {console.log(this.props.user)}
           {
-            // !!sessionStorage.getItem('token') ?
-            this.props.user.loggedIn === true ?
+            this.props.isLoggedIn === true ?
 
 
               <NavDropdown eventKey={3} title="Welcome" id="basic-nav-dropdown">
@@ -62,20 +60,16 @@ class Dropdown extends Component{
 }
 
 const mapStateToProps = (state) => {
-  const { user } = state
+  const { loggedIn } = state.user
   return {
-    user
+    isLoggedIn: loggedIn
   }
 };
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: () => {
-      dispatch(userActions.login())
-    },
     logout: () => {
-      dispatch(userActions.logout())
+      dispatch(dropdownActions.logout())
     }
   }
 };

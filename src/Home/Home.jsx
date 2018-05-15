@@ -66,7 +66,7 @@ class Home extends React.Component {
   /**
   * @returns {func} calls fetchPosts to GET all post data
   */
-  componentWillMount() {
+  componentDidMount() {
 
     return this.fetchPosts()
 

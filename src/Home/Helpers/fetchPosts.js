@@ -1,5 +1,7 @@
-let URL =  'http://localhost:5000/posts/getall'
-
+let URL;
+process.env.NODE_END === 'development' ?
+URL =  'http://localhost:5000/posts/getall' :
+URL =  'https://murmuring-everglades-26713.herokuapp.com/posts/getall'
 export const Post = {
 
   fetchAllPosts: async (req, res, next) =>{
@@ -14,7 +16,5 @@ export const Post = {
     throw new Error(response.status);
 
   }
-
-
 
 }
