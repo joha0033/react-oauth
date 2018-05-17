@@ -1,4 +1,5 @@
 import { registerService } from "./registerService";
+import { dropdownActions } from "../../Navbar/Dropdown/NavDropdownActions"
 import history from "../../../_Helpers/history.js";
 
 const register = (
@@ -30,6 +31,7 @@ const register = (
 			.then(
 				token => {
 					dispatch(registerSuccess(token));
+					dispatch(dropdownActions.hideRegisterModal())
 					history.push("/profile");
 				},
 				error => {

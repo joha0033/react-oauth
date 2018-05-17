@@ -17,7 +17,6 @@ const showSigninModal = (formType) => {
 }
 
 const showRegisterModal = (formType) => {
-	console.log('Show Modal!');
 
     const showRegister = () => ({
 		type: "SHOW_REGISTER_MODAL",
@@ -29,9 +28,23 @@ const showRegisterModal = (formType) => {
 	};
 }
 
-const hideModal = () => {
+const hideRegisterModal = () => {
+	console.log('hide modal');
+	
 	const hide = () => ({
-		type: "HIDE_MODAL",
+		type: "HIDE_REGISTER_MODAL",
+		payload: false
+		})
+		
+	return dispatch => {
+		dispatch(hide());
+	};
+}
+const hideSigninModal = () => {
+	console.log('hide modal');
+	
+	const hide = () => ({
+		type: "HIDE_SIGNIN_MODAL",
 		payload: false
 		})
 		
@@ -43,6 +56,7 @@ const hideModal = () => {
 export const dropdownActions = {
 	showSigninModal,
 	showRegisterModal,
-    hideModal,
+	hideSigninModal,
+	hideRegisterModal,
     logout
 }

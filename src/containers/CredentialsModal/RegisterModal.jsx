@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => {
-            dispatch(dropdownActions.hideModal())
+            dispatch(dropdownActions.hideRegisterModal())
         }
     }
 }

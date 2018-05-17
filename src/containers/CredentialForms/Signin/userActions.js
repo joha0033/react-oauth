@@ -27,7 +27,7 @@ const login = (email, password) => {
 			.then(
 				token => {
 					dispatch(loginSuccess(token));
-					dispatch(dropdownActions.hideModal())
+					dispatch(dropdownActions.hideSigninModal())
 					history.push("/profile");
 				},
 				error => {

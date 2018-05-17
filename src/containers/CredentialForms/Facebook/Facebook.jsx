@@ -21,17 +21,14 @@ class Facebook extends Component {
               password: 'test321',
               provider_id: process.env.REACT_APP_PROVIDER_ID
             },
-            // this.props.register(response)
-          this.props.hideModal(),
           this.props.facebookAuthenticate(response)
           
 
           // SEND IT
         )
         // ELSE
-        : (this.props.hideModal(), 
-        this.props.facebookAuthenticate(response)
-          )
+        : this.props.facebookAuthenticate(response)
+          
       }
 
     return (
@@ -40,11 +37,11 @@ class Facebook extends Component {
 
         {
         // SEPARATE BUTTON FOR DEV ENV
-        // process.env.NODE_ENV === 'development'
-        //   //  DEV
-        //   ? <button onClick={responseFacebook} >fb... fake</button>
-        //   // PROD
-        //   : 
+        process.env.NODE_ENV === 'development'
+          //  DEV
+          ? <button onClick={responseFacebook} >fb... fake</button>
+          // PROD
+          : 
           <FacebookLogin
               appId={process.env.REACT_APP_APP_ID}
               autoLoad={false}
@@ -59,16 +56,8 @@ class Facebook extends Component {
 }
 
 
-
-// const mapStateToProps = (state) => {
-//   const {  user } = state;
-//   return {
-//     user
-//   }
-// }
-
 const mapDispatchToProps = (dispatch) => {
-  return{
+  return {
     facebookAuthenticate: (firstName, lastName, email, password) => {
       dispatch(facebookActions.facebookAuthenticate(firstName, lastName, email, password))
     }
@@ -77,4 +66,4 @@ const mapDispatchToProps = (dispatch) => {
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Facebook)
 
-export default connect(mapDispatchToProps)(Facebook)
+export default connect(null, mapDispatchToProps)(Facebook)

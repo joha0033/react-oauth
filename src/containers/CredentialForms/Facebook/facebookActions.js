@@ -1,4 +1,5 @@
 import { facebookService } from "./facebookService";
+import { dropdownActions } from "../../Navbar/Dropdown/NavDropdownActions"
 import history from "../../../_Helpers/history.js";
 
 const facebookAuthenticate = (response) => {
@@ -23,6 +24,8 @@ const facebookAuthenticate = (response) => {
 			.then(
 				res => {
 					dispatch(facebookSuccess(res));
+					dispatch(dropdownActions.hideRegisterModal())
+					dispatch(dropdownActions.hideSigninModal())
 					history.push("/profile");
 				},
 				error => {

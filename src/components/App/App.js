@@ -6,10 +6,10 @@ import './App.css';
 import About from '../../About/About';
 import Profile from '../../Profile/Profile';
 import Home from '../../Home/Home';
-import Footer from '../../components/Footer/Footer.jsx';
+import Footer from '../Footer/Footer.jsx';
 import Navbar from "../Navbar/Navbar"
-import Signin from "../CredentialsModal/SigninModal"
-import Register from "../CredentialsModal/RegisterModal"
+import Signin from "../../containers/CredentialsModal/SigninModal"
+import Register from "../../containers/CredentialsModal/RegisterModal"
 
 const App = () =>  (
   <div>

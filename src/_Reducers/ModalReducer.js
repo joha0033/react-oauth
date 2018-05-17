@@ -13,11 +13,16 @@ export const modal = (
 			...state,
 			showRegisterModal: action.payload
 		};
-	case "HIDE_MODAL":
+	case "HIDE_SIGNIN_MODAL":
+		return {
+			...state,
+			showSigninModal: action.payload,
+			closeFunction: action.closeFunction
+		};
+	case "HIDE_REGISTER_MODAL":
 		return {
 			...state,
 			showRegisterModal: action.payload,
-			showSigninModal: action.payload,
 			closeFunction: action.closeFunction
 		};
 	default:

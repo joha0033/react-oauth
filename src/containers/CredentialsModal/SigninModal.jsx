@@ -1,4 +1,3 @@
-// import React from "react"
 import { connect } from "react-redux"
 import SigninModal from "../../components/CredentialsModal/SigninModal"
 import SigininForm from "../CredentialForms/Signin/Signin"
@@ -16,7 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         hideModal: () => {
-            dispatch(dropdownActions.hideModal())
+            dispatch(dropdownActions.hideSigninModal())
         }
     }
 }
