@@ -1,10 +1,10 @@
 // import React from "react"
 import { connect } from "react-redux"
-import CredentialsModal from "../../components/CredentialsModal/Modal"
+import SigninModal from "../../components/CredentialsModal/SigninModal"
 import SigininForm from "../CredentialForms/Signin/Signin"
 import { dropdownActions } from "../Navbar/Dropdown/NavDropdownActions"
 
-const Signin = CredentialsModal(SigininForm)
+const Signin = SigninModal(SigininForm)
 
 const mapStateToProps = (state) => {
     const { modal } = state

@@ -1,9 +1,9 @@
 import { connect } from "react-redux"
-import CredentialsModal from "../../components/CredentialsModal/Modal"
+import RegisterModal from "../../components/CredentialsModal/RegisterModal"
 import RegisterForm from "../CredentialForms/Register/Register"
 import { dropdownActions } from "../Navbar/Dropdown/NavDropdownActions"
 
-const Register = CredentialsModal(RegisterForm)
+const Register = RegisterModal(RegisterForm)
 
 const mapStateToProps = (state) => {
     const { modal } = state
