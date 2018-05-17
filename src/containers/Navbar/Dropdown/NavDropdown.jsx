@@ -44,8 +44,8 @@ class Dropdown extends Component{
               :
 
               <NavDropdown eventKey={3} title="you can..." id="basic-nav-dropdown">
-                  <MenuItem eventKey={3.1} onClick={()=>this.props.showModal()}>Signin (existing users)</MenuItem>
-                  <MenuItem eventKey={3.2} onClick={()=>this.props.showModal()}>Register (new users)</MenuItem>
+                  <MenuItem eventKey={3.1} onClick={this.props.showSigninModal}>Signin (existing users)</MenuItem>
+                  <MenuItem eventKey={3.2} onClick={this.props.showRegisterModal}>Register (new users)</MenuItem>
               </NavDropdown>
 
           }
@@ -66,8 +66,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showModal: () => {
-      dispatch(dropdownActions.showModal())
+    showSigninModal: () => {
+      dispatch(dropdownActions.showSigninModal())
+    },
+    showRegisterModal: () => {
+      dispatch(dropdownActions.showRegisterModal())
     },
     hideModal: () => {
       dispatch(dropdownActions.hideModal())

@@ -3,35 +3,46 @@ import { userActions } from "../../CredentialForms/Signin/userActions"
 
 const logout = () => userActions.logout();
 
-const showModal = (formType) => {
+const showSigninModal = (formType) => {
 	console.log('Show Modal!');
 
-    const show = () => ({
-		type: "SHOW_MODAL",
+    const showSignin = () => ({
+		type: "SHOW_SIGNIN_MODAL",
 		payload: true
 	})
 
 	return dispatch => {
-		console.log('showModal in Actions');
-		dispatch(show());
+		dispatch(showSignin());
+	};
+}
+
+const showRegisterModal = (formType) => {
+	console.log('Show Modal!');
+
+    const showRegister = () => ({
+		type: "SHOW_REGISTER_MODAL",
+		payload: true
+	})
+
+	return dispatch => {
+		dispatch(showRegister());
 	};
 }
 
 const hideModal = () => {
-	console.log('Hide Modal!');
 	const hide = () => ({
 		type: "HIDE_MODAL",
 		payload: false
 		})
 		
 	return dispatch => {
-		console.log('hideModal in Actions');
 		dispatch(hide());
 	};
 }
 
 export const dropdownActions = {
-    showModal,
+	showSigninModal,
+	showRegisterModal,
     hideModal,
     logout
 }
