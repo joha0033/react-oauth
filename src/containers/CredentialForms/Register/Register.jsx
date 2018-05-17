@@ -45,7 +45,6 @@ class Register extends React.Component {
   postForToken() {
     const { firstName, lastName, email, password } = this.state.input
     this.props.register(firstName, lastName, email, password)
-    this.props.hideModal() // TRIGGERS HIDE MODAL FROM HEADER
   }
   
     // /////////////////
