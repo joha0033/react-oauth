@@ -3,15 +3,21 @@ export const modal = (
 	action
 ) => {
 	switch (action.type) {
-	case "SHOW_MODAL":
+	case "SHOW_SIGNIN_MODAL":
 		return {
 			...state,
-			showModal: action.payload
+			showSigninModal: action.payload
+		};
+	case "SHOW_REGISTER_MODAL":
+		return {
+			...state,
+			showRegisterModal: action.payload
 		};
 	case "HIDE_MODAL":
 		return {
 			...state,
-			showModal: action.payload,
+			showRegisterModal: action.payload,
+			showSigninModal: action.payload,
 			closeFunction: action.closeFunction
 		};
 	default:
