@@ -1,5 +1,7 @@
 import { userService } from "./userService";
-import history from "../../_Helpers/history.js";
+import { dropdownActions } from "../../Navbar/Dropdown/NavDropdownActions"
+import history from "../../../_Helpers/history.js";
+
 
 const login = (email, password) => {
 
@@ -25,6 +27,7 @@ const login = (email, password) => {
 			.then(
 				token => {
 					dispatch(loginSuccess(token));
+					dispatch(dropdownActions.hideModal())
 					history.push("/profile");
 				},
 				error => {
@@ -45,7 +48,7 @@ const logout = () => {
 	
 	return dispatch => {
 		history.push('/')
-		dispatch(loggingOut({}));
+		dispatch(loggingOut());
 	};
 	
 }

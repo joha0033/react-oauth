@@ -6,8 +6,8 @@ import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 import Dropdown from './Dropdown'
 import NavList from './NavList'
 import NavLogo from './NavLogo'
-import Signin from '../../UserCredentials/Signin/Signin'
-import Register from '../../UserCredentials/Register/Register'
+import Signin from '../../containers/CredentialForms/Signin/Signin'
+import Register from '../../containers/CredentialForms/Register/Register'
 
 bootstrapUtils.addStyle(Nav, 'custom');
 
@@ -16,7 +16,6 @@ class Header extends Component{
     super(props);
 
     this.state = {
-      newUser: true,
       showModal: false,
       showAlert: false,
       errorMsg: 'error'
@@ -26,7 +25,6 @@ class Header extends Component{
     this.handleShowAlert = this.handleShowAlert.bind(this);
     this.handleDismissAlert = this.handleDismissAlert.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.newUserToggle= this.newUserToggle.bind(this);
   }
 
   handleDismissAlert() {
@@ -47,16 +45,8 @@ class Header extends Component{
      this.setState({ showModal: false });
    }
 
-   handleShowModal(userStatus) {
-     this.newUserToggle(userStatus)
+   handleShowModal() {
      this.setState({ showModal: true });
-   }
-
-   newUserToggle(status) {
-     status
-     ? this.setState({newUser: true})
-     : this.setState({newUser: false})
-
    }
 
 
@@ -89,11 +79,11 @@ class Header extends Component{
 
           <Modal.Header closeButton>
 
-            {this.state.newUser ?
+            {/* {this.state.newUser ?
               <Modal.Title>Signup</Modal.Title>
               :
               <Modal.Title>Signin</Modal.Title>
-            }
+            } */}
 
           </Modal.Header>
 

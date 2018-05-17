@@ -1,5 +1,5 @@
 import { facebookService } from "./facebookService";
-import history from "../../_Helpers/history.js";
+import history from "../../../_Helpers/history.js";
 
 const facebookAuthenticate = (response) => {
 

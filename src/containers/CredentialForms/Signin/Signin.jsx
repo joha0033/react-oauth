@@ -6,7 +6,7 @@ import { userActions } from "./userActions"
 // import { withRouter } from 'react-router-dom'
 
 
-class Signup extends React.Component {
+class Signin extends React.Component {
   constructor(props){
     super(props)
 
@@ -52,8 +52,7 @@ class Signup extends React.Component {
           ...prevState.input,
             email: "testLocal@gmail.com",
             password: "test321"
-        }, 
-
+        }
     }))
   }
 
@@ -62,9 +61,7 @@ class Signup extends React.Component {
   postForToken() {
     const { email, password } = this.state.input
     this.props.login(email, password)
-    this.props.hideModal() // TRIGGERS HIDE MODAL FROM HEADER
     // this.props.history.push("/profile"); // GO TO PROFILE, WILL REROUTE IF NOT VALID
-
   }
 
 
@@ -208,11 +205,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return{
+  return {
     login: (email, password) => {
       dispatch(userActions.login(email, password))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps, mapDispatchToProps)(Signin)

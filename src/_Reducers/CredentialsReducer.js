@@ -2,7 +2,7 @@ let token = sessionStorage.getItem('token')
 
 const initialState = token ? { loggedIn: true, token } : { loggedIn: false };
 
-export const user = (
+export const credentials = (
 	state = initialState,
 	action
 ) => {

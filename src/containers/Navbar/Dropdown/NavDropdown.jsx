@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Route } from "react-router-dom"
+import { MenuItem, Nav, NavDropdown } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
-import { dropdownActions} from "./dropdownActions"
+import { dropdownActions } from "./NavDropdownActions"
+
 
 class Dropdown extends Component{
 
@@ -44,10 +44,8 @@ class Dropdown extends Component{
               :
 
               <NavDropdown eventKey={3} title="you can..." id="basic-nav-dropdown">
-              <Route>
-                <MenuItem eventKey={3.1} onClick={()=>this.props.toggleShow()}>Signin (existing users)</MenuItem>
-              </Route>
-                <MenuItem eventKey={3.2} onClick={()=>this.props.toggleShow()}>Register (new users)</MenuItem>
+                  <MenuItem eventKey={3.1} onClick={()=>this.props.showModal()}>Signin (existing users)</MenuItem>
+                  <MenuItem eventKey={3.2} onClick={()=>this.props.showModal()}>Register (new users)</MenuItem>
               </NavDropdown>
 
           }
@@ -68,6 +66,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    showModal: () => {
+      dispatch(dropdownActions.showModal())
+    },
+    hideModal: () => {
+      dispatch(dropdownActions.hideModal())
+    },
     logout: () => {
       dispatch(dropdownActions.logout())
     }

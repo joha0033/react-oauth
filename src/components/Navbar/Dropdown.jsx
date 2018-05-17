@@ -3,7 +3,7 @@ import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Route } from "react-router-dom"
 import { connect } from 'react-redux'
-import { dropdownActions} from "./dropdownActions"
+import { dropdownActions } from "../../Shared/Header/dropdownActions"
 
 class Dropdown extends Component{
 
@@ -60,7 +60,7 @@ class Dropdown extends Component{
 }
 
 const mapStateToProps = (state) => {
-  const { loggedIn } = state.credentials
+  const { loggedIn } = state.user
   return {
     isLoggedIn: loggedIn
   }

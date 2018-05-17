@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 
-import { user } from "./userReducer";
+import { credentials } from "./CredentialsReducer";
+import { modal } from "./ModalReducer";
 // import { auth } from "./authReducer";
 
 const rootReducer = combineReducers({
-	user
+	credentials,
+	modal
 });
 
 export default rootReducer;

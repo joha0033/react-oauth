@@ -1,22 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
-class NavLogo extends Component{
-
-    render() {
-
-      return (
-
+const NavLogo = () => (
         <Navbar.Header>
           <Navbar.Brand>
             <Link to = "/">MAYOAUTH</Link>
           </Navbar.Brand>
-          <Navbar.Toggle />
+          {/* <Navbar.Toggle /> */}
         </Navbar.Header>
+)
 
-      )
-
-  }
-}
 export default NavLogo

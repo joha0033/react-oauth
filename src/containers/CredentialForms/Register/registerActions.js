@@ -1,5 +1,5 @@
 import { registerService } from "./registerService";
-import history from "../../_Helpers/history.js";
+import history from "../../../_Helpers/history.js";
 
 const register = (
 	firstName, 

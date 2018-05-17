@@ -1,21 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { NavItem, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-class NavList extends Component{
-  constructor(props){
-
-    super(props)
-
-    this.state= {
-
-    }
-  }
-    render() {
-      return (
+const NavList = () => (
         <Nav>
-
-          <LinkContainer exact to="/">
+          <LinkContainer exact to="/home">
             <NavItem eventKey={1}>Home</NavItem>
           </LinkContainer>
           <LinkContainer to="/about">
@@ -24,9 +13,4 @@ class NavList extends Component{
         </Nav>
       )
 
-
-
-
-  }
-}
 export default NavList
