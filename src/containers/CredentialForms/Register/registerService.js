@@ -1,4 +1,6 @@
-const register = (firstName, lastName, email, password) => {    
+const register = (firstName, lastName, email, password) => { 
+	console.log(firstName, lastName, email, password);
+	   
 	const requestOptions = {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -12,6 +14,7 @@ const register = (firstName, lastName, email, password) => {
 
 	return fetch(URL, requestOptions)
 		.then(response => {
+			
 			if (!response.ok) { 
 				return Promise.reject(response.statusText);
 			}

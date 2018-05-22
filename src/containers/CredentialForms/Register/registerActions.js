@@ -3,12 +3,18 @@ import { dropdownActions } from "../../Navbar/Dropdown/NavDropdownActions"
 import history from "../../../_Helpers/history.js";
 
 const register = (
-	firstName, 
-	lastName, 
-	email, 
-	password
+	newUser
 ) => {
+	console.log(newUser);
 	
+	const { 
+		firstName, 
+		lastName, 
+		email, 
+		password 
+		} = newUser
+		console.log(firstName, lastName, email, password);
+		
 	const registering = (credentials) => ({ 
 		type: "CHECKING_CREDENTIALS",
 		payload: credentials

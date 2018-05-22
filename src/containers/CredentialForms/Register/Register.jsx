@@ -1,50 +1,19 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { registerActions } from "./registerActions"
+import { formActions } from "../Forms/FormActions"
 import Facebook from "../Facebook/Facebook";
-
+// import { handleBlur } from "../Forms/RegisterForm"
+import {RegisterFormI} from "../Forms/RegisterForm"
 
 
 class Register extends React.Component {
-	constructor(props){
-		super(props);
-
-		this.state = {
-			//  DEV ENV CHANGES INPUT TO FAKE DATA
-			input: {
-        firstName:"",
-        lastName: "",
-				email: "",
-				password: ""
-			},
-			// HANDLES INPUT CHANGES
-			blurred: {
-				firstName:"",
-        lastName: "",
-				email: "",
-				password: ""
-			},
-			// HANDLES SUBMIT EVENT
-			submitted: false
-        };
-        
-    this.handleBlur = this.handleBlur.bind(this)
-    this.handleInputChange= this.handleInputChange.bind(this)
-		this.developmentData = this.developmentData.bind(this);
-
-  }
-
-  componentDidMount(){
-    return process.env.NODE_ENV === 'development' ? 
-      this.developmentData() : 
-      null
-  }
 
   ///////////////
   // SIGNUP FLOW
-  postForToken() {
-    const { firstName, lastName, email, password } = this.state.input
-    this.props.register(firstName, lastName, email, password)
+  sendDataToStore() {
+    const registerData = this.props.form.formState.input;
+    this.props.register(registerData)
   }
   
     // /////////////////
@@ -53,7 +22,7 @@ class Register extends React.Component {
 
       // DEVELOPMENT ENV FOUND, SET MOCK STATE
       return this.setState(prevState => ({
-        ...prevState,
+        ...prevState,        
           input: {
             ...prevState.input,
               firstName: 'Taylor',
@@ -65,38 +34,11 @@ class Register extends React.Component {
       }))
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    // HANDLE FORM DATA INPUTS AND CHANGES
-
-    // BLURRRRR CHANGES
-    handleBlur(fieldName) {
-        this.setState(state => ({
-            ...state,
-            blurred: {
-                ...state.blurred,
-                [fieldName]: true
-            }
-        }))
-        
-    }
-
-    // INPUT CHANGEES
-    handleInputChange(newPartialInput) {
-        this.setState(state => ({
-          ...state,
-          input: {
-            ...state.input,
-            ...newPartialInput
-          }
-        }))
-        
-    }
-
     // VALIDATION
     validate() {
         const errors = {};
-        const {input} = this.state;
-        //control number of character also, regex
+        const input = {};
+
         if (!input.email) {
             errors.email = 'Email is required';
         }
@@ -114,94 +56,43 @@ class Register extends React.Component {
     ////////////////////////////////////////////////////////////////////////////////////
     render() {
 
-        const { input, blurred } = this.state;
+  
+        const blurred = ""
     
         const { errors, isValid } = this.validate();
-    
+        console.log(this.props.form.formProps);
+        
+        let form = Object.values(this.props.form.formProps).map((value, index) => {
+          return (
+            <div key={index} >
+              <RegisterFormI
+                label={value.label}
+                name={value.name}
+                type={value.type}
+                value={value.value}
+                />
+              <br/>
+            </div>
+            
+          )
+        })
+        
         return (
     
           <div>
             <br/>
             <form
-
-            // DATA SUBMIT
             onSubmit={
               (e) => {
-
-                // PREVENT DEFUALT
                 e.preventDefault()
-
-                return this.postForToken(this.state.input)
-
+                return this.sendDataToStore()
                 }
-                // START OF FORM
               }>
-
-                    {/*  FIRST NAME INPUT*/}
-                    <label>
-        
-                    First name:
-
-                    <input
-                      name="firstName"
-                      type="text"
-                      value={input.firstName}
-                      onBlur={() => this.handleBlur('firstName')}
-                      onChange={e => this.handleInputChange({firstName: e.target.value})}
-                    />
-
-                    </label>
-                    <br/>
-                    {/*  LAST NAME INPUT*/}
-                    <label>
-
-                    Last name:
-
-                    <input
-                      name="lastName"
-                      type="text"
-                      value={input.lastName}
-                      onBlur={() => this.handleBlur('lastName')}
-                      onChange={e => this.handleInputChange({lastName: e.target.value})}
-                    />
-
-                    </label>
-                    <br/>
-                    {/*  EMAIL INPUT*/}
-                    <label>
-    
-                      *Email: 
-    
-                      <input
-
-                        name="email"
-                        type="text"
-                        value={input.email}
-                        onBlur={() => this.handleBlur('email')}
-                        onChange={e => this.handleInputChange({email: e.target.value})}
-                      />
-    
-                    </label>
+              {form}
+                  
     
                     <br/>
-    
-                    {/*  PASSWORD INPUT */}
-                    <label>
-    
-                      *Password:
-    
-                      <input
-                        name="password"
-                        type="text"
-                        value={input.password}
-                        onBlur={() => this.handleBlur('password')}
-                        onChange={e => this.handleInputChange({password: e.target.value})}
-                      />
-    
-                    </label>
-    
-                    <br/>
-                    <br/>
+          
     
                       <input
                         touchend="submit"
@@ -229,15 +120,19 @@ class Register extends React.Component {
       }
     }
     
-   const mapStateToProps = (state) => {
-  const {  user } = state;
+const mapStateToProps = (state) => {
+  const {  user, form } = state;
   return {
-    user
+    user,
+    form
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return{
+    registerFormData: (newUser) => {
+      dispatch(formActions.registerFormData(newUser))
+    },
     register: (firstName, lastName, email, password) => {
       dispatch(registerActions.register(firstName, lastName, email, password))
     }
