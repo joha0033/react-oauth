@@ -13,7 +13,6 @@ const register = (
 		email, 
 		password 
 		} = newUser
-		console.log(firstName, lastName, email, password);
 		
 	const registering = (credentials) => ({ 
 		type: "CHECKING_CREDENTIALS",

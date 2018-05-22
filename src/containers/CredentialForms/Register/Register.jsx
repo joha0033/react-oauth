@@ -1,17 +1,18 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { registerActions } from "./registerActions"
-import { formActions } from "../Forms/FormActions"
+import { formActions } from "../Forms/Form.actions"
 import Facebook from "../Facebook/Facebook";
-// import { handleBlur } from "../Forms/RegisterForm"
-import {RegisterFormI} from "../Forms/RegisterForm"
-
+import { InputContainer } from "../Forms/Inputs/Input.container"
+import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
+import ValidationComponent from "../Forms/Validation/Validation.componetn";
 
 class Register extends React.Component {
 
   ///////////////
   // SIGNUP FLOW
-  sendDataToStore() {
+  sendDataToStore(e) {
+    e.preventDefault()
     const registerData = this.props.form.formState.input;
     this.props.register(registerData)
   }
@@ -30,7 +31,6 @@ class Register extends React.Component {
               email: "testLocal@gmail.com",
               password: "test321"
           }, 
-
       }))
     }
 
@@ -56,20 +56,20 @@ class Register extends React.Component {
     ////////////////////////////////////////////////////////////////////////////////////
     render() {
 
-  
-        const blurred = ""
-    
-        const { errors, isValid } = this.validate();
-        console.log(this.props.form.formProps);
+      
         
         let form = Object.values(this.props.form.formProps).map((value, index) => {
+          console.log(this.props.form.formState.input[value.name]);
+          
           return (
             <div key={index} >
-              <RegisterFormI
+              <InputContainer
                 label={value.label}
                 name={value.name}
                 type={value.type}
-                value={value.value}
+                value={this.props.form.formState.input[value.name]}
+                onBlur={() => this.props.handleBlur(value.name)}
+                onChange={e => this.props.handleChange(value.name, e.target.value)}
                 />
               <br/>
             </div>
@@ -82,36 +82,15 @@ class Register extends React.Component {
           <div>
             <br/>
             <form
-            onSubmit={
-              (e) => {
-                e.preventDefault()
-                return this.sendDataToStore()
-                }
-              }>
+            onSubmit={(e) => this.sendDataToStore(e)}>
               {form}
-                  
-    
-                    <br/>
-          
-    
-                      <input
-                        touchend="submit"
-                        type="submit"
-                        value="Submit"
-                        disabled={process.env.NODE_ENV !== 'development' ? !isValid : null}
-                      />
-    
-                      <br/>
-                      <br/>
-                      <p>* Required</p>
 
-                      <a><small onClick={()=>this.props.newUserToggleFromHeader(false)}>Already signed up? <br/> Signin here!</small></a>
-    
-                  <br/>
-                  {blurred.email && !!errors.email && <span>{errors.email}</span>}
-                  <br/>
-                  {blurred.password && !!errors.password && <span>{errors.password}</span>}
-    
+                      <SubmitComponent/>
+                      {/* <ValidationComponent 
+                      validationType={"email"}
+                      blurred={"email"}
+                      errors={"email"}
+                      /> */}
                 </form>
               <br/>
               <Facebook hideModal = {this.props.hideModal}/>
@@ -135,6 +114,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     register: (firstName, lastName, email, password) => {
       dispatch(registerActions.register(firstName, lastName, email, password))
+    },
+    handleChange: (variableName, targetValue) => {
+      dispatch(formActions.handleInputChange(variableName, targetValue))
+    },
+    handleBlur: (fieldName, props) => {
+        dispatch(formActions.handleBlur(fieldName))
     }
   }
 }
