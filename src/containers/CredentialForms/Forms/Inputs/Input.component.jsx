@@ -7,7 +7,11 @@ const InputComponent = (
     ) => (
       <div>
         <label>
-        {props.label}
+        {
+          props.errMsg === null ?
+          props.label :
+          props.label + " " + props.errMsg
+        }
         </label>
         <br/>
         <input
@@ -17,8 +21,6 @@ const InputComponent = (
           onBlur={props.onBlur}
           onChange={props.onChange}
         />
-
-        
         <br/>
       </div>
 )

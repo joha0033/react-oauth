@@ -1,4 +1,4 @@
-export const registerInputProps = {
+export const inputProps = {
     firstName:{
         label: "First Name",
         name:"firstName",
@@ -26,15 +26,15 @@ export const registerInputProps = {
     
 }
 
-export const registerStateData = {
+export const stateData = {
     blurred: {
         email: {
             error: false,
-            message: "Email is required"
+            message: "required"
         },
         password: {
             error: false,
-            message: "Password is required"
+            message: "required"
         },
     },
     input: {

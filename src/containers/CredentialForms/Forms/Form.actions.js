@@ -1,17 +1,5 @@
-const registerFormData = (RegisterFormInput) => {
-    console.log(RegisterFormInput);
+const handleInputChange = (partialKey, partialValue, inputRequired) => {
     
-    const fill = ( propData ) => ({
-		type: "REGISTER_INPUT_DATA",
-		payload: {...propData}
-    })
-    
-    return dispatch => {
-        dispatch(fill(RegisterFormInput))
-    }
-}
-
-const handleInputChange = (partialKey, partialValue) => {
     const inputChange = (partialKey, partialValue) => ({
         type: "INPUT_CHANGE",
         key: partialKey,
@@ -34,8 +22,20 @@ const handleBlur = (fieldName) => {
     }
 }
 
+const clearForm = () => {
+
+	const clearForm = () => ({
+		type: "CLEAR_REGISTER_FORM"
+	})
+	
+	return dispatch => {
+		dispatch(clearForm());
+	};
+	
+}
+
 export const formActions = {
-    registerFormData,
     handleInputChange,
-    handleBlur
+    handleBlur,
+    clearForm
 }

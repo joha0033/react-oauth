@@ -1,195 +1,70 @@
 import React from 'react';
 import Facebook from '../Facebook/Facebook'
 import { connect } from 'react-redux'
-import { userActions } from "./userActions"
-
+import { credentialActions } from "../Credentials.actions"
+import { formActions } from "../Forms/Form.actions"
+import { InputContainer } from "../Forms/Inputs/Input.container"
+import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
 // import { withRouter } from 'react-router-dom'
 
 
 class Signin extends React.Component {
-  constructor(props){
-    super(props)
-
-    this.state = {
-      //  DEV ENV CHANGES INPUT TO FAKE DATA
-      input: {
-            email: "",
-            password: ""
-      },
-      // HANDLES INPUT VALIDATION AFTER INPUT LOSES FOCUS
-      blurred: {
-          email: false,
-          password: false
-      },
-      // HANDLES SUBMIT EVENT
-      submitted: false
-    }
-
-      this.developmentData = this.developmentData.bind(this)
-      this.facebookLogin = this.facebookLogin.bind(this)
-
-  }
-
-  componentDidMount(){
-
-    return process.env.NODE_ENV === 'development' ? this.developmentData() : null
-
-  }
-
-  facebookLogin(res) {
-    return res ? (this.props.hideModal(), this.props.signinValid()) : console.log(res);
-    
-  }
-
-  // /////////////////
-  // DEVELOPMENT DATA
-  developmentData() {
-
-    // DEVELOPMENT ENV FOUND, SET MOCK STATE
-    return this.setState(prevState => ({
-      ...prevState,
-        input: {
-          ...prevState.input,
-            email: "testLocal@gmail.com",
-            password: "test321"
-        }
-    }))
-  }
+ 
 
   ///////////////
   // SIGNUP FLOW
-  postForToken() {
-    const { email, password } = this.state.input
-    this.props.login(email, password)
-    // this.props.history.push("/profile"); // GO TO PROFILE, WILL REROUTE IF NOT VALID
+  sendDataToStore(e) {
+    e.preventDefault()
+    const signinData = this.props.form.formState.input;
+    this.props.login(signinData.email, signinData.password)
+    this.props.clearForm()
   }
 
-
-  // ////////////////////////////
-  // FORM INPUT DATA HANDLING //
-  handleInputChange(newPartialInput) {
-    this.setState(state => ({
-      ...state,
-      input: {
-        ...state.input,
-        ...newPartialInput
-      }
-    }))
-    
-  }
-
-  handleBlur(fieldName) {
-  this.setState(state => ({
-      ...state,
-      blurred: {
-          ...state.blurred,
-          [fieldName]: true
-        }
-    }))
-  }
-
-  ///////////////
-  // VALIDATION
-  validate() {
-      const errors = {};
-      const {input} = this.state;
-      //control number of character also, regex
-      if (!input.email) {
-          errors.email = 'Email is required';
-      }
-      //control number of character also, regex
-      if (!input.password) {
-          errors.password = 'Password is required';
-      }
-
-      return {
-          errors,
-          isValid: Object.keys(errors).length === 0
-      };
-  }
 
 
 
   render() {
+    const errorMessage = (inputProps) => {
+      let isError, errorMessage;
+      if(!!inputProps.required){
+        isError = this.props.form.formState.blurred[inputProps.name].error
+        errorMessage = this.props.form.formState.blurred[inputProps.name].message
+      }
+      return isError ?
+        errorMessage :
+        null
+    }
+    
+    let signinForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
+      return inputProps.required ?
+      (
+        <div key={index} >
+          <InputContainer
+            label={inputProps.label}
+            errMsg={errorMessage(inputProps)}
+            name={inputProps.name}
+            type={inputProps.type}
+            value={this.props.form.formState.input[inputProps.name]}
+            onBlur={() => this.props.handleBlur(inputProps.name)}
+            onChange={e => this.props.handleChange(inputProps.name, e.target.value)}
+          />
+          <br/>
+        </div> 
+        ) : null
+      }
+    )
+    
 
-    const { input, blurred } = this.state;
-
-    const { errors, isValid } = this.validate();
+    const submitButton = (<SubmitComponent/>)
 
     return (
 
       <div>
-        <br/>
-        <form
-
-          // DATA SUBMIT
-          onSubmit={
-            (e) => {
-
-              // PREVENT DEFUALT
-              e.preventDefault()
-
-              return this.postForToken(this.state.input)
-
-              }
-              // START OF FORM
-            }>
-                {/*  EMAIL INPUT*/}
-                <label>
-
-                  Email:
-
-                  <input
-                    name="email"
-                    type="text"
-                    value={input.email}
-                    onBlur={() => this.handleBlur('email')}
-                    onChange={e => this.handleInputChange({email: e.target.value})}
-                  />
-
-                </label>
-
-                <br/>
-                <br/>
-
-                {/*  PASSWORD INPUT */}
-                <label>
-
-                  Password:
-
-                  <input
-                    name="password"
-                    type="text"
-                    value={input.password}
-                    onBlur={() => this.handleBlur('password')}
-                    onChange={e => this.handleInputChange({password: e.target.value})}
-                  />
-
-                </label>
-
-                <br/>
-                <br/>
-
-                  <input
-                    touchend="submit"
-                    type="submit"
-                    value="Submit"
-                    disabled={process.env.NODE_ENV !== 'development' ? !isValid : null}
-                  />
-
-                  <br/>
-                  <br/>
-
-              <br/>
-              {blurred.email && !!errors.email && <span>{errors.email}</span>}
-              <br/>
-              {blurred.password && !!errors.password && <span>{errors.password}</span>}
-
+          <form
+              onSubmit={(e) => this.sendDataToStore(e)}>
+              {signinForm}
+              {submitButton}
             </form>
-            {
-              <a><small onClick={()=>this.props.newUserToggleFromHeader(true)}>New user? <br/>Register here!</small></a>
-
-            }
           <br/>
           <Facebook hideModal = {this.props.hideModal}/>
       </div>
@@ -198,16 +73,26 @@ class Signin extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const {  user } = state;
+  const {  user, form } = state;
   return {
-    user
+    user,
+    form
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (email, password) => {
-      dispatch(userActions.login(email, password))
+      dispatch(credentialActions.login(email, password))
+    },
+    handleChange: (variableName, targetValue) => {
+      dispatch(formActions.handleInputChange(variableName, targetValue))
+    },
+    handleBlur: (fieldName, props) => {
+      dispatch(formActions.handleBlur(fieldName))
+    },
+    clearForm: () => {
+      dispatch(formActions.clearForm())
     }
   }
 }

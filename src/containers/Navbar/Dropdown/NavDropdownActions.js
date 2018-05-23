@@ -1,7 +1,7 @@
-import { userActions } from "../../CredentialForms/Signin/userActions"
+import { credentialActions } from "../../CredentialForms/Credentials.actions"
 
 
-const logout = () => userActions.logout();
+const logout = () => credentialActions.logout();
 
 const showSigninModal = (formType) => {
 	console.log('Show Modal!');

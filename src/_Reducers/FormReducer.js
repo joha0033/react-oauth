@@ -1,8 +1,8 @@
-import { registerInputProps, registerStateData } from "../_Helpers/RegisterFormData"
+import { inputProps, stateData } from "../_Helpers/RegisterFormData"
 
 const initialState = {
-	formProps: registerInputProps,
-	formState: registerStateData,
+	formProps: inputProps,
+	formState: stateData,
 	registerFormInput: {}
 }
 
@@ -12,11 +12,6 @@ export const form = (
 	action
 ) => {
 	switch (action.type) {
-	case "REGISTER_INPUT_DATA":
-		return {
-			...state,
-			registerFormData: action.payload
-		};
 	case "INPUT_CHANGE":
 		return { 
 			...state,
@@ -59,6 +54,8 @@ export const form = (
 				}
 			}
 		}
+	case "CLEAR_REGISTER_FORM":
+		return state = initialState
 	default:
 		return state;
 	}
