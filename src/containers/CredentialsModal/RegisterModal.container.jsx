@@ -1,7 +1,7 @@
 import { connect } from "react-redux"
 import RegisterModalComponent from "../../components/CredentialsModal/RegisterModal.component"
 import RegisterFormContainer from "../CredentialForms/Register/Register"
-import { dropdownActions } from "../Navbar/Dropdown/NavDropdownActions"
+import { modalActions } from "./Modal.actions"
 
 const Register = RegisterModalComponent(RegisterFormContainer)
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         hideRegisterModal: () => {
-            dispatch(dropdownActions.hideRegisterModal())
+            dispatch(modalActions.hideRegisterModal())
         }
     }
 }

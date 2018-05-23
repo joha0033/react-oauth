@@ -1,8 +1,7 @@
 import { registerService } from "./Register/registerService";
 import { signinService } from "./Signin/signinService";
-import { dropdownActions } from "../Navbar/Dropdown/NavDropdownActions"
+import { modalActions } from "../CredentialsModal/Modal.actions"
 import history from "../../_Helpers/history.js";
-
 
 const checkingCredentials = (credentials) => ({ 
     type: "CHECKING_CREDENTIALS",
@@ -40,7 +39,7 @@ const register = (
 			.then(
 				token => {
 					dispatch(credentialSuccess(token));
-					dispatch(dropdownActions.hideRegisterModal())
+					dispatch(modalActions.hideRegisterModal())
 					history.push("/profile");
 				},
 				error => {
@@ -61,7 +60,7 @@ const login = (email, password) => {
 			.then(
 				token => {
 					dispatch(credentialSuccess(token));
-					dispatch(dropdownActions.hideSigninModal())
+					dispatch(modalActions.hideSigninModal())
 					history.push("/profile");
 				},
 				error => {

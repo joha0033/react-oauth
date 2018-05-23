@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { MenuItem, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
-import { dropdownActions } from "./NavDropdownActions"
+import { modalActions } from "../../CredentialsModal/Modal.actions"
 
 
 class Dropdown extends Component{
@@ -67,16 +67,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     showSigninModal: () => {
-      dispatch(dropdownActions.showSigninModal())
+      dispatch(modalActions.showSigninModal())
     },
     showRegisterModal: () => {
-      dispatch(dropdownActions.showRegisterModal())
+      dispatch(modalActions.showRegisterModal())
     },
     hideModal: () => {
-      dispatch(dropdownActions.hideModal())
+      dispatch(modalActions.hideModal())
     },
     logout: () => {
-      dispatch(dropdownActions.logout())
+      dispatch(modalActions.logout())
     }
   }
 };

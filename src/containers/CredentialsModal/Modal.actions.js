@@ -1,4 +1,4 @@
-import { credentialActions } from "../../CredentialForms/Credentials.actions"
+import { credentialActions } from "../CredentialForms/Credentials.actions"
 
 
 const logout = () => credentialActions.logout();
@@ -53,7 +53,7 @@ const hideSigninModal = () => {
 	};
 }
 
-export const dropdownActions = {
+export const modalActions = {
 	showSigninModal,
 	showRegisterModal,
 	hideSigninModal,
