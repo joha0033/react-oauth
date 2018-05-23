@@ -6,24 +6,13 @@ class Private extends Component {
   constructor(props) {
 
     super(props);
-
+    
     this.state = {
       email: null
      };
 
   }
-
-  componentWillMount() {
-    if(sessionStorage.getItem('userData')){
-      let email = sessionStorage.getItem('email')
-
-      this.setState({email})
-    }
-
-  }
-
-
-
+  
   render() {
 
     return (
@@ -68,13 +57,19 @@ class Private extends Component {
 
           }
           `}
-          
-        </style>
-        {!this.props.tokenValidationFromApp ?
 
+        </style>
+        {!sessionStorage.getItem('token') ?
+          
+          
           <Redirect to= "/"/>
+
           :
+          
             <div className='profile'>
+            {/* LOADING LOGIC BELOW?!? */}
+              {/* {users.loading && <em>Loading users...</em>}
+              {users.error && <span className="text-danger">ERROR: {users.error}</span>} */}
               <div className='overlay'>
 
                 <div className='bottomOverlay'>
@@ -166,11 +161,11 @@ class Private extends Component {
               </div>
           </div>
 
-         }
+        }
       </div>
 
     );
   }
 }
 
-export default Private;
+export default Private
