@@ -1,5 +1,5 @@
 import { registerService } from "./Register/registerService";
-import { userService } from "./Signin/userService";
+import { signinService } from "./Signin/signinService";
 import { dropdownActions } from "../Navbar/Dropdown/NavDropdownActions"
 import history from "../../_Helpers/history.js";
 
@@ -57,7 +57,7 @@ const login = (email, password) => {
 	return dispatch => {
 		dispatch(checkingCredentials({ credentials }));
 
-		userService.login(email, password)
+		signinService.login(email, password)
 			.then(
 				token => {
 					dispatch(credentialSuccess(token));
@@ -78,7 +78,7 @@ const logout = () => {
 		payload: false
 	})
 
-	userService.logout();
+	signinService.logout();
 	
 	return dispatch => {
 		history.push('/')

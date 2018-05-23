@@ -28,13 +28,10 @@ const login = (email, password) => {
 
 
 const logout = () => {
-	
-	console.log('logout in userService');
-	
 	sessionStorage.clear();
 };
 
-export const userService = {
+export const signinService = {
 	login,
 	logout
 };

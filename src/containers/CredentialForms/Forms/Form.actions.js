@@ -25,7 +25,7 @@ const handleBlur = (fieldName) => {
 const clearForm = () => {
 
 	const clearForm = () => ({
-		type: "CLEAR_REGISTER_FORM"
+		type: "CLEAR_FORM"
 	})
 	
 	return dispatch => {

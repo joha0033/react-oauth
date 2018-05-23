@@ -1,8 +1,13 @@
-import { inputProps, stateData } from "../_Helpers/RegisterFormData"
+import { inputProps, stateData } from "../_Helpers/CredentialsFormData"
+import { developmentStateData } from "../_Helpers/DevelopmentFormData"
+
+console.log(process.env.NODE_ENV);
+
+let envDev = process.env.NODE_ENV
 
 const initialState = {
 	formProps: inputProps,
-	formState: stateData,
+	formState: envDev ? developmentStateData : stateData,
 	registerFormInput: {}
 }
 
@@ -54,7 +59,7 @@ export const form = (
 				}
 			}
 		}
-	case "CLEAR_REGISTER_FORM":
+	case "CLEAR_FORM":
 		return state = initialState
 	default:
 		return state;
