@@ -18,8 +18,6 @@ export const form = (
 			registerFormData: action.payload
 		};
 	case "INPUT_CHANGE":
-		console.log(state.formState.input);
-		
 		return { 
 			...state,
 				formState:{
@@ -32,15 +30,32 @@ export const form = (
 				
 		}
 	case "BLUR_CHANGE":
-		return state.formState.input[action.payload] === "" ?
-		state :
+		console.log(state.formState.input[action.payload]);
+		
+		return state.formState.input[action.payload] !== "" ?
+		{
+			...state,
+				formState:{
+					...state.formState,
+					blurred: {
+						...state.formState.blurred,
+							[action.payload]: {
+								...state.formState.blurred[action.payload],
+									error: false
+						}
+					}
+				}
+			} :
 		{
 		...state,
 			formState:{
 				...state.formState,
 				blurred: {
 					...state.formState.blurred,
-						[action.payload]: true
+						[action.payload]: {
+							...state.formState.blurred[action.payload],
+								error: true
+					}
 				}
 			}
 		}

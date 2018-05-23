@@ -5,7 +5,7 @@ import { formActions } from "../Forms/Form.actions"
 import Facebook from "../Facebook/Facebook";
 import { InputContainer } from "../Forms/Inputs/Input.container"
 import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
-import ValidationComponent from "../Forms/Validation/Validation.componetn";
+import ValidationContainer from "../Forms/Validation/Validation.container";
 
 class Register extends React.Component {
 
@@ -16,52 +16,12 @@ class Register extends React.Component {
     const registerData = this.props.form.formState.input;
     this.props.register(registerData)
   }
-  
-    // /////////////////
-    // DEVELOPMENT DATA
-    developmentData() {
 
-      // DEVELOPMENT ENV FOUND, SET MOCK STATE
-      return this.setState(prevState => ({
-        ...prevState,        
-          input: {
-            ...prevState.input,
-              firstName: 'Taylor',
-              lastName: 'Swift',
-              email: "testLocal@gmail.com",
-              password: "test321"
-          }, 
-      }))
-    }
-
-    // VALIDATION
-    validate() {
-        const errors = {};
-        const input = {};
-
-        if (!input.email) {
-            errors.email = 'Email is required';
-        }
-        //control number of character also, regex
-        if (!input.password) {
-            errors.password = 'Password is required';
-        }
-
-        return {
-            errors,
-            isValid: Object.keys(errors).length === 0
-        };
-    }
-    // END OF HANDLE FORM DATA
-    ////////////////////////////////////////////////////////////////////////////////////
     render() {
 
       
         
-        let form = Object.values(this.props.form.formProps).map((value, index) => {
-          console.log(this.props.form.formState.input[value.name]);
-          
-          return (
+        let registerForm = Object.values(this.props.form.formProps).map((value, index) => (
             <div key={index} >
               <InputContainer
                 label={value.label}
@@ -72,26 +32,33 @@ class Register extends React.Component {
                 onChange={e => this.props.handleChange(value.name, e.target.value)}
                 />
               <br/>
-            </div>
-            
-          )
-        })
+            </div> 
+            )
+        )
+
+        let validationMessage = Object.keys(this.props.form.formState.blurred).map((value, index) => (
+          <div key={index}>
+          {console.log(value)}
+            <ValidationContainer 
+              type={value}
+              blurred={value}
+              error={this.props.form.formState.blurred[value].error}
+              message={this.props.form.formState.blurred[value].message}
+              />
+          </div>
+        ))
+
+        const submitButton = (<SubmitComponent/>)
         
         return (
     
-          <div>
-            <br/>
+          <div>            
             <form
-            onSubmit={(e) => this.sendDataToStore(e)}>
-              {form}
-
-                      <SubmitComponent/>
-                      {/* <ValidationComponent 
-                      validationType={"email"}
-                      blurred={"email"}
-                      errors={"email"}
-                      /> */}
-                </form>
+              onSubmit={(e) => this.sendDataToStore(e)}>
+              {registerForm}
+              {validationMessage}
+              {submitButton}
+            </form>
               <br/>
               <Facebook hideModal = {this.props.hideModal}/>
           </div>

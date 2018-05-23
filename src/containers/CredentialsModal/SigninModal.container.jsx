@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import SigninModal from "../../components/CredentialsModal/SigninModal"
+import SigninModal from "../../components/CredentialsModal/SigninModal.component"
 import SigininForm from "../CredentialForms/Signin/Signin"
 import { dropdownActions } from "../Navbar/Dropdown/NavDropdownActions"
 
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        hideModal: () => {
+        hideSigninModal: () => {
             dispatch(dropdownActions.hideSigninModal())
         }
     }

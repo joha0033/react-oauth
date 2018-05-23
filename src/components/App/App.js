@@ -7,14 +7,14 @@ import About from '../../About/About';
 import Profile from '../../Profile/Profile';
 import Home from '../../Home/Home';
 import Footer from '../Footer/Footer.jsx';
-import Navbar from "../Navbar/Navbar"
-import Signin from "../../containers/CredentialsModal/SigninModal"
-import Register from "../../containers/CredentialsModal/RegisterModal"
+import Header from "../Header/Header"
+import Signin from "../../containers/CredentialsModal/SigninModal.container"
+import Register from "../../containers/CredentialsModal/RegisterModal.container"
 
 const App = () =>  (
   <div>
     <div className="App">
-      <Route path="/" component={Navbar} />
+      <Route path="/" component={Header} />
 
       <div className='App-intro'>
         <Route path="/" component={Signin} />

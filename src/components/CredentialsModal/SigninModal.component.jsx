@@ -1,19 +1,19 @@
 import React from "react"
 import { Modal } from "react-bootstrap"
 
-const RegisterModal = (
+const SigninModal = (
         Component
     ) => (
         props
-    ) => ( // React.PureComponent??
+    ) => ( 
             
                 <div>
                     <Modal 
-                        show={props.modal.showRegisterModal}
-                        onHide={() => props.hideModal()}
+                        show={props.modal.showSigninModal}
+                        onHide={() => props.hideSigninModal()}
                     >
                         <Modal.Header closeButton>
-                        Register
+                        Siginin
                         </Modal.Header> 
                         <Modal.Body>
                             <div><Component { ...this.props} /></div>
@@ -22,4 +22,4 @@ const RegisterModal = (
                 </div>
             )
 
-export default (RegisterModal)
+export default (SigninModal)

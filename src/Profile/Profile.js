@@ -67,6 +67,9 @@ class Private extends Component {
           :
           
             <div className='profile'>
+            {/* LOADING LOGIC BELOW?!? */}
+              {/* {users.loading && <em>Loading users...</em>}
+              {users.error && <span className="text-danger">ERROR: {users.error}</span>} */}
               <div className='overlay'>
 
                 <div className='bottomOverlay'>

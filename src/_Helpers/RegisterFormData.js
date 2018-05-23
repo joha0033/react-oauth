@@ -2,31 +2,40 @@ export const registerInputProps = {
     firstName:{
         label: "First Name",
         name:"firstName",
-        type:"text"
+        type:"text",
+        required: false
     },
     lastName:{
         label: "Last Name",
         name:"lastName",
-        type:"text"
+        type:"text",
+        required: false
     },
     email:{
         label: "*Email",
         name:"email",
-        type:"text"
+        type:"text",
+        required: true
     },
     password:{
         label: "*Password",
         name:"password",
-        type:"password"
+        type:"password",
+        required: true
     }
+    
 }
 
 export const registerStateData = {
     blurred: {
-        firstName: false,
-        lastName: false,
-        email: false,
-        password: false
+        email: {
+            error: false,
+            message: "Email is required"
+        },
+        password: {
+            error: false,
+            message: "Password is required"
+        },
     },
     input: {
         firstName:"",

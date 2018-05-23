@@ -1,6 +1,6 @@
 import React from 'react'
 // WAIT DOING IT CONTAINERS ////////////////////////
-const Input = (
+const InputComponent = (
     Component
     ) => (
     props
@@ -23,4 +23,4 @@ const Input = (
       </div>
 )
 
-export default Input
+export default InputComponent

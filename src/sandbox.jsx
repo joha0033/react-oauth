@@ -607,7 +607,7 @@ class FilterLink extends Component {
 
         return (
             <Link 
-                active ={
+                active = {
                     props.filter ===
                     state.visibilityFilter
                 }

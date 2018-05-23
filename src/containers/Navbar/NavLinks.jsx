@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Links from "../../components/Navbar/Links.jsx"
+import Links from "../../components/Header/Links.jsx"
 
 class NavLinks extends Component {
 
