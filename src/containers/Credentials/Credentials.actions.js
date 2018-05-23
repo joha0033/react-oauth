@@ -1,6 +1,6 @@
 import { registerService } from "./Register/registerService";
 import { signinService } from "./Signin/signinService";
-import { modalActions } from "../CredentialsModal/Modal.actions"
+import { modalActions } from "../Modals/Modal.actions"
 import history from "../../_Helpers/history.js";
 
 const checkingCredentials = (credentials) => ({ 

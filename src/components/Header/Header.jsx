@@ -1,7 +1,7 @@
 import React from "react"
 import { Navbar as Nav } from "react-bootstrap"
 import NavLinks from "../../containers/Navbar/NavLinks"
-import Dropdown from "../../containers/Navbar/Dropdown/NavDropdown"
+import Dropdown from "../../containers/Navbar/NavDropdown"
 import Logo from "./Logo"
 
 const Navbar = (props) => (

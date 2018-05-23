@@ -1,4 +1,4 @@
-import { credentialActions } from "../CredentialForms/Credentials.actions"
+import { credentialActions } from "../Credentials/Credentials.actions"
 
 
 const logout = () => credentialActions.logout();

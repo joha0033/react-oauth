@@ -1,5 +1,5 @@
 import { facebookService } from "./facebookService";
-import { modalActions } from "../../CredentialsModal/Modal.actions"
+import { modalActions } from "../../Modals/Modal.actions"
 import history from "../../../_Helpers/history.js";
 
 const facebookAuthenticate = (response) => {

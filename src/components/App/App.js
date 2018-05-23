@@ -3,13 +3,13 @@ import { Route } from 'react-router-dom';
 
 import './App.css';
 
-import About from '../../About/About';
+import About from '../About/About';
 import Profile from '../../Profile/Profile';
 import Home from '../../Home/Home';
 import Footer from '../Footer/Footer.jsx';
 import Header from "../Header/Header"
-import Signin from "../../containers/CredentialsModal/SigninModal.container"
-import Register from "../../containers/CredentialsModal/RegisterModal.container"
+import Signin from "../../containers/Modals/Modal.containers/SigninModal.container"
+import Register from "../../containers/Modals/Modal.containers/RegisterModal.container"
 
 const App = () =>  (
   <div>

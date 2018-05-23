@@ -1,7 +1,7 @@
 import { connect } from "react-redux"
-import RegisterModalComponent from "../../components/CredentialsModal/RegisterModal.component"
-import RegisterFormContainer from "../CredentialForms/Register/Register"
-import { modalActions } from "./Modal.actions"
+import RegisterModalComponent from "../Modal.components/RegisterModal.component"
+import RegisterFormContainer from "../../Credentials/Register/Register"
+import { modalActions } from "../Modal.actions"
 
 const Register = RegisterModalComponent(RegisterFormContainer)
 

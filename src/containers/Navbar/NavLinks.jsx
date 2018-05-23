@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Links from "../../components/Header/Links.jsx"
+import { navLinks } from "../../_Helpers/NavLinkData"
 
 class NavLinks extends Component {
 
@@ -8,7 +9,7 @@ class NavLinks extends Component {
         return(
             <div>
                 <Links 
-                    navLinks = {["Home", "About"]} //from store?
+                    navLinks = {navLinks} 
                 />
             </div>
             

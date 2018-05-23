@@ -5,8 +5,7 @@ import { credentialActions } from "../Credentials.actions"
 import { formActions } from "../Forms/Form.actions"
 import { InputContainer } from "../Forms/Inputs/Input.container"
 import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
-// import { withRouter } from 'react-router-dom'
-
+import { modalActions } from "../../Modals/Modal.actions"
 
 class Signin extends React.Component {
  
@@ -64,6 +63,10 @@ class Signin extends React.Component {
               onSubmit={(e) => this.sendDataToStore(e)}>
               {signinForm}
               {submitButton}
+              <a onClick={() => {
+                this.props.hideSigninModal()
+                this.props.showRegisterModal()
+              }}>Register</a>
             </form>
           <br/>
           <Facebook hideModal = {this.props.hideModal}/>
@@ -93,6 +96,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     clearForm: () => {
       dispatch(formActions.clearForm())
+    },
+    hideSigninModal: () => {
+      dispatch(modalActions.hideSigninModal())
+    },
+    showRegisterModal: () => {
+      dispatch(modalActions.showRegisterModal())
     }
   }
 }

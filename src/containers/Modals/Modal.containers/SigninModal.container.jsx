@@ -1,7 +1,7 @@
 import { connect } from "react-redux"
-import SigninModal from "../../components/CredentialsModal/SigninModal.component"
-import SigininForm from "../CredentialForms/Signin/Signin"
-import { modalActions } from "./Modal.actions"
+import SigninModal from "../Modal.components/SigninModal.component"
+import SigininForm from "../../Credentials/Signin/Signin"
+import { modalActions } from "../Modal.actions"
 
 const Signin = SigninModal(SigininForm)
 

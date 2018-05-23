@@ -5,6 +5,7 @@ import { formActions } from "../Forms/Form.actions"
 import Facebook from "../Facebook/Facebook";
 import { InputContainer } from "../Forms/Inputs/Input.container"
 import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
+import { modalActions } from "../../Modals/Modal.actions"
 
 class Register extends React.Component {
 
@@ -54,6 +55,10 @@ class Register extends React.Component {
               onSubmit={(e) => this.sendDataToStore(e)}>
               {registerForm}
               {submitButton}
+              <a onClick={() =>{
+                this.props.hideRegisterModal()
+                this.props.showSigninModal()
+              }}>Signin</a>
             </form>
             <br/>
             <Facebook hideModal = {this.props.hideModal}/>
@@ -83,6 +88,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     clearForm: () => {
       dispatch(formActions.clearForm())
+    },
+    hideRegisterModal: () => {
+      dispatch(modalActions.hideRegisterModal())
+    },
+    showSigninModal: () => {
+      dispatch(modalActions.showSigninModal())
     }
   }
 }
