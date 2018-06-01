@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import './App.css';
 
 import About from '../About/About';
-import Profile from '../../Profile/Profile';
+import Profile from '../../Profile/Profile.component';
 import Home from '../../Home/Home';
 import Footer from '../Footer/Footer.jsx';
 import Header from "../Header/Header"

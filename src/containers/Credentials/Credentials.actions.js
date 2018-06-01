@@ -16,10 +16,7 @@ const credentialsFailure = (error) => ({
     payload: error
 })
 
-const register = (
-	newUser
-) => {
-	console.log(newUser);
+const register = (newUser) => {
 	
 	const { 
 		firstName, 
@@ -61,7 +58,7 @@ const login = (email, password) => {
 				token => {
 					dispatch(credentialSuccess(token));
 					dispatch(modalActions.hideSigninModal())
-					history.push("/profile");
+					history.push('/profile/' + sessionStorage.getItem("id"));
 				},
 				error => {
 					dispatch(credentialsFailure(error));

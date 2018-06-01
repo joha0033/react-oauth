@@ -1,7 +1,39 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom'
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
+import { profileActions } from './Profile.actions'
+import { connect } from "react-redux"
 
+/*
+PROFILE
+  username - text
+  password - bcrypt
+  email - email/FB
+  picture - jpg/S3
+  about - text
+  location - text/FB
+
+DEV DEETS
+  join date  - date 
+  started dev-ing date
+  languages - text (recommend videos/articles)
+  projects - git/links
+  tutorials - links (created/completed)
+  portfolio site - link
+  soicalMedia - links/FB
+  dreamJob - text
+  currentJob - text/FB
+  seekingJob - text
+  recommended content - links
+
+ACTIVITY
+  tutorials completed - int
+  tutorials written/views - int
+
+EDIT
+  all - PUT
+
+*/ 
 class Private extends Component {
   constructor(props) {
 
@@ -12,9 +44,15 @@ class Private extends Component {
      };
 
   }
+
+  componentDidMount() {
+    
+    this.props.fetchProfile()
+    
+  }
   
   render() {
-
+    
     return (
 
       <div >
@@ -73,7 +111,7 @@ class Private extends Component {
               <div className='overlay'>
 
                 <div className='bottomOverlay'>
-                  <Image src="https://baconmockup.com/1280/230/" responsive />
+                  <Image src="https://baconmockup.com/1280/150/" responsive />
                 </div>
 
                 <div className='topOverlay container'>
@@ -87,7 +125,7 @@ class Private extends Component {
 
                       </div>
                       <div style={{paddingTop: "1em"}}>
-                        <h4 >Austin Johnston</h4>
+                        <h4 >{}</h4>
                         <h3 >{this.state.email}</h3>
                         <h5 >From: Florida</h5>
                         <h5 >Freelance Software Engineer</h5>
@@ -168,4 +206,19 @@ class Private extends Component {
   }
 }
 
-export default Private
+const mapStateToProps = (state) => {
+  const { profile } = state
+  return {
+    profile
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchProfile: (credentials) => {
+      dispatch(profileActions.fetchProfile(credentials))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Private)

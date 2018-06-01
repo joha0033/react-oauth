@@ -19,8 +19,11 @@ const login = (email, password) => {
 		})
 		.then(response => {
 			if (response.token) {
+				
 				// store user details and jwt token in local storage to keep user logged in between page refreshes
 				sessionStorage.setItem("token", response.token);
+				sessionStorage.setItem("id", response.id)
+				
 			}
 			return response;
 		});
