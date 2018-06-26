@@ -6,7 +6,7 @@ const fetchingProfile = (credentials) => ({
     payload: credentials
 })
 const profileSuccess= (userProfile) => {
-    console.log('userProfile', userProfile);
+    // console.log('userProfile', userProfile);
     
     return {
         type: "PROFILE_SUCCESS",

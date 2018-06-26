@@ -35,15 +35,6 @@ EDIT
 
 */ 
 class Private extends Component {
-  constructor(props) {
-
-    super(props);
-    
-    this.state = {
-      email: null
-     };
-
-  }
 
   componentDidMount() {
     
@@ -72,7 +63,9 @@ class Private extends Component {
             margin:0
           }
           .smallProfilePicture{
-            padding-top: 5em;
+            border: 5px solid white;
+            border-radius: 200px;
+            // padding-top: 5em;
             display: inline-block;
           }
           .well {
@@ -97,17 +90,14 @@ class Private extends Component {
           `}
 
         </style>
-        {!sessionStorage.getItem('token') ?
+        {!sessionStorage.getItem('token') ? <Redirect to= "/"/> : null }
+        {this.props.profile.loading ?
           
-          
-          <Redirect to= "/"/>
+          <h1>LOADING...</h1>
 
           :
           
             <div className='profile'>
-            {/* LOADING LOGIC BELOW?!? */}
-              {/* {users.loading && <em>Loading users...</em>}
-              {users.error && <span className="text-danger">ERROR: {users.error}</span>} */}
               <div className='overlay'>
 
                 <div className='bottomOverlay'>
@@ -124,13 +114,13 @@ class Private extends Component {
                         <Image src="https://picsum.photos/300/300" responsive circle />
 
                       </div>
+                      
                       <div style={{paddingTop: "1em"}}>
-                        <h4 >{}</h4>
-                        <h3 >{this.state.email}</h3>
-                        <h5 >From: Florida</h5>
-                        <h5 >Freelance Software Engineer</h5>
-                        <h5 >Age: 31</h5>
+                        <h3>{this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5>
                       </div>
+
+                      
                     </Col>
                     <Col sm={1}></Col>
 
@@ -138,16 +128,13 @@ class Private extends Component {
                     <Col mdHidden lgHidden className='center' md={6}>
                       <div className='smallProfilePicture'>
 
-                        <Image className='profilePicture' src="https://picsum.photos/300/300" responsive circle />
+                        <Image src="https://picsum.photos/300/300" circle />
 
                       </div>
 
-                      <div style={{marginTop: "2em"}}>
-
-                        <h4 >{this.state.email}</h4>
-                        <h5 >From: Florida</h5>
-                        <h5 >Freelance Software Engineer</h5>
-                        <h5 >Age: 31</h5>
+                      <div style={{paddingTop: "1em"}}>
+                        <h3>{this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5>
                       </div>
                     </Col>
 
@@ -175,11 +162,12 @@ class Private extends Component {
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
-                            <ListGroupItem>Name: Austin Johnston</ListGroupItem>
-                            <ListGroupItem>Email: {this.state.email}</ListGroupItem>
+                            {console.log(this.state)}
+                            <ListGroupItem>Name: {this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</ListGroupItem>
+                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem>
                             <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
                             <ListGroupItem>Name: Austin Johnston</ListGroupItem>
-                            <ListGroupItem>Email: {this.state.email}</ListGroupItem>
+                            {/* <ListGroupItem>Email: {this.state.email}</ListGroupItem> */}
                             <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
                           </ListGroup>
                           <Panel.Body className='center'>
