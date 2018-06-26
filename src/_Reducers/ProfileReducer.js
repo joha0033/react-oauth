@@ -1,10 +1,8 @@
 
 export const profile = (
-	state = {},
+	state = {loading: true},
 	action
 ) => {
-    console.log(action.payload);
-    
 	switch (action.type) {
 	case "FETCHING_PROFILE":
 		return {
@@ -17,7 +15,7 @@ export const profile = (
 			...state,
 			success: true,
 			loading: false,
-			details: action.payload
+			details: action.payload.profile
 		}
 	case "PROFILE_FAILURE":
 		return {};
