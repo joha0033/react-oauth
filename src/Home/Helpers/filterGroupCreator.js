@@ -11,10 +11,10 @@ export const filterGroupCreator = (filterTypes, posts) => {
   })
 
   filterGroupArray.forEach((obj) => {
-
+    
+    
 
     filterTypes.forEach((markedKey) => {
-
 
       posts.forEach((post)=>{
 

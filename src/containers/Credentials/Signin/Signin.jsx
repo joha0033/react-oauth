@@ -8,7 +8,6 @@ import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
 import { modalActions } from "../../Modals/Modal.actions"
 
 class Signin extends React.Component {
- 
 
   ///////////////
   // SIGNUP FLOW

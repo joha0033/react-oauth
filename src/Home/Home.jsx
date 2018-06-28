@@ -68,6 +68,8 @@ class Home extends React.Component {
   */
   componentDidMount() {
     
+    
+    
     return this.fetchPosts()
 
   } // END OF COMPONENT WILL MOUNT
@@ -91,25 +93,26 @@ class Home extends React.Component {
     // ////////////////////////
     // FETCH ROUTE from Imports
     Post.fetchAllPosts().then((result) => {
-
+      console.log('result before', result[14]);
+      
       const posts = fillsBlankData(result)
-
+      console.log(posts[14]);
       // /////////////////////////////
       // FILL FILTER CRITERIA IF EMPTY
       if (this.state.filterGroups.length === 1) {
 
         // //////////////////////////////
         // GET FROM USER?? ADD TO STATE??
-        const filterTypesFromKeys = ['category', 'level']
+        const filterGroupKeys = ['category', 'level']
 
         // ///////////////////////
         // CREATE THE FILTER GROUP
-        const filterGroupArray = filterGroupCreator(filterTypesFromKeys, posts)
+        const filterGroupArray = filterGroupCreator(filterGroupKeys, posts)
 
         // ///////////////////////
         // SET STATE FOR POST DISPLAY
         this.setState({filterGroups: this.state.filterGroups.concat(filterGroupArray)})
-
+        
       } // END OF IF FILTER GROUP
 
       ///////////////////////////////////////////////////////////////////////
@@ -122,7 +125,7 @@ class Home extends React.Component {
               filterCriteriaFromState,
               searchCriteriaFromState
             )})
-
+            
     }).catch(alert)
 
   } // END OF FETCH POSTS
@@ -153,21 +156,23 @@ class Home extends React.Component {
         //////////////////////////////////
         // THIS WILL HEADER FOR EACH GROUP
         group = group[0].charAt(0).toUpperCase() + group[0].slice(1)
-
+        
         //////////////////////////////////
         // 'FILTER ARRAY' CONTAINS OBJECTS
         // KEY/(GROUP NAME): VALUE/(ARRAY OF TYPES)
         let type = Object.values(element)
-
+        
+        
         /////////////////////////////////////////////////
         // CONVERTING TYPE TO HTML CHECKBOXES/SUB-HEADERS
         type = Object.keys(type[0]).map((element, index)=>{
-
+          
           /////////////////////////////////////////////////////
           // CRAETES NAME WITH CAPITAL FIRST LETTER FOR DISPLAY
           let displayName = element[0].charAt(0).toUpperCase()
             + element.substring(1, element.length)
-
+          
+          
           ///////////////////////////////
           // IF ELEMENT IS A SEARCH INPUT
           return element === 'input'

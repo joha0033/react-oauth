@@ -3,13 +3,12 @@ import { MenuItem, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 import { modalActions } from "../Modals/Modal.actions"
-
+// UTILIZED CREDENTIALS ACTIONS
 
 class Dropdown extends Component{
 
 
     render() {
-
       return (
         
         <Nav pullRight>
@@ -19,17 +18,22 @@ class Dropdown extends Component{
 
               <NavDropdown eventKey={3} title="Welcome" id="basic-nav-dropdown">
 
+                  {/* <LinkContainer activeClassName='' to="/profile">
+                    <MenuItem >Signed in as <br/>{console.log(this.props.profile.loading)}</MenuItem>
+                  </LinkContainer> */}
 
                   <LinkContainer activeClassName='' to="/profile">
-                    <MenuItem >Signed in as <br/>___________</MenuItem>
+                    { 
+                      (<MenuItem >{
+                      !this.props.profile.loading
+                      ?this.props.profile.details.email
+                      :sessionStorage.getItem('email')
+                      }</MenuItem>)}
                   </LinkContainer>
 
-
-                <MenuItem divider />
-
-                  <LinkContainer activeClassName='' to="/profile">
+                  {/* <LinkContainer activeClassName='' to="/profile">
                     <MenuItem >Profile</MenuItem>
-                  </LinkContainer>
+                  </LinkContainer> */}
 
                 <MenuItem divider />
 
@@ -59,8 +63,10 @@ class Dropdown extends Component{
 
 const mapStateToProps = (state) => {
   const { loggedIn } = state.credentials
+  const { profile } = state
   return {
-    isLoggedIn: loggedIn
+    isLoggedIn: loggedIn,
+    profile
   }
 };
 
