@@ -1,5 +1,5 @@
 import { inputProps, stateData } from "../_Helpers/CredentialsFormData"
-import { developmentStateData } from "../_Helpers/DevelopmentFormData"
+import { developmentRegisterData, developmentEditData } from "../_Helpers/DevelopmentFormData"
 
 console.log(process.env.NODE_ENV);
 
@@ -7,7 +7,7 @@ let envDev = process.env.NODE_ENV
 
 const initialState = {
 	formProps: inputProps,
-	formState: envDev ? developmentStateData : stateData,
+	formState: envDev ? developmentEditData : stateData,
 	registerFormInput: {}
 }
 

@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import './App.css';
 
 import About from '../About/About';
+// import EditProfile from '../../Profile/Profile.Edit';
 import Profile from '../../Profile/Profile.component';
 import Home from '../../Home/Home';
 import Footer from '../Footer/Footer.jsx';
@@ -22,6 +23,7 @@ const App = () =>  (
         <Route exact path='/' component={Home} />
         <Route path='/home' component={Home} />
         <Route path='/profile' component={Profile} />
+        {/* <Route path= {`/profile/${username}/edit`} component={EditProfile} /> */}
         <Route path='/about' component={About}/>
       </div>
 

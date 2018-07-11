@@ -6,9 +6,9 @@ const Links = (props) => (
     <Nav>
         {
             props.navLinks.map((link, index) => (
-                // <LinkContainer exact to={`/${link}`} key={index}>
-                    <NavItem href={`/${link}`} key={index} eventKey={1}>{link}</NavItem>
-                // {/* </LinkContainer> */}
+                <LinkContainer exact to={`/${link}`} key={index}>
+                    <NavItem key={index} eventKey={1}>{link}</NavItem>
+                </LinkContainer>
             ))
         }
     </Nav>

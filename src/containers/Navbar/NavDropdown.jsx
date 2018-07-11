@@ -24,10 +24,10 @@ class Dropdown extends Component{
 
                   <LinkContainer activeClassName='' to="/profile">
                     { 
-                      (<MenuItem >{
-                      !this.props.profile.loading
-                      ?this.props.profile.details.email
-                      :sessionStorage.getItem('email')
+                      (<MenuItem >{ `email`
+                      // !this.props.profile.loading
+                      // ?this.props.profile.details.email
+                      // :sessionStorage.getItem('email')
                       }</MenuItem>)}
                   </LinkContainer>
 

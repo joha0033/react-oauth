@@ -93,10 +93,10 @@ class Home extends React.Component {
     // ////////////////////////
     // FETCH ROUTE from Imports
     Post.fetchAllPosts().then((result) => {
-      console.log('result before', result[14]);
+      
       
       const posts = fillsBlankData(result)
-      console.log(posts[14]);
+  
       // /////////////////////////////
       // FILL FILTER CRITERIA IF EMPTY
       if (this.state.filterGroups.length === 1) {

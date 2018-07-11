@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import EditProfile from './Profile.Edit'
 import { Redirect } from 'react-router-dom'
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
 import { profileActions } from './Profile.actions'
@@ -116,8 +117,9 @@ class Private extends Component {
                       </div>
                       
                       <div style={{paddingTop: "1em"}}>
-                        <h3>{this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</h3>
-                        <h5 >{this.props.profile.details.email}</h5>
+                      {/* <h5 >{this.props.profile.details.userData.local.email}</h5> */}
+                        {/* <h3>{(this.props.profile.details.firstName || 'Adog') + ' ' + (this.props.profile.details.lastName || 'Starlord')}</h3> */}
+                        {/* <h5 >{this.props.profile.details.userData.local.email}</h5> */}
                       </div>
 
                       
@@ -133,14 +135,13 @@ class Private extends Component {
                       </div>
 
                       <div style={{paddingTop: "1em"}}>
-                        <h3>{this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</h3>
-                        <h5 >{this.props.profile.details.email}</h5>
+                        {/* <h3>{this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5> */}
                       </div>
                     </Col>
 
-
+                    
                     <Col xs={12} md={7}>
-
 
                       <Col smHidden xsHidden>
                         <PageHeader style={{paddingTop: "8em", paddingLeft: "2em"}}>
@@ -158,16 +159,16 @@ class Private extends Component {
                       <div>
                         <Panel >
                           <Panel.Heading >
-
+                            {console.log(this.props.profile.details)}
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
-                            {console.log(this.state)}
-                            <ListGroupItem>Name: {this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</ListGroupItem>
-                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem>
+                            {/* <ListGroupItem>Name: {this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</ListGroupItem>
+                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
                             <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
-                            <ListGroupItem>Name: Austin Johnston</ListGroupItem>
-                            {/* <ListGroupItem>Email: {this.state.email}</ListGroupItem> */}
+                            {/* <ListGroupItem>{(this.props.profile.details.firstName || 'Adog') + ' ' + (this.props.profile.details.lastName || 'Starlord')}</ListGroupItem> */}
+                            {/* <ListGroupItem>Email: {this.props.profile.details.userData.local.email || 'email'}</ListGroupItem> */}
+                            {/* <ListGroupItem>Username: {this.props.profile.details.userData.username || 'email'}</ListGroupItem> */}
                             <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
                           </ListGroup>
                           <Panel.Body className='center'>
@@ -179,6 +180,7 @@ class Private extends Component {
 
                           </Panel.Body>
                         </Panel>
+                        <EditProfile />
                       </div>
                     </Col>
 

@@ -19,12 +19,12 @@ const login = (email, password) => {
 		})
 		.then(response => {
 			if (response.token) {
-				console.log(response);
+				console.log('response signin service', response);
 				
 				// store user details and jwt token in local storage to keep user logged in between page refreshes
 				sessionStorage.setItem("token", response.token);
-				sessionStorage.setItem("id", response.id)
-				sessionStorage.setItem("email", response.email)
+				sessionStorage.setItem("username", response.username)
+				// sessionStorage.setItem("email", response.email)
 				
 			}
 			return response;

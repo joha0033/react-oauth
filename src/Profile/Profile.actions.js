@@ -10,7 +10,7 @@ const profileSuccess= (userProfile) => {
     
     return {
         type: "PROFILE_SUCCESS",
-        payload: userProfile.payload
+        payload: userProfile
     }
 }
 const profileFailure= (error) => ({
@@ -19,27 +19,65 @@ const profileFailure= (error) => ({
 })
 
 
+
+
 const fetchProfile = () => {
     
     const credentials = {
         token: sessionStorage.getItem("token"),
-        userId: sessionStorage.getItem("id")
+        // username: sessionStorage.getItem("username")
     }
-
-    console.log(credentials);
-    
 
     return dispatch => {
         dispatch(fetchingProfile( {credentials} ));
         
-        profileService.fetchProfile(credentials).then((userProfile) => {
+        profileService.fetchProfile(credentials)
+            .then((userProfile) => {
+                console.log('userProfile', userProfile);
+                
             dispatch(profileSuccess(userProfile));
-            history.push("/profile/"+credentials.userId);
+            history.push("/profile/"+credentials.username);
             return userProfile
-        })
+        }, (error) => dispatch(profileFailure(error)))
     };
 }
 
+const profileEditSubmitted = (change) => {
+    let token = sessionStorage.getItem('token')
+    let username = sessionStorage.getItem('username')
+
+    return {
+        type: "PROFILE_EDIT_SUBMITTED",
+        crendentials: {
+            token,
+            username
+        },
+        payload: change
+    }
+}
+
+const profileEditSuccess= (response) => {
+    return {
+        type: "PROFILE_EDIT_SUCCESS",
+        payload: response
+    }
+}
+
+const changeData = (change) => {
+    let username = sessionStorage.getItem('username')
+    return dispatch => {
+        dispatch(profileEditSubmitted(change))
+
+        profileService.editProfile(change).then((updated) => {
+            console.log('updated', updated);
+            dispatch(profileEditSuccess(updated.updatedData));
+            history.push("/profile/" + username);
+        })
+    }
+    
+}
+
 export const profileActions = {
-    fetchProfile
+    fetchProfile,
+    changeData
 }
