@@ -17,8 +17,8 @@ export const profile = (
 			...state,
 			success: true,
 			loading: false,
-			details: action.payload.profile,
-			posts: action.payload.profile.posts
+			details: action.payload,
+			posts: action.payload.posts
 		}
 	case "PROFILE_FAILURE":
 		return {};

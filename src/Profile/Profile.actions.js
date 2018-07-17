@@ -25,7 +25,7 @@ const fetchProfile = () => {
     
     const credentials = {
         token: sessionStorage.getItem("token"),
-        // username: sessionStorage.getItem("username")
+        username: sessionStorage.getItem("username")
     }
 
     return dispatch => {

@@ -11,7 +11,7 @@ export const credentials = (
 		return {
 			...state,
 			loading: true,
-			user: action.payload.credentials
+			userData: action.payload.credentials
 		};
 	case "CERDENTIAL_SUCCESS":
 		return {
