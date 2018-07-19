@@ -17,6 +17,7 @@ export const credentials = (
 		return {
 			...state,
 			loggedIn: true,
+			loading: false,
 			token: action.payload.token
 		};
 	case "CERDENTIAL_FAILURE":

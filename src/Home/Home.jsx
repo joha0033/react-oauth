@@ -68,8 +68,6 @@ class Home extends React.Component {
   */
   componentDidMount() {
     
-    
-    
     return this.fetchPosts()
 
   } // END OF COMPONENT WILL MOUNT

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom'
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
 import { profileActions } from './Profile.actions'
 import { connect } from "react-redux"
@@ -38,10 +37,16 @@ EDIT
 
 
 class Profile extends Component {
+  constructor(props){
+    super(props)
+    this.state ={
+      authorized: false
+    }
+  }
   componentDidMount() {
+    
     this.props.fetchProfile()
   }
-  
   render() {
     
     return (
@@ -91,12 +96,11 @@ class Profile extends Component {
           `}
 
         </style>
-        {console.log(sessionStorage.getItem('token'), sessionStorage.getItem('username'))
-        }
-        {!sessionStorage.getItem('token') ? <Redirect to= "/"/> : null }
+        
         {this.props.profile.loading ?
-      
-          <h1>LOADING...</h1>
+          
+         (<h1>LOADING...</h1>)
+         
 
           :
           

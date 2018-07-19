@@ -66,12 +66,12 @@ const fetchProfile = () => {
         
         profileService.fetchProfile(credentials)
             .then((userProfile) => {
-                console.log('userProfile >>>>>> ', userProfile);
-                
-            dispatch(profileSuccess(userProfile));
-            history.push('/profile/'+credentials.username);
-            return userProfile
-        }, (error) => dispatch(profileFailure(error)))
+                dispatch(profileSuccess(userProfile));
+                // return userProfile
+            }, (error) => dispatch(profileFailure(error))).then((userProfile) => {
+                history.push('/profile/' + credentials.username);
+                return userProfile
+        })
     };
 }
 
@@ -110,6 +110,7 @@ const destroyProfile = (payload) => {
 }
 
 export const profileActions = {
+    fetchingProfile,
     fetchProfile,
     changeData,
     destroyProfile

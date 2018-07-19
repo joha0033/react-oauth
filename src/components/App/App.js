@@ -4,13 +4,15 @@ import { Route } from 'react-router-dom';
 import './App.css';
 
 import About from '../About/About';
-import EditProfile from '../../Profile/Profile.Edit';
-import Profile from '../../Profile/Profile.component';
+// import EditProfile from '../../Profile/Profile.Edit';
+// import Profile from '../../Profile/Profile.component';
 import Home from '../../Home/Home';
 import Footer from '../Footer/Footer.jsx';
 import Header from '../Header/Header'
 import Signin from '../../containers/Modals/Modal.containers/SigninModal.container'
 import Register from '../../containers/Modals/Modal.containers/RegisterModal.container'
+import PrivateRoute from '../../Profile/Profile.Redirect'
+import EditPrivateRoute from '../../Profile/Profile.Edit.Redirect'
 
 const App = () =>  (
   <div>
@@ -21,12 +23,12 @@ const App = () =>  (
         <Route path='/' component={Signin} />
         <Route path='/' component={Register} />
         <Route exact path='/' component={Home} />
-        <Route exact path='/home' component={Home} />
+        <Route path='/home' component={Home} />
         <Route exact path='/profile/:username' render={(props) => {
-          return <Profile {...props} location={this.location}/>
+          return <PrivateRoute {...props} />
         }}/>
-        <Route path='/profile/:username/edit' render={() => {
-          return <EditProfile location={this.location}/>
+        <Route exact path='/profile/:username/edit' render={(props) => {
+          return <EditPrivateRoute {...props} />
         }}/>
         <Route path='/about' component={About}/>
       </div>

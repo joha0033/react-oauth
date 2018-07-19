@@ -3,6 +3,7 @@ import Facebook from '../Facebook/Facebook'
 import { connect } from 'react-redux'
 import { credentialActions } from "../Credentials.actions"
 import { formActions } from "../../Forms/Form.actions"
+import { profileActions } from "../../../Profile/Profile.actions"
 import { InputContainer } from "../../Forms/Inputs/Input.container"
 import SubmitComponent from "../../Forms/Buttons/SubmitButton.component"
 import { modalActions } from "../../Modals/Modal.actions"
@@ -14,6 +15,7 @@ class Signin extends React.Component {
   sendDataToStore(e) {
     e.preventDefault()
     const signinData = this.props.form.formState.input;
+    this.props.fetchingProfile()
     this.props.login(signinData.email, signinData.password)
     this.props.clearForm()
   }
@@ -66,7 +68,7 @@ class Signin extends React.Component {
                 this.props.hideSigninModal()
                 this.props.showRegisterModal()
               }}>Register</a>
-            </form>
+          </form>
           <br/>
           <Facebook hideModal = {this.props.hideModal}/>
       </div>
@@ -101,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     showRegisterModal: () => {
       dispatch(modalActions.showRegisterModal())
+    },
+    fetchingProfile: () => {
+      dispatch(profileActions.fetchingProfile())
     }
   }
 }

@@ -2,7 +2,7 @@ import { registerService } from "./Register/registerService";
 import { signinService } from "./Signin/signinService";
 import { modalActions } from "../Modals/Modal.actions"
 import history from "../../_Helpers/history.js";
-
+import { profileActions } from '../../Profile/Profile.actions'
 const checkingCredentials = (credentials) => ({ 
     type: "CHECKING_CREDENTIALS",
     payload: credentials
@@ -36,8 +36,9 @@ const register = (newUser) => {
 			.then(
 				token => {
 					dispatch(credentialSuccess(token));
+					dispatch(profileActions.fetchingProfile())
 					dispatch(modalActions.hideRegisterModal())
-					history.push("/profile");
+					history.push("/profile/" + sessionStorage.getItem("username"));
 				},
 				error => {
 					dispatch(credentialsFailure(error));
@@ -58,7 +59,7 @@ const login = (email, password) => {
 				token => {
 					dispatch(credentialSuccess(token));
 					dispatch(modalActions.hideSigninModal())
-					history.push('/profile/' + sessionStorage.getItem("id"));
+					history.push('/profile/' + sessionStorage.getItem("username"));
 				},
 				error => {
 					dispatch(credentialsFailure(error));
