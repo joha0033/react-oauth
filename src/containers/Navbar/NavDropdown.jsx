@@ -9,6 +9,7 @@ class Dropdown extends Component{
 
 
     render() {
+      let username = sessionStorage.getItem('username')
       return (
         
         <Nav pullRight>
@@ -18,23 +19,13 @@ class Dropdown extends Component{
 
               <NavDropdown eventKey={3} title="Welcome" id="basic-nav-dropdown">
 
-                  {/* <LinkContainer activeClassName='' to="/profile">
-                    <MenuItem >Signed in as <br/>{console.log(this.props.profile.loading)}</MenuItem>
-                  </LinkContainer> */}
-
-                  <LinkContainer activeClassName='' to="/profile">
-                    { 
-                      (<MenuItem >{ `email`
-                      // !this.props.profile.loading
-                      // ?this.props.profile.details.email
-                      // :sessionStorage.getItem('email')
+                  <LinkContainer activeClassName='' to={`/profile/${username}`}>
+                    {(<MenuItem >{
+                      !!username
+                      ? username // FIX
+                      : 'Profile'
                       }</MenuItem>)}
                   </LinkContainer>
-
-                  {/* <LinkContainer activeClassName='' to="/profile">
-                    <MenuItem >Profile</MenuItem>
-                  </LinkContainer> */}
-
                 <MenuItem divider />
 
                   <MenuItem
