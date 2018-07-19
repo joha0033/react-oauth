@@ -22,7 +22,10 @@ const App = () =>  (
         <Route path='/' component={Register} />
         <Route exact path='/' component={Home} />
         <Route exact path='/home' component={Home} />
-        <Route exact path='/profile/:username' component={Profile} />
+        {/* <Route exact path='/profile/:username' component={Profile} /> */}
+        <Route exact path='/profile/:username' render={(props) => {
+          return <Profile {...props} location={this.location}/>
+        }}/>
         <Route path='/profile/:username/edit' render={() => {
           return <EditProfile location={this.location}/>
         }}/>
