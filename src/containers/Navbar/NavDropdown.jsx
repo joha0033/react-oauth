@@ -3,6 +3,7 @@ import { MenuItem, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 import { modalActions } from "../Modals/Modal.actions"
+import { profileActions } from '../../Profile/Profile.actions';
 // UTILIZED CREDENTIALS ACTIONS
 
 class Dropdown extends Component{
@@ -30,7 +31,10 @@ class Dropdown extends Component{
 
                   <MenuItem
                     eventKey={3.2}
-                    onClick={this.props.logout}>
+                    onClick={() => {
+                      this.props.logout()
+                      this.props.destroyProfile(true)
+                      }}>
                     Signout
                   </MenuItem>
 
@@ -74,6 +78,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     logout: () => {
       dispatch(modalActions.logout())
+    },
+    destroyProfile: (payload) => {
+      dispatch(profileActions.destroyProfile(payload))
     }
   }
 };
