@@ -32,7 +32,10 @@ export const form = (
 				
 		}
 	case "BLUR_CHANGE":
+		console.log(action.payload);
+		console.log(state.formState.input);
 		console.log(state.formState.input[action.payload]);
+		
 		
 		return state.formState.input[action.payload] !== "" ?
 		{

@@ -3,8 +3,6 @@ export const profile = (
 	state = {loading: true},
 	action
 ) => {
-	console.log('profile reducer - EDITING', action.payload);
-	
 	switch (action.type) {
 	case "FETCHING_PROFILE":
 		return {
@@ -17,8 +15,7 @@ export const profile = (
 			...state,
 			success: true,
 			loading: false,
-			details: action.payload,
-			posts: action.payload.posts
+			details: action.payload
 		}
 	case "PROFILE_FAILURE":
 		return {};
