@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { credentialActions } from "../Credentials.actions"
-import { formActions } from "../Forms/Form.actions"
+import { formActions } from "../../Forms/Form.actions"
 import Facebook from "../Facebook/Facebook";
-import { InputContainer } from "../Forms/Inputs/Input.container"
-import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
+import { InputContainer } from "../../Forms/Inputs/Input.container"
+import SubmitComponent from "../../Forms/Buttons/SubmitButton.component"
 import { modalActions } from "../../Modals/Modal.actions"
 
 class Register extends React.Component {
@@ -46,7 +46,7 @@ class Register extends React.Component {
         )
         
 
-        const submitButton = (<SubmitComponent/>)
+        const submitButton = (<SubmitComponent text={'Submit'}/>)
         
         return (
     

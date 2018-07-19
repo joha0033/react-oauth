@@ -2,9 +2,9 @@ import React from 'react';
 import Facebook from '../Facebook/Facebook'
 import { connect } from 'react-redux'
 import { credentialActions } from "../Credentials.actions"
-import { formActions } from "../Forms/Form.actions"
-import { InputContainer } from "../Forms/Inputs/Input.container"
-import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
+import { formActions } from "../../Forms/Form.actions"
+import { InputContainer } from "../../Forms/Inputs/Input.container"
+import SubmitComponent from "../../Forms/Buttons/SubmitButton.component"
 import { modalActions } from "../../Modals/Modal.actions"
 
 class Signin extends React.Component {
@@ -53,7 +53,7 @@ class Signin extends React.Component {
     )
     
 
-    const submitButton = (<SubmitComponent/>)
+    const submitButton = (<SubmitComponent text={'Submit'}/>)
 
     return (
 
