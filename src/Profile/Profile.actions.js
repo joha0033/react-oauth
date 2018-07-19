@@ -1,29 +1,33 @@
-import { profileService } from "./Profile.service"
-import history from "../_Helpers/history.js";
+import { profileService } from './Profile.service'
+// import { signinService } from '../containers/Credentials/Signin/signinService'
+import history from '../_Helpers/history.js';
 
 const fetchingProfile = (credentials) => ({
-    type: "FETCHING_PROFILE",
-    payload: credentials
+    type: 'FETCHING_PROFILE',
+    // payload: credentials
 })
-const profileSuccess= (userProfile) => {
-    // console.log('userProfile', userProfile);
-    
+const profileSuccess = (userProfile) => {
     return {
-        type: "PROFILE_SUCCESS",
+        type: 'PROFILE_SUCCESS',
         payload: userProfile
     }
 }
-const profileFailure= (error) => ({
-    type: "PROFILE_FAILURE",
+const profileFailure = (error) => ({
+    type: 'PROFILE_FAILURE',
     payload: error
 })
+
+// const profileDestroy = (msg) => ({
+//     type: 'PROFILE_DESTROY',
+//     payload: msg
+// })
 
 const profileEditSubmitted = (change) => {
     let token = sessionStorage.getItem('token')
     let username = sessionStorage.getItem('username')
 
     return {
-        type: "PROFILE_EDIT_SUBMITTED",
+        type: 'PROFILE_EDIT_SUBMITTED',
         crendentials: {
             token,
             username
@@ -32,27 +36,40 @@ const profileEditSubmitted = (change) => {
     }
 }
 
+// const profileDestroyer = () => {
+
+// 	const destroyingProfile = () => ({
+// 		type: "PROFILE_DESTROY",
+// 		payload: false
+// 	})
+
+// 	signinService.logout(); // clears local stroage
+	
+// 	return dispatch => {
+// 		dispatch(destroyingProfile());
+// 	};
+	
+// }
+
 
 
 
 const fetchProfile = () => {
-    
     const credentials = {
-        token: sessionStorage.getItem("token"),
-        username: sessionStorage.getItem("username")
+        token: sessionStorage.getItem('token'),
+        username: sessionStorage.getItem('username')
     }
-
+    
     return dispatch => {
-        console.log('fetchprofilehit...');
-        
-        dispatch(fetchingProfile( {credentials} ));
+        // dispatch(fetchingProfile( {credentials} ));
+        dispatch(fetchingProfile());
         
         profileService.fetchProfile(credentials)
             .then((userProfile) => {
-                console.log('userProfile', userProfile);
+                console.log('userProfile >>>>>> ', userProfile);
                 
             dispatch(profileSuccess(userProfile));
-            history.push("/profile/"+credentials.username);
+            history.push('/profile/'+credentials.username);
             return userProfile
         }, (error) => dispatch(profileFailure(error)))
     };
@@ -62,7 +79,7 @@ const fetchProfile = () => {
 
 const profileEditSuccess= (response) => {
     return {
-        type: "PROFILE_EDIT_SUCCESS",
+        type: 'PROFILE_EDIT_SUCCESS',
         payload: response
     }
 }
@@ -77,13 +94,23 @@ const changeData = (change) => {
         profileService.editProfile(change).then((updated) => {
             console.log('updated', updated);
             dispatch(profileEditSuccess(updated.updatedData));
-            history.push("/profile/" + username);
+            history.push('/profile/' + username);
         })
     }
     
 }
 
+const destroyProfile = (payload) => {
+    const destroyer = () => ({
+        type: "DESTROY_PROFILE",
+        payload
+    })
+
+    return dispatch => dispatch(destroyer())
+}
+
 export const profileActions = {
     fetchProfile,
-    changeData
+    changeData,
+    destroyProfile
 }

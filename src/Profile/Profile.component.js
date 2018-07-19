@@ -91,6 +91,8 @@ class Profile extends Component {
           `}
 
         </style>
+        {console.log(sessionStorage.getItem('token'), sessionStorage.getItem('username'))
+        }
         {!sessionStorage.getItem('token') ? <Redirect to= "/"/> : null }
         {this.props.profile.loading ?
       
@@ -118,7 +120,7 @@ class Profile extends Component {
                       
                       <div style={{paddingTop: "1em"}}>
                         
-                        <h3>{(this.props.profile.details.fullName || 'Adog Json')}</h3>
+                        <h3>{(this.props.profile.details.fullName)}</h3>
                         <h5 >{this.props.profile.details.email}</h5>
                       </div>
 

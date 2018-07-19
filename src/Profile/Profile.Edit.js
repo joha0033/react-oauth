@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { formActions } from "../containers/Forms/Form.actions"
 import { InputContainer } from "../containers/Forms/Inputs/Input.container"
 import SubmitComponent from "../containers/Forms/Buttons/SubmitButton.component"
-import BackButton from "../containers/Forms/Buttons/BackButton"
 import { profileActions } from "./Profile.actions";
 
 class EditProfile extends React.Component {
@@ -40,7 +40,7 @@ class EditProfile extends React.Component {
         
 
         const submitButton = (<SubmitComponent text='Submit Changes'/>)
-        const backButton = (<BackButton text='Go Back'/>)
+        const backButton = (<Link to={`/profile/${this.props.profile.details.username}`}> Back </Link>)
 
         
         return (
@@ -48,7 +48,7 @@ class EditProfile extends React.Component {
             <div >
               <style type='text/css'>
                 {`.padding {
-                    padding: 3em;
+                    padding: 2em;
                   }
                   .padding-bottom{
                     margin-bottom: 2.1em;
@@ -62,7 +62,10 @@ class EditProfile extends React.Component {
                 onSubmit={(e) => this.sendDataToStore(e)}>
                 {editProfileForm}
                 {submitButton}
+                <div className='padding'>
                 {backButton}
+                </div>
+                
               </form>
             </div>
           </div>
