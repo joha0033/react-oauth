@@ -1,23 +1,26 @@
 import React from "react";
 import { connect } from 'react-redux'
-import { formActions } from "../containers/Credentials/Forms/Form.actions"
-import { InputContainer } from "../containers/Credentials/Forms/Inputs/Input.container"
-import SubmitComponent from "../containers/Credentials/Forms/Buttons/SubmitButton.component"
+import { formActions } from "../containers/Forms/Form.actions"
+import { InputContainer } from "../containers/Forms/Inputs/Input.container"
+import SubmitComponent from "../containers/Forms/Buttons/SubmitButton.component"
+import BackButton from "../containers/Forms/Buttons/BackButton"
 import { profileActions } from "./Profile.actions";
 
 class EditProfile extends React.Component {
 
     sendDataToStore(e) {
         e.preventDefault()
-        console.log('sendDataBlah - ',e.target, this.props.form.formState.input);
+        console.log('sendDataBlah - ', this.props.form);
         const profileEdit = this.props.form.formState.input;
         this.props.change(profileEdit)
         this.props.clearForm()
       }
 
     render() {
-        let editProfileForm = Object.values(this.props.form.formProps).map((inputProps, index) => (
-            <div key={index} >
+      console.log(this.props.location);
+        let editProfileForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
+          if(inputProps.name !== 'password') {
+            return (<div key={index} >
               <InputContainer
                 label={inputProps.label}
                 name={inputProps.name}
@@ -28,21 +31,40 @@ class EditProfile extends React.Component {
                 onChange={e => this.props.handleChange(inputProps.name, e.target.value)}
               />
               <br/>
-            </div> 
-            )
-        )
+            </div>) 
+          }else{
+            return null
+          }
+          
+        })
         
 
-        const submitButton = (<SubmitComponent />)
+        const submitButton = (<SubmitComponent text='Submit Changes'/>)
+        const backButton = (<BackButton text='Go Back'/>)
+
         
         return (
-    
-          <div>            
-            <form
-              onSubmit={(e) => this.sendDataToStore(e)}>
-              {editProfileForm}
-              {submitButton}
-            </form>
+          <div >
+            <div >
+              <style type='text/css'>
+                {`.padding {
+                    padding: 3em;
+                  }
+                  .padding-bottom{
+                    margin-bottom: 2.1em;
+                }`}
+              </style>
+            </div>
+            <div className='padding padding-bottom'>
+            <h2>EDIT PROFILE DETAILS</h2>
+            <br/>
+              <form
+                onSubmit={(e) => this.sendDataToStore(e)}>
+                {editProfileForm}
+                {submitButton}
+                {backButton}
+              </form>
+            </div>
           </div>
         );
       }
@@ -70,14 +92,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     clearForm: () => {
     dispatch(formActions.clearForm())
-    },
-    // hideRegisterModal: () => {
-    // dispatch(modalActions.hideRegisterModal())
-    // },
-    // showSigninModal: () => {
-    // dispatch(modalActions.showSigninModal())
-    // }
+    }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfile)
+export default   connect(mapStateToProps, mapDispatchToProps)(EditProfile)

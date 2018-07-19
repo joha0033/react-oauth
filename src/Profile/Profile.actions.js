@@ -18,30 +18,6 @@ const profileFailure= (error) => ({
     payload: error
 })
 
-
-
-
-const fetchProfile = () => {
-    
-    const credentials = {
-        token: sessionStorage.getItem("token"),
-        username: sessionStorage.getItem("username")
-    }
-
-    return dispatch => {
-        dispatch(fetchingProfile( {credentials} ));
-        
-        profileService.fetchProfile(credentials)
-            .then((userProfile) => {
-                console.log('userProfile', userProfile);
-                
-            dispatch(profileSuccess(userProfile));
-            history.push("/profile/"+credentials.username);
-            return userProfile
-        }, (error) => dispatch(profileFailure(error)))
-    };
-}
-
 const profileEditSubmitted = (change) => {
     let token = sessionStorage.getItem('token')
     let username = sessionStorage.getItem('username')
@@ -56,6 +32,34 @@ const profileEditSubmitted = (change) => {
     }
 }
 
+
+
+
+const fetchProfile = () => {
+    
+    const credentials = {
+        token: sessionStorage.getItem("token"),
+        username: sessionStorage.getItem("username")
+    }
+
+    return dispatch => {
+        console.log('fetchprofilehit...');
+        
+        dispatch(fetchingProfile( {credentials} ));
+        
+        profileService.fetchProfile(credentials)
+            .then((userProfile) => {
+                console.log('userProfile', userProfile);
+                
+            dispatch(profileSuccess(userProfile));
+            history.push("/profile/"+credentials.username);
+            return userProfile
+        }, (error) => dispatch(profileFailure(error)))
+    };
+}
+
+
+
 const profileEditSuccess= (response) => {
     return {
         type: "PROFILE_EDIT_SUCCESS",
@@ -66,6 +70,8 @@ const profileEditSuccess= (response) => {
 const changeData = (change) => {
     let username = sessionStorage.getItem('username')
     return dispatch => {
+        console.log('71, profile Action:', change);
+        
         dispatch(profileEditSubmitted(change))
 
         profileService.editProfile(change).then((updated) => {

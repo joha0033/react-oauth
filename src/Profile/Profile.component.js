@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import EditProfile from './Profile.Edit'
 import { Redirect } from 'react-router-dom'
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
 import { profileActions } from './Profile.actions'
 import { connect } from "react-redux"
-
+import { Link, withRouter } from "react-router-dom";
+// import EditProfile from './Profile.Edit'
 /*
 PROFILE
   username - text
@@ -35,19 +35,19 @@ EDIT
   all - PUT
 
 */ 
-class Private extends Component {
 
+
+class Profile extends Component {
   componentDidMount() {
-    
     this.props.fetchProfile()
-    
   }
   
   render() {
     
     return (
-
+     
       <div >
+        
         <style type='text/css'>
           {`
           .profile {
@@ -93,7 +93,7 @@ class Private extends Component {
         </style>
         {!sessionStorage.getItem('token') ? <Redirect to= "/"/> : null }
         {this.props.profile.loading ?
-          
+      
           <h1>LOADING...</h1>
 
           :
@@ -102,7 +102,7 @@ class Private extends Component {
               <div className='overlay'>
 
                 <div className='bottomOverlay'>
-                  <Image src="https://baconmockup.com/1280/150/" responsive />
+                  <Image src="https://picsum.photos/g/1280/150/" responsive />
                 </div>
 
                 <div className='topOverlay container'>
@@ -117,9 +117,9 @@ class Private extends Component {
                       </div>
                       
                       <div style={{paddingTop: "1em"}}>
-                      {/* <h5 >{this.props.profile.details.userData.local.email}</h5> */}
-                        {/* <h3>{(this.props.profile.details.firstName || 'Adog') + ' ' + (this.props.profile.details.lastName || 'Starlord')}</h3> */}
-                        {/* <h5 >{this.props.profile.details.userData.local.email}</h5> */}
+                        
+                        <h3>{(this.props.profile.details.fullName || 'Adog Json')}</h3>
+                        <h5 >{this.props.profile.details.email}</h5>
                       </div>
 
                       
@@ -135,8 +135,8 @@ class Private extends Component {
                       </div>
 
                       <div style={{paddingTop: "1em"}}>
-                        {/* <h3>{this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</h3>
-                        <h5 >{this.props.profile.details.email}</h5> */}
+                        <h3>{this.props.profile.details.fullName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5>
                       </div>
                     </Col>
 
@@ -159,28 +159,26 @@ class Private extends Component {
                       <div>
                         <Panel >
                           <Panel.Heading >
-                            {console.log(this.props.profile.details)}
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
-                            {/* <ListGroupItem>Name: {this.props.profile.details.firstName + ' ' + this.props.profile.details.lastName}</ListGroupItem>
-                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
-                            <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
-                            {/* <ListGroupItem>{(this.props.profile.details.firstName || 'Adog') + ' ' + (this.props.profile.details.lastName || 'Starlord')}</ListGroupItem> */}
-                            {/* <ListGroupItem>Email: {this.props.profile.details.userData.local.email || 'email'}</ListGroupItem> */}
-                            {/* <ListGroupItem>Username: {this.props.profile.details.userData.username || 'email'}</ListGroupItem> */}
-                            <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
+                            <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem>
+                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem>
+                            <ListGroupItem>Number of Posts: {this.props.profile.details.posts.length}</ListGroupItem>
+                            <ListGroupItem>Member Since: data coming... </ListGroupItem>
                           </ListGroup>
                           <Panel.Body className='center'>
                             <Col xs={4} xsOffset={4}>
-                              <Button block bsStyle="primary">
-                                Edit
-                              </Button>
+                              <Link to={`${this.props.match.url}/edit`}>
+                                <Button block bsStyle="primary">
+                                  Edit
+                                </Button>
+                              </Link>
+                              
                             </Col>
 
                           </Panel.Body>
                         </Panel>
-                        <EditProfile />
                       </div>
                     </Col>
 
@@ -188,6 +186,7 @@ class Private extends Component {
                 </div>
               </div>
           </div>
+        
 
         }
       </div>
@@ -211,4 +210,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Private)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))
