@@ -334,9 +334,17 @@ class Home extends React.Component {
     // ADDING HTML/POST TO ARRAY/(POSTS TO RENDER)
       return(<div key={index}>
               <h3>{post.title}</h3>
+              {/* {console.log(post)} */}
+              {/* <p>author: {post.user_id.username}</p> */}
               <p>{post.content}</p>
               <p>{post.category}</p>
               <p>{post.level}</p>
+              {/* <span> {
+                post.comments.map(comment => {
+                  return (<h5>{comment.title}</h5>)
+                })
+              } </span> */}
+              {/* {console.log(post.comments)} */}
             </div>)
     }) // END OF POST TO RENDER
 
