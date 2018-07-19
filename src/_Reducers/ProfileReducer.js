@@ -1,4 +1,3 @@
-
 export const profile = (
 	state = {loading: true},
 	action
@@ -7,8 +6,7 @@ export const profile = (
 	case "FETCHING_PROFILE":
 		return {
 			...state,
-			loading: true,
-			credentials: action.payload.credentials
+			loading: true
 		};
 	case "PROFILE_SUCCESS":
 		return {
@@ -18,7 +16,14 @@ export const profile = (
 			details: action.payload
 		}
 	case "PROFILE_FAILURE":
-		return {};
+		return { 
+			loading: false,
+			error: action.payload
+		 }
+	case "DESTROY_PROFILE":
+		return { 
+			destroyed: action.payload
+		};
 	case "PROFILE_EDIT_SUBMITTED":
 		return {
 			...state,
