@@ -18,13 +18,16 @@ class Dropdown extends Component{
             this.props.isLoggedIn === true ?
 
 
-              <NavDropdown eventKey={3} title="Welcome" id="basic-nav-dropdown">
+              <NavDropdown eventKey={3} title={ username + ' does ' || "Welcome"} id="basic-nav-dropdown">
 
                   <LinkContainer activeClassName='' to={`/profile/${username}`}>
                     {(<MenuItem >{
-                      !!username
-                      ? username // FIX
-                      : 'Profile'
+                      'a PROFILE peek'
+                      }</MenuItem>)}
+                  </LinkContainer>
+                  <LinkContainer activeClassName='' to={`/profile/${username}`}>
+                    {(<MenuItem >{
+                      'a new POST'
                       }</MenuItem>)}
                   </LinkContainer>
                 <MenuItem divider />
@@ -35,7 +38,7 @@ class Dropdown extends Component{
                       this.props.logout()
                       this.props.destroyProfile(true)
                       }}>
-                    Signout
+                    a signout.
                   </MenuItem>
 
               </NavDropdown>
@@ -57,6 +60,8 @@ class Dropdown extends Component{
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
+  
   const { loggedIn } = state.credentials
   const { profile } = state
   return {

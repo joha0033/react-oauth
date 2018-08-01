@@ -106,7 +106,8 @@ class Home extends React.Component {
         // ///////////////////////
         // CREATE THE FILTER GROUP
         const filterGroupArray = filterGroupCreator(filterGroupKeys, posts)
-
+        console.log(filterGroupArray);
+        
         // ///////////////////////
         // SET STATE FOR POST DISPLAY
         this.setState({filterGroups: this.state.filterGroups.concat(filterGroupArray)})
@@ -137,7 +138,8 @@ class Home extends React.Component {
   *
   */
   sideBarCreator(){
-
+    console.log(this.state.posts);
+    
     ////////////////////////////////////////////////
     // CREATE A NEW ARRAY OUT OF FILTER GROUP STATE
     const filterArray = this.state.filterGroups
@@ -174,7 +176,7 @@ class Home extends React.Component {
           ///////////////////////////////
           // IF ELEMENT IS A SEARCH INPUT
           return element === 'input'
-
+            // ? null
             ////////////////////
             // CREATE INPUT BOX
             ? ( <FormControl
@@ -538,7 +540,7 @@ class Home extends React.Component {
 
             {/* SIDENAV */}
 
-            <Col xs={2}>
+            <Col xs={3}>
 
               <SideNav>
 
@@ -570,7 +572,7 @@ class Home extends React.Component {
 
             {/* POSTS */}
 
-            <Col xs={8}>
+            <Col xs={7}>
 
               <PostLink>
 

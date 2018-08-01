@@ -6,11 +6,13 @@ export const modal = (
 	case "SHOW_SIGNIN_MODAL":
 		return {
 			...state,
+			showRegisterModal: !action.payload,
 			showSigninModal: action.payload
 		};
 	case "SHOW_REGISTER_MODAL":
 		return {
 			...state,
+			showSigninModal: !action.payload,
 			showRegisterModal: action.payload
 		};
 	case "HIDE_SIGNIN_MODAL":

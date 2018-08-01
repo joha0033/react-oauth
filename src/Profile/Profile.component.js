@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
 import { profileActions } from './Profile.actions'
 import { connect } from "react-redux"
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import EditProfile from './Profile.Edit'
 /*
 PROFILE
@@ -108,7 +108,7 @@ class Profile extends Component {
               <div className='overlay'>
 
                 <div className='bottomOverlay'>
-                  <Image src="https://picsum.photos/g/1280/150/" responsive />
+                  <Image src="https://picsum.photos/g/1280/200/" responsive />
                 </div>
 
                 <div className='topOverlay container'>
@@ -162,15 +162,16 @@ class Profile extends Component {
                       </Col>
 
 
-                      <div>
+                      <div style={{paddingBottom: "4em"}}>
                         <Panel >
                           <Panel.Heading >
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
                             <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem>
+                            <ListGroupItem>Username: {this.props.profile.details.username}</ListGroupItem>
                             <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem>
-                            <ListGroupItem>Number of Posts: {this.props.profile.details.posts.length}</ListGroupItem>
+                            <ListGroupItem>Number of <Link to={`/profile/${this.props.profile.details.username}/posts`}>Posts</Link> : {this.props.profile.details.posts.length}</ListGroupItem>
                             <ListGroupItem>Member Since: data coming... </ListGroupItem>
                           </ListGroup>
                           <Panel.Body className='center'>
@@ -216,4 +217,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

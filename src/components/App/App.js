@@ -13,6 +13,7 @@ import Signin from '../../containers/Modals/Modal.containers/SigninModal.contain
 import Register from '../../containers/Modals/Modal.containers/RegisterModal.container'
 import PrivateRoute from '../../Profile/Profile.Redirect'
 import EditPrivateRoute from '../../Profile/Profile.Edit.Redirect'
+import PostsPrivateRoute from '../../containers/Profile/PostPage/Post'
 
 const App = () =>  (
   <div>
@@ -24,12 +25,17 @@ const App = () =>  (
         <Route path='/' component={Register} />
         <Route exact path='/' component={Home} />
         <Route path='/home' component={Home} />
+
         <Route exact path='/profile/:username' render={(props) => {
           return <PrivateRoute {...props} />
         }}/>
         <Route exact path='/profile/:username/edit' render={(props) => {
           return <EditPrivateRoute {...props} />
         }}/>
+        <Route exact path='/profile/:username/posts' render={(props) => {
+          return <PostsPrivateRoute {...props} />
+        }}/>
+        
         <Route path='/about' component={About}/>
       </div>
 
