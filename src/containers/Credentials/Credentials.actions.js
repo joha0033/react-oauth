@@ -71,14 +71,24 @@ const login = (email, password) => {
 					setTimeout( ( ) => {
 						dispatch(modalActions.hideSigninModal())
 						dispatch(credentialsLoadingFinished())
-					}, 1200)//for progress bar
-					// dispatch(modalActions.hideSigninModal())
+					}, 1200)//for SPINNER!
 					history.push('/profile/'+sessionStorage.getItem('username'));
-				},
+				}
+			)
+			.then(
+				dispatch(modalActions.hideSigninModal())
+			)
+			.catch(
 				error => {
 					dispatch(credentialsFailure(error));
+					return error === 'Unauthorized' // response from passport when credentials are not matching
+						? ( alert(`${error}: Wrong Credentials`),
+							dispatch(modalActions.showSigninModal()))
+						: ( history.push('/About'),
+							alert('There seems to be an error with our servers, please try again later'),
+							console.error('There was an error', error))
 				}
-			);
+			)
 	};
 }
 

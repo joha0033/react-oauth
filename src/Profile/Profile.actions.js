@@ -1,4 +1,5 @@
 import { profileService } from './Profile.service'
+import { credentialActions } from '../containers/Credentials/Credentials.actions'
 // import { signinService } from '../containers/Credentials/Signin/signinService'
 import history from '../_Helpers/history.js';
 
@@ -87,20 +88,12 @@ const fetchProfile = (token, home) => {
                 dispatch(profileSuccess(userProfile));
                 return userProfile
             }, (error) => {
+                dispatch(credentialActions.logout())
+                history.push('/About')
                 sessionStorage.clear()
                 dispatch(profileFailure(error))
             }).then((userProfile) => {
                     return userProfile
-        })
-        .then(() => {
-            profileService.fetchUsersPosts(token) // Do i stil need to do this?
-            .then((userPosts) => {
-                dispatch(usersPostSuccess(userPosts));
-                return userPosts
-            }, (error) => {
-                sessionStorage.clear()
-                dispatch(userPostFailure(error))
-            })
         })
     };
 }

@@ -8,6 +8,7 @@ let token = sessionStorage.getItem('token')
 // 	: null
 
 
+console.log('AREGJAEK',token);
 
 // commenting out ternary for token to try and fix server failure catch....wait n/m for now
 initialState = token ? { loggedIn: true, token, loading: false } : { loggedIn: false };
