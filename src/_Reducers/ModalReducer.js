@@ -9,6 +9,11 @@ export const modal = (
 			showRegisterModal: !action.payload,
 			showSigninModal: action.payload
 		};
+	case "SHOW_MODAL":
+		return {
+			...state,
+			type: action.payload
+		};
 	case "SHOW_REGISTER_MODAL":
 		return {
 			...state,

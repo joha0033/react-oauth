@@ -1,15 +1,16 @@
 
-const fetchProfile = (credentials) => {
+const fetchProfile = (token) => {
     let options = {
       headers: {
-        authorization: credentials.token
+        authorization: token
       }
     }
-
-    let URL = `http://localhost:5000/users/profile/${credentials.username}`
+    
+    let URL = `http://localhost:5000/users/profile/`
     
     return fetch(URL, options)
         .then(response => {
+            
             if (!response.ok) { 
                 return Promise.reject(response.statusText);
             }
@@ -23,23 +24,44 @@ const fetchProfile = (credentials) => {
         });
 }
 
-const editProfile = (changes) => {
-    let token = sessionStorage.getItem('token')
-    let username = sessionStorage.getItem('username')
-    let credentials = {
-        token,
-        username
+const fetchUsersPosts = (token) => {
+    let options = {
+      headers: {
+        authorization: token
+      }
     }
+    
+    let URL = `http://localhost:5000/users/profile/posts`
+    
+    return fetch(URL, options)
+        .then(response => {
+            if (!response.ok) { 
+                return Promise.reject(response.statusText);
+            }
+
+            return response.json();
+        })
+        .then(response => {
+            if (response) {
+                return response.posts
+            }
+
+            return null
+        });
+}
+
+const editProfile = (changes, token) => {
+    
     let options = {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json',
-            'authorization': sessionStorage.getItem('token')
+            'authorization': token
         },
         body: JSON.stringify(changes)
     }
 
-    let URL = `http://localhost:5000/users/profile/${sessionStorage.getItem('username')}/edit`
+    let URL = `http://localhost:5000/users/profile/edit`
     
     return fetch(URL, options)
         .then(response => {
@@ -49,7 +71,7 @@ const editProfile = (changes) => {
             return response.json();
         })
         .then(response => {
-            let newProfile = fetchProfile(credentials).then(res => res.json)
+            let newProfile = fetchProfile(token).then(res => res.json)
             let updatedProfile = {
                 data: newProfile, 
                 response
@@ -63,5 +85,6 @@ const editProfile = (changes) => {
 
 export const profileService = {
     fetchProfile,
-    editProfile
+    editProfile,
+    fetchUsersPosts
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import history from '../_Helpers/history'
 // ADD PRETTIER AND FLOW??
 
 // FETCH ALL POSTS
@@ -17,6 +17,7 @@ import { filterGroupCreator } from './Helpers/filterGroupCreator'
 
 // BOOTSTRAP STYLE TAGS
 import {
+  // Alert,
   Pagination,
   FormControl,
   Checkbox,
@@ -68,7 +69,7 @@ class Home extends React.Component {
   */
   componentDidMount() {
     
-    return this.fetchPosts()
+    this.fetchPosts()
 
   } // END OF COMPONENT WILL MOUNT
 
@@ -94,7 +95,8 @@ class Home extends React.Component {
       
       
       const posts = fillsBlankData(result)
-  
+      console.log(posts);
+      
       // /////////////////////////////
       // FILL FILTER CRITERIA IF EMPTY
       if (this.state.filterGroups.length === 1) {
@@ -106,7 +108,6 @@ class Home extends React.Component {
         // ///////////////////////
         // CREATE THE FILTER GROUP
         const filterGroupArray = filterGroupCreator(filterGroupKeys, posts)
-        console.log(filterGroupArray);
         
         // ///////////////////////
         // SET STATE FOR POST DISPLAY
@@ -125,7 +126,11 @@ class Home extends React.Component {
               searchCriteriaFromState
             )})
             
-    }).catch(alert)
+    }).catch((alert) => {
+      history.push('/About')
+      window.alert('401 status: Our servers may be down, please try back again later')
+      return alert
+    })
 
   } // END OF FETCH POSTS
 
@@ -138,7 +143,25 @@ class Home extends React.Component {
   *
   */
   sideBarCreator(){
-    console.log(this.state.posts);
+
+
+
+    // QUICK DISPLAY FIX FOR NO SERVER RESPONSE
+    // if( this.state.posts.length === 0 ) {
+    //   console.log('ok then');
+    //   return (
+    //     <Alert bStyle='danger'>
+    //       <h1>OMG... our servers may be down...</h1>
+    //       <h2> Please try back again later.</h2>
+    //     </Alert>
+        
+    //   )
+      
+    // }
+
+
+
+
     
     ////////////////////////////////////////////////
     // CREATE A NEW ARRAY OUT OF FILTER GROUP STATE
@@ -222,7 +245,7 @@ class Home extends React.Component {
   *
   */
   sendSearchEventValue(input) {
-
+    this.setState({currentPage: 1})
     ///////////////
     // SEARCH INPUT
     input = input.split(' ')
@@ -245,7 +268,7 @@ class Home extends React.Component {
   *
   */
   filterGroupUpdate(filterType) {
-
+    this.setState({currentPage: 1})
     ////////////////////////////////////////////////
     //CREATE A NEW ARRAY OF FILTER GROUPS FROM STATE
     const newArray = this.state.filterGroups
@@ -320,6 +343,18 @@ class Home extends React.Component {
   *
   */
   postsMap() {
+
+    // if( this.state.posts.length === 0 ) {
+    //   console.log('ok then');
+    //   return (
+    //     <Alert>
+    //       <h1>OMG... our servers may be down...</h1>
+    //       <h2> Please try back again later.</h2>
+    //     </Alert>
+        
+    //   )
+      
+    // }
 
     /////////////////////////////////////////////////////////////////
     // CREATES AN ARRAY FROM STATE THAT SPLITS UP POSTS FOR PAGINATION

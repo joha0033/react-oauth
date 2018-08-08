@@ -14,14 +14,16 @@ import Profile from '../Profile/Profile.component'
                         <Route exact to='/profile/:username' component={Profile}/>
                     </div>
                 ) : (
+                    // <div>!@#$!!#@$LOADING!@#@!#$%</div>
                     <Redirect
                       to={{
                         pathname: "/",
-                        state: { from: this.props.location }
+                        // state: { from: this.props.location }
                       }}
                     />)
-                  )}
-                }
+                    
+            )}
+    }
               
   
 

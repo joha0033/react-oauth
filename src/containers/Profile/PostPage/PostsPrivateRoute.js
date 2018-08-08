@@ -1,15 +1,29 @@
 import React, { Component } from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Posts from './Post'
 
 class PostsPrivateRoute extends Component {
+    componentDidCatch() {
+        console.log('fetching?!');
+        
+        this.fetchPosts()
+    }
+    fetchPosts() {
+        const { token, username } = this.props.credentials
+        // this.props.fetchingUsersPosts()
+        // this.props.fetchUsersPosts(token, username)
+        // this.props.clearForm()
+    }
+
     render(){
+        console.log('provate posts');
+        
         return (
-            this.props.profile.success === true ? (
+            this.props.profile.success === true? (
                 <div>
-                    {console.log(this.props)}
-                    <Route exact to={this.props.profile.details.username} component={Posts}/>
+                    {console.log('PRIVATE POST',this.props)}
+                    <Route component={Posts}/>
                 </div>
             ) : (
                 <Redirect
@@ -31,4 +45,15 @@ class PostsPrivateRoute extends Component {
     }
   }
 
-  export default connect(mapStateToProps)(PostsPrivateRoute)
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      fetchingUsersPosts: () => {
+        dispatch(profileActions.fetchingUsersPosts())
+      },
+      fetchUsersPosts: (token, username) => {
+        dispatch(profileActions.fetchUsersPosts(token, username))
+      }
+    }
+  }
+
+  export default withRouter(connect(mapStateToProps)(PostsPrivateRoute))

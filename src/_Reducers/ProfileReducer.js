@@ -1,5 +1,13 @@
 export const profile = (
-	state = {loading: true, destroyed: false},
+	state = {
+		loading: true, 
+		destroyed: false, 
+		posts: {
+			loading: true, 
+			posts: null
+		}, 
+		details: null
+	},
 	action
 ) => {
 	switch (action.type) {
@@ -24,10 +32,34 @@ export const profile = (
 			error: action.payload
 		 }
 	case "DESTROY_PROFILE":
-		return { 
+		return {
 			loading: false,
 			destroyed: true
-		};
+		}
+	case "FETCHING_USERS_POSTS":
+		return {
+			...state,
+			posts: {
+				loading: true,
+				posts: null
+			},
+			credentials: action.payload
+		}
+	case "USER_POSTS_SUCCESS":
+		return {
+			...state,
+			posts: {
+				loading: false,
+				data: action.payload
+			}
+		}
+	case "USER_POSTS_FAILURE":
+		return {
+			...state,
+			loading: true,
+			changes: action.payload,
+			credentials: action.credentials
+		}
 	case "PROFILE_EDIT_SUBMITTED":
 		return {
 			...state,

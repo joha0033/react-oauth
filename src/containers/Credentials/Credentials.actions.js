@@ -16,6 +16,10 @@ const credentialsFailure = (error) => ({
     payload: error
 })
 
+const credentialsLoadingFinished = ( token ) => ({ 
+    type: "CREDENTIALS_LOADING_FINISHED"
+})
+
 const register = (newUser) => {
 	
 	const { 
@@ -34,11 +38,16 @@ const register = (newUser) => {
 
 		registerService.register(firstName, lastName, email, password)
 			.then(
-				token => {
+				(token, username) => {
 					dispatch(credentialSuccess(token));
+					sessionStorage.setItem('token', token)
+					sessionStorage.setItem('username', username)
 					dispatch(profileActions.fetchingProfile())
 					dispatch(modalActions.hideRegisterModal())
-					history.push("/profile/" + sessionStorage.getItem("username"));
+					// history.goBack() //profile push below adds 2 arguments of the instance
+					// history.push("/profile/" + sessionStorage.getItem("username"));
+					history.push("/profile/");
+					
 				},
 				error => {
 					dispatch(credentialsFailure(error));
@@ -48,18 +57,23 @@ const register = (newUser) => {
 }
 
 const login = (email, password) => {
-
-	const credentials = email
-
+	
 	return dispatch => {
-		dispatch(checkingCredentials({ credentials }));
-
+		dispatch(checkingCredentials(email));
+		
 		signinService.login(email, password)
 			.then(
-				token => {
-					dispatch(credentialSuccess(token));
-					dispatch(modalActions.hideSigninModal())
-					history.push('/profile/' + sessionStorage.getItem("username"));
+				response => {
+					const { token, username } = response
+					// HIDE LOADER SHOW SUCCESS CHECKBOX?
+					dispatch(credentialSuccess({ token, username }));
+					dispatch(profileActions.fetchingProfile())
+					setTimeout( ( ) => {
+						dispatch(modalActions.hideSigninModal())
+						dispatch(credentialsLoadingFinished())
+					}, 1200)//for progress bar
+					// dispatch(modalActions.hideSigninModal())
+					history.push('/profile/'+sessionStorage.getItem('username'));
 				},
 				error => {
 					dispatch(credentialsFailure(error));

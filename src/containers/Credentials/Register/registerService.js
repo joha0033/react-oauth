@@ -1,5 +1,4 @@
-const register = (firstName, lastName, email, password) => { 
-	console.log(firstName, lastName, email, password);
+const register = (firstName, lastName, email, password) => {
 	   
 	const requestOptions = {
 		method: "POST",
@@ -24,7 +23,6 @@ const register = (firstName, lastName, email, password) => {
 		.then(response => {
             
 			if (response.token) {
-				console.log(response);
 				
 				// store user details and jwt token in local storage to keep user logged in between page refreshes
 				sessionStorage.setItem("token", response.token);

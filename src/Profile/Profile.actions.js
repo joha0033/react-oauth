@@ -2,25 +2,49 @@ import { profileService } from './Profile.service'
 // import { signinService } from '../containers/Credentials/Signin/signinService'
 import history from '../_Helpers/history.js';
 
-const fetchingProfile = (credentials) => ({
+const fetchingProfile = (token, username) => ({
     type: 'FETCHING_PROFILE',
-    // payload: credentials
+    payload: {
+        username, 
+        token
+    }
 })
+
 const profileSuccess = (userProfile) => {
     return {
         type: 'PROFILE_SUCCESS',
         payload: userProfile
     }
 }
+
 const profileFailure = (error) => ({
     type: 'PROFILE_FAILURE',
     payload: error
 })
 
-// const profileDestroy = (msg) => ({
-//     type: 'PROFILE_DESTROY',
-//     payload: msg
-// })
+const fetchingUsersPosts = (token, username) => {
+    return {
+        type: 'FETCHING_USERS_POSTS',
+        payload: {
+            username, 
+            token
+        }
+    }
+}
+
+const usersPostSuccess = (usersPosts) => {
+    return {
+        type: 'USER_POSTS_SUCCESS',
+        payload: usersPosts
+    }
+}
+
+const userPostFailure = (error) => {
+    return {
+        type: 'USER_POSTS_FAILURE',
+        payload: error
+    }
+}
 
 const profileEditSubmitted = (change) => {
     let token = sessionStorage.getItem('token')
@@ -36,41 +60,47 @@ const profileEditSubmitted = (change) => {
     }
 }
 
-// const profileDestroyer = () => {
-
-// 	const destroyingProfile = () => ({
-// 		type: "PROFILE_DESTROY",
-// 		payload: false
-// 	})
-
-// 	signinService.logout(); // clears local stroage
-	
-// 	return dispatch => {
-// 		dispatch(destroyingProfile());
-// 	};
-	
-// }
-
-
-
-
-const fetchProfile = () => {
-    const credentials = {
-        token: sessionStorage.getItem('token'),
-        username: sessionStorage.getItem('username')
-    }
-    
+const fetchUsersPosts = (token) => {
     return dispatch => {
-        // dispatch(fetchingProfile( {credentials} ));
+        dispatch(fetchingUsersPosts())
+        profileService.fetchUsersPosts(token)
+            .then((userPosts) => {
+                dispatch(usersPostSuccess(userPosts));
+                return userPosts
+            }, (error) => {
+                sessionStorage.clear()
+                history.push('../home')
+                dispatch(userPostFailure(error))
+            })
+            .then((userProfile) => {
+            return userProfile
+        })
+    }
+}
+
+const fetchProfile = (token, home) => {
+    return dispatch => {
         dispatch(fetchingProfile());
         
-        profileService.fetchProfile(credentials)
+        profileService.fetchProfile(token)
             .then((userProfile) => {
                 dispatch(profileSuccess(userProfile));
-                // return userProfile
-            }, (error) => dispatch(profileFailure(error))).then((userProfile) => {
-                history.push('/profile/' + credentials.username);
                 return userProfile
+            }, (error) => {
+                sessionStorage.clear()
+                dispatch(profileFailure(error))
+            }).then((userProfile) => {
+                    return userProfile
+        })
+        .then(() => {
+            profileService.fetchUsersPosts(token) // Do i stil need to do this?
+            .then((userPosts) => {
+                dispatch(usersPostSuccess(userPosts));
+                return userPosts
+            }, (error) => {
+                sessionStorage.clear()
+                dispatch(userPostFailure(error))
+            })
         })
     };
 }
@@ -84,16 +114,16 @@ const profileEditSuccess= (response) => {
     }
 }
 
-const changeData = (change) => {
+const changeData = (change, token) => {
     let username = sessionStorage.getItem('username')
     return dispatch => {
-        console.log('71, profile Action:', change);
         
         dispatch(profileEditSubmitted(change))
 
-        profileService.editProfile(change).then((updated) => {
+        profileService.editProfile(change, token).then((updated) => {
             console.log('updated', updated);
             dispatch(profileEditSuccess(updated.updatedData));
+            //
             history.push('/profile/' + username);
         })
     }
@@ -113,5 +143,7 @@ export const profileActions = {
     fetchingProfile,
     fetchProfile,
     changeData,
-    destroyProfile
+    destroyProfile,
+    fetchingUsersPosts,
+    fetchUsersPosts
 }

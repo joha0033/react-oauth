@@ -12,7 +12,10 @@ class EditProfile extends React.Component {
         e.preventDefault()
         console.log('sendDataBlah - ', this.props.form);
         const profileEdit = this.props.form.formState.input;
-        this.props.change(profileEdit)
+        const token = this.props.credentials.token
+        console.log('TOKEN____',token);
+        
+        this.props.change(profileEdit, token)
         this.props.clearForm()
       }
 
@@ -73,11 +76,12 @@ class EditProfile extends React.Component {
     }
     
 const mapStateToProps = (state) => {
-  const {  user, form, profile } = state;
+  const {  user, form, profile, credentials } = state;
   return {
     user,
     form,
-    profile
+    profile,
+    credentials
   }
 }
 

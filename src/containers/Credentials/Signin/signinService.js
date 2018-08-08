@@ -1,4 +1,6 @@
-const login = (email, password) => {    
+const login = (email, password) => { 
+	console.log(email, password);
+	   
 	const requestOptions = {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -9,7 +11,6 @@ const login = (email, password) => {
 		URL = "http://localhost:5000/users/signin" :
 		URL = "https://murmuring-everglades-26713.herokuapp.com/users/signin";
 
-
 	return fetch(URL, requestOptions)
 		.then(response => {
 			if (!response.ok) { 
@@ -19,7 +20,7 @@ const login = (email, password) => {
 		})
 		.then(response => {
 			if (response.token) {
-				console.log('response signin service', response);
+				console.log(response);
 				
 				// store user details and jwt token in local storage to keep user logged in between page refreshes
 				sessionStorage.setItem("token", response.token);

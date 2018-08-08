@@ -6,6 +6,7 @@
     "bootstrap": "^3.3.7",
     "env-cmd": "^8.0.1",
     "prop-types": "^15.6.1",
+    "rc-progress": "^2.2.5",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",

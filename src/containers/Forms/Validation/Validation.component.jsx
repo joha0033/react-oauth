@@ -1,14 +1,15 @@
 import React from 'react'
-import { Alert } from 'react-bootstrap'
+// import { Alert } from 'react-bootstrap'
 
-import { Styling } from "./Validation.style"
+// import { Styling } from "./Validation.style"
 
 const ValidationComponent = (
     Component
     ) => (
     props
-    ) => (
-      <div>
+    ) => {
+      
+     return ( <div>
         { props.error ? 
         // <Styling>
           // <Alert className="warning" >
@@ -17,7 +18,8 @@ const ValidationComponent = (
         // </Styling>
          : 
         <br/>}
-      </div>
-)
+      </div>)
+    }
+      
 
 export default ValidationComponent

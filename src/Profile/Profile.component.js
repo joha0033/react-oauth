@@ -2,51 +2,20 @@ import React, {Component} from 'react';
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
 import { profileActions } from './Profile.actions'
 import { connect } from "react-redux"
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import history from "../_Helpers/history.js";
 // import EditProfile from './Profile.Edit'
-/*
-PROFILE
-  username - text
-  password - bcrypt
-  email - email/FB
-  picture - jpg/S3
-  about - text
-  location - text/FB
 
-DEV DEETS
-  join date  - date 
-  started dev-ing date
-  languages - text (recommend videos/articles)
-  projects - git/links
-  tutorials - links (created/completed)
-  portfolio site - link
-  soicalMedia - links/FB
-  dreamJob - text
-  currentJob - text/FB
-  seekingJob - text
-  recommended content - links
-
-ACTIVITY
-  tutorials completed - int
-  tutorials written/views - int
-
-EDIT
-  all - PUT
-
-*/ 
 
 
 class Profile extends Component {
-  constructor(props){
-    super(props)
-    this.state ={
-      authorized: false
-    }
-  }
   componentDidMount() {
-    
-    this.props.fetchProfile()
+    console.log(history);
+    let token = this.props.credentials.token
+    return this.props.fetchProfile(token)
+
   }
+
   render() {
     
     return (
@@ -96,7 +65,6 @@ class Profile extends Component {
           `}
 
         </style>
-        
         {this.props.profile.loading ?
           
          (<h1>LOADING...</h1>)
@@ -124,8 +92,8 @@ class Profile extends Component {
                       
                       <div style={{paddingTop: "1em"}}>
                         
-                        <h3>{(this.props.profile.details.fullName)}</h3>
-                        <h5 >{this.props.profile.details.email}</h5>
+                        {/* <h3>{(this.props.profile.details.fullName || null)}</h3>
+                        <h5 >{this.props.profile.details.email || null}</h5> */}
                       </div>
 
                       
@@ -141,8 +109,8 @@ class Profile extends Component {
                       </div>
 
                       <div style={{paddingTop: "1em"}}>
-                        <h3>{this.props.profile.details.fullName}</h3>
-                        <h5 >{this.props.profile.details.email}</h5>
+                        {/* <h3>{this.props.profile.details.fullName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5> */}
                       </div>
                     </Col>
 
@@ -168,10 +136,11 @@ class Profile extends Component {
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
-                            <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem>
+                            {/* <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem>
                             <ListGroupItem>Username: {this.props.profile.details.username}</ListGroupItem>
-                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem>
-                            <ListGroupItem>Number of <Link to={`/profile/${this.props.profile.details.username}/posts`}>Posts</Link> : {this.props.profile.details.posts.length}</ListGroupItem>
+                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
+                            
+                            <ListGroupItem>Number of <Link to={`${this.props.match.url}/posts`}>Posts</Link> : {this.props.profile.details.posts.length}</ListGroupItem>
                             <ListGroupItem>Member Since: data coming... </ListGroupItem>
                           </ListGroup>
                           <Panel.Body className='center'>
@@ -180,6 +149,7 @@ class Profile extends Component {
                                 <Button block bsStyle="primary">
                                   Edit
                                 </Button>
+                                
                               </Link>
                               
                             </Col>
@@ -193,8 +163,6 @@ class Profile extends Component {
                 </div>
               </div>
           </div>
-        
-
         }
       </div>
 
@@ -203,8 +171,9 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { profile } = state
+  const { credentials, profile } = state
   return {
+    credentials,
     profile
   }
 };
@@ -217,4 +186,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))

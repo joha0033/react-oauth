@@ -7,18 +7,18 @@ const URL = () => process.env.NODE_ENV === 'development' ?
 export const Post = {
 
   fetchAllPosts: async (req, res, next) =>{
-    
-    let response = await fetch(URL())
-    
-    
-    let posts = response.json()
+    try{
+      let response = await fetch(URL())
+      
+      let posts = response.json()
 
-    if(response.status === 200 || response.status === 201) {
-      return posts;
+      if(response.status === 200 || response.status === 201) {
+        return posts;
+      }
+    } catch(err) {
+      console.error('Our servers may be down, please try again later. Error:', err);
+      throw new Error(err.message);
     }
-
-    throw new Error(response.status);
-
   }
 
 }

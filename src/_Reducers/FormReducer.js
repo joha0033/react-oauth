@@ -3,13 +3,12 @@ import { inputProps, stateData } from "../_Helpers/CredentialsFormData"
 // change developmentRegisterData TO developmentEditData, below when testing edit
 import {  developmentRegisterData } from "../_Helpers/DevelopmentFormData"
 
-console.log(process.env.NODE_ENV);
-
 let envDev = process.env.NODE_ENV
 
 const initialState = {
 	formProps: inputProps,
 	formState: envDev ? developmentRegisterData : stateData,
+	// formState: stateData,
 	registerFormInput: {}
 }
 
@@ -32,11 +31,6 @@ export const form = (
 				
 		}
 	case "BLUR_CHANGE":
-		console.log(action.payload);
-		console.log(state.formState.input);
-		console.log(state.formState.input[action.payload]);
-		
-		
 		return state.formState.input[action.payload] !== "" ?
 		{
 			...state,

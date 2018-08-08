@@ -9,20 +9,23 @@ import About from '../About/About';
 import Home from '../../Home/Home';
 import Footer from '../Footer/Footer.jsx';
 import Header from '../Header/Header'
-import Signin from '../../containers/Modals/Modal.containers/SigninModal.container'
-import Register from '../../containers/Modals/Modal.containers/RegisterModal.container'
+import SigninModalContainer from '../../containers/Modals/Modal.containers/SigninModal.container'
+// import ModalContainer from '../../containers/Modals/Modal.containers/'
+import RegisterModalContainer from '../../containers/Modals/Modal.containers/RegisterModal.container'
 import PrivateRoute from '../../Profile/Profile.Redirect'
 import EditPrivateRoute from '../../Profile/Profile.Edit.Redirect'
 import PostsPrivateRoute from '../../containers/Profile/PostPage/Post'
+import {  withRouter } from 'react-router-dom'
 
-const App = () =>  (
+const App = (props) =>  (
   <div>
     <div className='App'>
       <Route path='/' component={Header} />
 
       <div className='App-intro'>
-        <Route path='/' component={Signin} />
-        <Route path='/' component={Register} />
+        <Route path='/' component={SigninModalContainer} />
+        {/* <Route path='/' component={ModalContainer} /> */}
+        <Route path='/' component={RegisterModalContainer} />
         <Route exact path='/' component={Home} />
         <Route path='/home' component={Home} />
 
@@ -33,6 +36,8 @@ const App = () =>  (
           return <EditPrivateRoute {...props} />
         }}/>
         <Route exact path='/profile/:username/posts' render={(props) => {
+          console.log('private post hit');
+          
           return <PostsPrivateRoute {...props} />
         }}/>
         
@@ -45,4 +50,4 @@ const App = () =>  (
 
 );
 
-export default (App)
+export default withRouter(App)

@@ -10,27 +10,33 @@ class Dropdown extends Component{
 
 
     render() {
+      const adminLink = () => {
+        return (
+          <LinkContainer activeClassName='' to={`/profile/${username}`}>
+                    {(<MenuItem >{
+                      'Admin'
+                      }</MenuItem>)}
+                  </LinkContainer>
+                
+        )
+      }
       let username = sessionStorage.getItem('username')
       return (
         
         <Nav pullRight>
           {
-            this.props.isLoggedIn === true ?
+            this.props.credentials.loggedIn === true ?
 
 
-              <NavDropdown eventKey={3} title={ username + ' does ' || "Welcome"} id="basic-nav-dropdown">
+              <NavDropdown eventKey={3} title={ username} id="basic-nav-dropdown">
 
                   <LinkContainer activeClassName='' to={`/profile/${username}`}>
                     {(<MenuItem >{
-                      'a PROFILE peek'
+                      'YOUR PROFILE'
                       }</MenuItem>)}
                   </LinkContainer>
-                  <LinkContainer activeClassName='' to={`/profile/${username}`}>
-                    {(<MenuItem >{
-                      'a new POST'
-                      }</MenuItem>)}
-                  </LinkContainer>
-                <MenuItem divider />
+                  {adminLink()}
+                  <MenuItem divider />
 
                   <MenuItem
                     eventKey={3.2}
@@ -47,7 +53,9 @@ class Dropdown extends Component{
 
               <NavDropdown eventKey={3} title="you can..." id="basic-nav-dropdown">
                   <MenuItem eventKey={3.1} onClick={this.props.showSigninModal}>Signin (existing users)</MenuItem>
+                  {/* <MenuItem eventKey={3.1} onClick={() => this.props.showCredentialsModal('signin')}>Signin (TEST)</MenuItem> */}
                   <MenuItem eventKey={3.2} onClick={this.props.showRegisterModal}>Register (new users)</MenuItem>
+                  {/* <MenuItem eventKey={3.2} onClick={() => {this.props.showCredentialsModal('register')}}>Register (TEST)</MenuItem> */}
               </NavDropdown>
 
           }
@@ -60,18 +68,18 @@ class Dropdown extends Component{
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
-  
-  const { loggedIn } = state.credentials
-  const { profile } = state
+  const { profile, credentials } = state
   return {
-    isLoggedIn: loggedIn,
+    credentials,
     profile
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    // showCredentialsModal: (type) => {
+    //   dispatch(modalActions.showCredentialsModal(type))
+    // },
     showSigninModal: () => {
       dispatch(modalActions.showSigninModal())
     },
