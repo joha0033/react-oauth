@@ -9,10 +9,12 @@ import SubmitComponent from "../../Forms/Buttons/SubmitButton.component"
 import { modalActions } from "../../Modals/Modal.actions"
 import ValidationComponent from '../../Forms/Validation/Validation.container';
 // import { Link } from 'react-router-dom'
-import ProgressBar from '../../../_Helpers/ProgressBar'
 
 class Signin extends React.Component {
-
+    componentDidMount() {
+        // console.log('CredentialsForm - ',this.props.form);
+        
+    }
   ///////////////
   // SIGNUP FLOW
   sendDataToStore(e) {
@@ -39,8 +41,10 @@ class Signin extends React.Component {
         errorMessage :
         null
     }
+
     
-    let signinForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
+    
+    let CredentialsForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
       return inputProps.required ?
       (
         <div key={index} >
@@ -58,28 +62,6 @@ class Signin extends React.Component {
         ) : null
       }
     )
-
-    const signinDisplay = () => {
-      if( this.props.credentials.loading ){
-        return (<ProgressBar/>)
-      }else{
-        return (
-          <div>
-            <ValidationComponent message={'Invalid Credentials'}/>
-            {signinForm}
-            {submitButton}
-            <a onClick={() => {
-                this.props.hideSigninModal()
-                this.props.showRegisterModal()
-              }}>Register</a>
-          </div>
-        )
-      }
-      // if(this.props.credentials.loading && this.props.profile.loading ){
-      //   return (<ProgressBar/>)
-      // }
-      
-    }
     
 
     const submitButton = (<SubmitComponent text={'Submit'}/>)
@@ -89,10 +71,13 @@ class Signin extends React.Component {
       <div>
           <form
               onSubmit={(e) => this.sendDataToStore(e)}>
-              {signinDisplay()}
-              {/* {signinForm}
-              {submitButton} */}
-              
+              <ValidationComponent message={'Invalid Credentials'}/>
+              {CredentialsForm()}
+              {submitButton}
+              <a onClick={() => {
+                this.props.hideSigninModal()
+                this.props.showRegisterModal()
+              }}>Register</a>
           </form>
           <br/>
           <Facebook hideModal = {this.props.hideModal}/>
@@ -102,10 +87,8 @@ class Signin extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const {  user, form, credentials, profile } = state;
+  const {  user, form } = state;
   return {
-    profile,
-    credentials,
     user,
     form
   }

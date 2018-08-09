@@ -4,7 +4,6 @@ import InputWrapper from "./Input.wrapper"
 
 class _InputContainer extends React.Component{
     render(){
-        console.log(this.props.errMsg)
         return (
             <InputWrapper
                 label={this.props.label}

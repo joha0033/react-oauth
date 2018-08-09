@@ -47,31 +47,30 @@ export const searchPosts = ( posts, criteria ) => {
     // IF THERE IS NO CRITERIA TO SEARCH, MOVE ON.
   return criteria === ''
     ? null
-    // BUT IS THERE IS SEARCH CRITERIA
+    // BUT IF THERE IS SEARCH CRITERIA
     : posts.map((post)=>{
-
+    
+      
       // SNAG THE KEYS FROM THE POST OBJECT
       let keys = Object.keys(post)
-
-      // REMOVE UNECESSARY KEYS, BEGINNING WITH _
-      keys = keys.filter((item) => {
-        return item[0] !== '_'
-      })
-
+    
       // ITERATE THROUGH AND SEARCH FOR CRITERIA
-      return keys.forEach((i) =>{
+      return keys.forEach((i) => {
 
         // LOWER THE PLAYING FEILD, CAPS IS NOT USED TO FILTER/SEARCH
-        let postLower = post[i].toLowerCase()
-        let itemLower = item.toLowerCase()
-
-
-
+      
+        if(typeof post[i] !== 'string' || i[0] === '_'){
+          return null
+        }else{
+          let postLower = post[i].toLowerCase() || null // Why did  I have this?
+          let itemLower = item.toLowerCase()
+          
         // SEARCH THE POST FOR CRITERIA AND PUSH PASSING POSTS TO ARRAY
         if(postLower.search(itemLower) !== -1 && !undefined){
-
           return passingPosts.push(post)
         }
+      }
+        
 
 
 
@@ -91,14 +90,14 @@ export const searchPosts = ( posts, criteria ) => {
   ///////////////////////////
   // HERE YOU GET THE PASSING POSTS, CAN I PRIORITIZE AFTER THAT??
   // CAN I HOLD THE MATCHING RESULT??
-  let match;
+  // let match;
   uniqueArray.forEach((post) =>{
     /////// DO YOU SEARCH ALL KEYS?
     /////// IS THERE PRIORITIES???
-    return console.log('match', match );
+  
 
   })
-  console.log(uniqueArray);
+
 
   return uniqueArray
 

@@ -1,17 +1,19 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { credentialActions } from "../Credentials.actions"
-import { formActions } from "../Forms/Form.actions"
+import { formActions } from "../../Forms/Form.actions"
 import Facebook from "../Facebook/Facebook";
-import { InputContainer } from "../Forms/Inputs/Input.container"
-import SubmitComponent from "../Forms/Buttons/SubmitButton.component"
+import { InputContainer } from "../../Forms/Inputs/Input.container"
+import SubmitComponent from "../../Forms/Buttons/SubmitButton.component"
 import { modalActions } from "../../Modals/Modal.actions"
+import { profileActions } from "../../../Profile/Profile.actions"
 
 class Register extends React.Component {
 
   sendDataToStore(e) {
     e.preventDefault()
     const registerData = this.props.form.formState.input;
+    this.props.fetchingProfile()
     this.props.register(registerData)
     this.props.clearForm()
   }
@@ -46,7 +48,7 @@ class Register extends React.Component {
         )
         
 
-        const submitButton = (<SubmitComponent/>)
+        const submitButton = (<SubmitComponent text={'Submit'}/>)
         
         return (
     
@@ -94,6 +96,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     showSigninModal: () => {
       dispatch(modalActions.showSigninModal())
+    },
+    fetchingProfile: () => {
+      dispatch(profileActions.fetchingProfile())
     }
   }
 }

@@ -13,9 +13,9 @@ export const fillsBlankData = (posts) =>{
       el['level'] = 'none'
     }
 
-    if(el.category === 'Text Editor'){
-      el.category = 'editor'
-    }
+    // if(el.category === 'Text Editor'){
+    //   el.category = 'editor'
+    // }
 
     // MAKE THEM LOWERCASE FOR COMPARISON PURPOSES
     el.category = el.category.toLowerCase()

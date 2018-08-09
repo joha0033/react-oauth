@@ -1,19 +1,50 @@
 import React from "react"
-import { Navbar as Nav } from "react-bootstrap"
+import { Navbar } from "react-bootstrap"
 import NavLinks from "../../containers/Navbar/NavLinks"
 import Dropdown from "../../containers/Navbar/NavDropdown"
 import Logo from "./Logo"
-
-const Navbar = (props) => (
-    <div>
-        <Nav inverse fixedTop fluid collapseOnSelect>
+// import {Navbar} from './Header.styles'
+const Header = (props) => (
+    
+        <Navbar inverse fixedTop collapseOnSelect>
+        {/* <Navbar> */}
             <div className="container">
-                <Logo />
-                <NavLinks />
-                <Dropdown />
+                <ul>
+                    <Logo /> 
+                    {/* <ul> LOGO
+                            <a> 
+                        </ul> */}
+
+                    <NavLinks /> 
+                    {/* <ul> NAVLINKS
+                            <li>
+                                <a> 
+                            </li>  
+                            <li>
+                                <a>
+                            </li>   
+                        </ul> */}
+
+                    <Dropdown /> 
+                    {/* <ul> CONTAINER
+                            <li>
+                                <a/> DISPLAY LINK
+                                <ul> DROPDOWN LINKS
+                                    <li>
+                                        <a/>
+                                    </li>
+                                    <li>
+                                        <a/>
+                                    </li>
+                                </ul> 
+                            </li>
+                        </ul> */}
+
+                </ul>
             </div> 
-        </Nav>
-    </div>
+        </Navbar> 
+        // </Navbar>
+    
 )
 
-export default Navbar
+export default Header

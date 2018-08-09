@@ -1,13 +1,14 @@
 import { inputProps, stateData } from "../_Helpers/CredentialsFormData"
-import { developmentStateData } from "../_Helpers/DevelopmentFormData"
-
-console.log(process.env.NODE_ENV);
+// change developmentEditData TO developmentRegisterData, below when testing singin/signup
+// change developmentRegisterData TO developmentEditData, below when testing edit
+import {  developmentRegisterData } from "../_Helpers/DevelopmentFormData"
 
 let envDev = process.env.NODE_ENV
 
 const initialState = {
 	formProps: inputProps,
-	formState: envDev ? developmentStateData : stateData,
+	formState: envDev ? developmentRegisterData : stateData,
+	// formState: stateData,
 	registerFormInput: {}
 }
 
@@ -30,8 +31,6 @@ export const form = (
 				
 		}
 	case "BLUR_CHANGE":
-		console.log(state.formState.input[action.payload]);
-		
 		return state.formState.input[action.payload] !== "" ?
 		{
 			...state,

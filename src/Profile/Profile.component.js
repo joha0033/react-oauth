@@ -1,23 +1,27 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom'
 import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } from 'react-bootstrap'
+import { profileActions } from './Profile.actions'
+import { connect } from "react-redux"
+import { Link, withRouter } from "react-router-dom";
+import history from "../_Helpers/history.js";
+// import EditProfile from './Profile.Edit'
 
-class Private extends Component {
-  constructor(props) {
 
-    super(props);
-    
-    this.state = {
-      email: null
-     };
+
+class Profile extends Component {
+  componentDidMount() {
+    console.log(history);
+    let token = this.props.credentials.token
+    return this.props.fetchProfile(token)
 
   }
-  
+
   render() {
-
+    
     return (
-
+     
       <div >
+        
         <style type='text/css'>
           {`
           .profile {
@@ -34,7 +38,9 @@ class Private extends Component {
             margin:0
           }
           .smallProfilePicture{
-            padding-top: 5em;
+            border: 5px solid white;
+            border-radius: 200px;
+            // padding-top: 5em;
             display: inline-block;
           }
           .well {
@@ -59,21 +65,18 @@ class Private extends Component {
           `}
 
         </style>
-        {!sessionStorage.getItem('token') ?
+        {this.props.profile.loading ?
           
-          
-          <Redirect to= "/"/>
+         (<h1>LOADING...</h1>)
+         
 
           :
           
             <div className='profile'>
-            {/* LOADING LOGIC BELOW?!? */}
-              {/* {users.loading && <em>Loading users...</em>}
-              {users.error && <span className="text-danger">ERROR: {users.error}</span>} */}
               <div className='overlay'>
 
                 <div className='bottomOverlay'>
-                  <Image src="https://baconmockup.com/1280/230/" responsive />
+                  <Image src="https://picsum.photos/g/1280/200/" responsive />
                 </div>
 
                 <div className='topOverlay container'>
@@ -86,13 +89,14 @@ class Private extends Component {
                         <Image src="https://picsum.photos/300/300" responsive circle />
 
                       </div>
+                      
                       <div style={{paddingTop: "1em"}}>
-                        <h4 >Austin Johnston</h4>
-                        <h3 >{this.state.email}</h3>
-                        <h5 >From: Florida</h5>
-                        <h5 >Freelance Software Engineer</h5>
-                        <h5 >Age: 31</h5>
+                        
+                        {/* <h3>{(this.props.profile.details.fullName || null)}</h3>
+                        <h5 >{this.props.profile.details.email || null}</h5> */}
                       </div>
+
+                      
                     </Col>
                     <Col sm={1}></Col>
 
@@ -100,22 +104,18 @@ class Private extends Component {
                     <Col mdHidden lgHidden className='center' md={6}>
                       <div className='smallProfilePicture'>
 
-                        <Image className='profilePicture' src="https://picsum.photos/300/300" responsive circle />
+                        <Image src="https://picsum.photos/300/300" circle />
 
                       </div>
 
-                      <div style={{marginTop: "2em"}}>
-
-                        <h4 >{this.state.email}</h4>
-                        <h5 >From: Florida</h5>
-                        <h5 >Freelance Software Engineer</h5>
-                        <h5 >Age: 31</h5>
+                      <div style={{paddingTop: "1em"}}>
+                        {/* <h3>{this.props.profile.details.fullName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5> */}
                       </div>
                     </Col>
 
-
+                    
                     <Col xs={12} md={7}>
-
 
                       <Col smHidden xsHidden>
                         <PageHeader style={{paddingTop: "8em", paddingLeft: "2em"}}>
@@ -130,25 +130,28 @@ class Private extends Component {
                       </Col>
 
 
-                      <div>
+                      <div style={{paddingBottom: "4em"}}>
                         <Panel >
                           <Panel.Heading >
-
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
-                            <ListGroupItem>Name: Austin Johnston</ListGroupItem>
-                            <ListGroupItem>Email: {this.state.email}</ListGroupItem>
-                            <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
-                            <ListGroupItem>Name: Austin Johnston</ListGroupItem>
-                            <ListGroupItem>Email: {this.state.email}</ListGroupItem>
-                            <ListGroupItem>Birthday: April 28th, 1986</ListGroupItem>
+                            {/* <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem>
+                            <ListGroupItem>Username: {this.props.profile.details.username}</ListGroupItem>
+                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
+                            
+                            <ListGroupItem>Number of <Link to={`${this.props.match.url}/posts`}>Posts</Link> : {this.props.profile.details.posts.length}</ListGroupItem>
+                            <ListGroupItem>Member Since: data coming... </ListGroupItem>
                           </ListGroup>
                           <Panel.Body className='center'>
                             <Col xs={4} xsOffset={4}>
-                              <Button block bsStyle="primary">
-                                Edit
-                              </Button>
+                              <Link to={`${this.props.match.url}/edit`}>
+                                <Button block bsStyle="primary">
+                                  Edit
+                                </Button>
+                                
+                              </Link>
+                              
                             </Col>
 
                           </Panel.Body>
@@ -160,7 +163,6 @@ class Private extends Component {
                 </div>
               </div>
           </div>
-
         }
       </div>
 
@@ -168,4 +170,20 @@ class Private extends Component {
   }
 }
 
-export default Private
+const mapStateToProps = (state) => {
+  const { credentials, profile } = state
+  return {
+    credentials,
+    profile
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchProfile: (credentials) => {
+      dispatch(profileActions.fetchProfile(credentials))
+    }
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))

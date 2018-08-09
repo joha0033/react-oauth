@@ -4,7 +4,6 @@ import { credentialActions } from "../Credentials/Credentials.actions"
 const logout = () => credentialActions.logout();
 
 const showSigninModal = (formType) => {
-	console.log('Show Modal!');
 
     const showSignin = () => ({
 		type: "SHOW_SIGNIN_MODAL",
@@ -15,6 +14,18 @@ const showSigninModal = (formType) => {
 		dispatch(showSignin());
 	};
 }
+
+// const showCredentialsModal = (type) => {
+// 	console.log('show cred mod',type);
+// 	const modalType = (type) => ({
+// 		type: "SHOW_MODAL",
+// 		payload: type
+// 		})
+		
+// 	return dispatch => {
+// 		dispatch(modalType(type));
+// 	};
+// }
 
 const showRegisterModal = (formType) => {
 
@@ -29,7 +40,6 @@ const showRegisterModal = (formType) => {
 }
 
 const hideRegisterModal = () => {
-	console.log('hide modal');
 	
 	const hide = () => ({
 		type: "HIDE_REGISTER_MODAL",
@@ -41,7 +51,6 @@ const hideRegisterModal = () => {
 	};
 }
 const hideSigninModal = () => {
-	console.log('hide modal');
 	
 	const hide = () => ({
 		type: "HIDE_SIGNIN_MODAL",
@@ -54,6 +63,7 @@ const hideSigninModal = () => {
 }
 
 export const modalActions = {
+	// showCredentialsModal,
 	showSigninModal,
 	showRegisterModal,
 	hideSigninModal,

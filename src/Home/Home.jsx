@@ -1,5 +1,5 @@
 import React from 'react'
-
+import history from '../_Helpers/history'
 // ADD PRETTIER AND FLOW??
 
 // FETCH ALL POSTS
@@ -17,6 +17,7 @@ import { filterGroupCreator } from './Helpers/filterGroupCreator'
 
 // BOOTSTRAP STYLE TAGS
 import {
+  // Alert,
   Pagination,
   FormControl,
   Checkbox,
@@ -68,7 +69,7 @@ class Home extends React.Component {
   */
   componentDidMount() {
     
-    return this.fetchPosts()
+    this.fetchPosts()
 
   } // END OF COMPONENT WILL MOUNT
 
@@ -91,25 +92,27 @@ class Home extends React.Component {
     // ////////////////////////
     // FETCH ROUTE from Imports
     Post.fetchAllPosts().then((result) => {
-
+      
+      
       const posts = fillsBlankData(result)
-
+      console.log(posts);
+      
       // /////////////////////////////
       // FILL FILTER CRITERIA IF EMPTY
       if (this.state.filterGroups.length === 1) {
 
         // //////////////////////////////
         // GET FROM USER?? ADD TO STATE??
-        const filterTypesFromKeys = ['category', 'level']
+        const filterGroupKeys = ['category', 'level']
 
         // ///////////////////////
         // CREATE THE FILTER GROUP
-        const filterGroupArray = filterGroupCreator(filterTypesFromKeys, posts)
-
+        const filterGroupArray = filterGroupCreator(filterGroupKeys, posts)
+        
         // ///////////////////////
         // SET STATE FOR POST DISPLAY
         this.setState({filterGroups: this.state.filterGroups.concat(filterGroupArray)})
-
+        
       } // END OF IF FILTER GROUP
 
       ///////////////////////////////////////////////////////////////////////
@@ -122,8 +125,12 @@ class Home extends React.Component {
               filterCriteriaFromState,
               searchCriteriaFromState
             )})
-
-    }).catch(alert)
+            
+    }).catch((alert) => {
+      history.push('/About')
+      window.alert('401 status: Our servers may be down, please try back again later')
+      return alert
+    })
 
   } // END OF FETCH POSTS
 
@@ -137,6 +144,25 @@ class Home extends React.Component {
   */
   sideBarCreator(){
 
+
+
+    // QUICK DISPLAY FIX FOR NO SERVER RESPONSE
+    // if( this.state.posts.length === 0 ) {
+    //   console.log('ok then');
+    //   return (
+    //     <Alert bStyle='danger'>
+    //       <h1>OMG... our servers may be down...</h1>
+    //       <h2> Please try back again later.</h2>
+    //     </Alert>
+        
+    //   )
+      
+    // }
+
+
+
+
+    
     ////////////////////////////////////////////////
     // CREATE A NEW ARRAY OUT OF FILTER GROUP STATE
     const filterArray = this.state.filterGroups
@@ -153,25 +179,27 @@ class Home extends React.Component {
         //////////////////////////////////
         // THIS WILL HEADER FOR EACH GROUP
         group = group[0].charAt(0).toUpperCase() + group[0].slice(1)
-
+        
         //////////////////////////////////
         // 'FILTER ARRAY' CONTAINS OBJECTS
         // KEY/(GROUP NAME): VALUE/(ARRAY OF TYPES)
         let type = Object.values(element)
-
+        
+        
         /////////////////////////////////////////////////
         // CONVERTING TYPE TO HTML CHECKBOXES/SUB-HEADERS
         type = Object.keys(type[0]).map((element, index)=>{
-
+          
           /////////////////////////////////////////////////////
           // CRAETES NAME WITH CAPITAL FIRST LETTER FOR DISPLAY
           let displayName = element[0].charAt(0).toUpperCase()
             + element.substring(1, element.length)
-
+          
+          
           ///////////////////////////////
           // IF ELEMENT IS A SEARCH INPUT
           return element === 'input'
-
+            // ? null
             ////////////////////
             // CREATE INPUT BOX
             ? ( <FormControl
@@ -217,7 +245,7 @@ class Home extends React.Component {
   *
   */
   sendSearchEventValue(input) {
-
+    this.setState({currentPage: 1})
     ///////////////
     // SEARCH INPUT
     input = input.split(' ')
@@ -240,7 +268,7 @@ class Home extends React.Component {
   *
   */
   filterGroupUpdate(filterType) {
-
+    this.setState({currentPage: 1})
     ////////////////////////////////////////////////
     //CREATE A NEW ARRAY OF FILTER GROUPS FROM STATE
     const newArray = this.state.filterGroups
@@ -316,6 +344,18 @@ class Home extends React.Component {
   */
   postsMap() {
 
+    // if( this.state.posts.length === 0 ) {
+    //   console.log('ok then');
+    //   return (
+    //     <Alert>
+    //       <h1>OMG... our servers may be down...</h1>
+    //       <h2> Please try back again later.</h2>
+    //     </Alert>
+        
+    //   )
+      
+    // }
+
     /////////////////////////////////////////////////////////////////
     // CREATES AN ARRAY FROM STATE THAT SPLITS UP POSTS FOR PAGINATION
     // SPLIT DATA HELPER FROM PAGINATION HELPER RETURNS ARRAY SLICED
@@ -329,9 +369,17 @@ class Home extends React.Component {
     // ADDING HTML/POST TO ARRAY/(POSTS TO RENDER)
       return(<div key={index}>
               <h3>{post.title}</h3>
+              {/* {console.log(post)} */}
+              {/* <p>author: {post.user_id.username}</p> */}
               <p>{post.content}</p>
               <p>{post.category}</p>
               <p>{post.level}</p>
+              {/* <span> {
+                post.comments.map(comment => {
+                  return (<h5>{comment.title}</h5>)
+                })
+              } </span> */}
+              {/* {console.log(post.comments)} */}
             </div>)
     }) // END OF POST TO RENDER
 
@@ -527,7 +575,7 @@ class Home extends React.Component {
 
             {/* SIDENAV */}
 
-            <Col xs={2}>
+            <Col xs={3}>
 
               <SideNav>
 
@@ -559,7 +607,7 @@ class Home extends React.Component {
 
             {/* POSTS */}
 
-            <Col xs={8}>
+            <Col xs={7}>
 
               <PostLink>
 

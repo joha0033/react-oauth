@@ -7,12 +7,12 @@ import App from './components/App/App';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from "react-redux"
 import store from "./store"
-import { Route, Router} from 'react-router-dom'
+import { Route, Router } from 'react-router-dom'
 import history from "./_Helpers/history"
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={history}>
+		<Router location={this.location} history={history}>
 			<Route path='/' component={App} />
 		</Router>
 	</Provider>,

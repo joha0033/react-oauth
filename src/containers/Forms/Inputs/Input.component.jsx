@@ -15,7 +15,8 @@ const InputComponent = (
         </label>
         <br/>
         <input
-          name={props.name}
+          autoComplete="user-input"
+          // name={props.name}
           type={props.type}
           value={props.value}
           onBlur={props.onBlur}

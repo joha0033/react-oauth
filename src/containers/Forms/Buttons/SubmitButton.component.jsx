@@ -1,14 +1,16 @@
 import React from 'react'
 
-const SubmitComponent = () => (
+const SubmitComponent = ({text}) => (
       <div>
         <br/>
         <input
+          // onSubmit = {() => action}
           touchend="submit"
           type="submit"
-          value="Submit"
+          value={text}
         //   disabled={process.env.NODE_ENV !== 'development' ? !isValid : null}
         />
+        <br/>
       </div>
 )
 
