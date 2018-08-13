@@ -92,8 +92,8 @@ class Profile extends Component {
                       
                       <div style={{paddingTop: "1em"}}>
                         
-                        {/* <h3>{(this.props.profile.details.fullName || null)}</h3>
-                        <h5 >{this.props.profile.details.email || null}</h5> */}
+                        <h3>{(this.props.profile.details.fullName || null)}</h3>
+                        <h5 >{this.props.profile.details.email || null}</h5>
                       </div>
 
                       
@@ -109,8 +109,8 @@ class Profile extends Component {
                       </div>
 
                       <div style={{paddingTop: "1em"}}>
-                        {/* <h3>{this.props.profile.details.fullName}</h3>
-                        <h5 >{this.props.profile.details.email}</h5> */}
+                        <h3>{this.props.profile.details.fullName}</h3>
+                        <h5 >{this.props.profile.details.email}</h5>
                       </div>
                     </Col>
 
@@ -138,7 +138,6 @@ class Profile extends Component {
                           <ListGroup>
                             {/* <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem> */}
                             <ListGroupItem>Username: {this.props.profile.details.username}</ListGroupItem>
-                            <ListGroupItem>First Name: {this.props.profile.details.firstName}</ListGroupItem>
                             {/* <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
                             
                             <ListGroupItem>Number of <Link to={`${this.props.match.url}/posts`}>Posts</Link> : {this.props.profile.details.posts.length}</ListGroupItem>

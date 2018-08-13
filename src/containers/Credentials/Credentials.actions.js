@@ -38,16 +38,14 @@ const register = (newUser) => {
 
 		registerService.register(firstName, lastName, email, password)
 			.then(
-				(token, username) => {
-					dispatch(credentialSuccess(token));
+				( response ) => {
+					const { token, username } = response
+					dispatch(credentialSuccess({ token, username }));
 					sessionStorage.setItem('token', token)
 					sessionStorage.setItem('username', username)
 					dispatch(profileActions.fetchingProfile())
 					dispatch(modalActions.hideRegisterModal())
-					// history.goBack() //profile push below adds 2 arguments of the instance
-					// history.push("/profile/" + sessionStorage.getItem("username"));
-					history.push("/profile/");
-					
+					history.push("/profile/" + username);
 				},
 				error => {
 					dispatch(credentialsFailure(error));
@@ -72,7 +70,7 @@ const login = (email, password) => {
 						dispatch(modalActions.hideSigninModal())
 						dispatch(credentialsLoadingFinished())
 					}, 1200)//for SPINNER!
-					history.push('/profile/'+sessionStorage.getItem('username'));
+					history.push('/profile/' + sessionStorage.getItem('username'));
 				}
 			)
 			.then(
