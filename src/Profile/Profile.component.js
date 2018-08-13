@@ -136,9 +136,10 @@ class Profile extends Component {
                             Your Information
                           </Panel.Heading>
                           <ListGroup>
-                            {/* <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem>
+                            {/* <ListGroupItem>Name: {this.props.profile.details.fullName}</ListGroupItem> */}
                             <ListGroupItem>Username: {this.props.profile.details.username}</ListGroupItem>
-                            <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
+                            <ListGroupItem>First Name: {this.props.profile.details.firstName}</ListGroupItem>
+                            {/* <ListGroupItem>Email: {this.props.profile.details.email}</ListGroupItem> */}
                             
                             <ListGroupItem>Number of <Link to={`${this.props.match.url}/posts`}>Posts</Link> : {this.props.profile.details.posts.length}</ListGroupItem>
                             <ListGroupItem>Member Since: data coming... </ListGroupItem>

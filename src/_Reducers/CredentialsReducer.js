@@ -7,9 +7,6 @@ let token = sessionStorage.getItem('token')
 // 	? profileActions.fetchProfile(token)
 // 	: null
 
-
-console.log('AREGJAEK',token);
-
 // commenting out ternary for token to try and fix server failure catch....wait n/m for now
 initialState = token ? { loggedIn: true, token, loading: false } : { loggedIn: false };
 // const initialState = { loggedIn: false }
@@ -18,8 +15,6 @@ export const credentials = (
 	state = initialState,
 	action
 ) => {
-	console.log(action.payload, 'ACTION + PAYLOAD');
-	
 	switch (action.type) {
 	case "CHECKING_CREDENTIALS":
 		return {

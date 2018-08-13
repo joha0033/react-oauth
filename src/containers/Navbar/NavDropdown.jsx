@@ -10,7 +10,9 @@ class Dropdown extends Component{
 
 
     render() {
+
       const adminLink = () => {
+        
         return (
           <LinkContainer activeClassName='' to={`/profile/${username}`}>
                     {(<MenuItem >{
@@ -20,7 +22,8 @@ class Dropdown extends Component{
                 
         )
       }
-      let username = sessionStorage.getItem('username')
+      let username = sessionStorage.getItem('username') || this.props.credentials.username
+
       return (
         
         <Nav pullRight>

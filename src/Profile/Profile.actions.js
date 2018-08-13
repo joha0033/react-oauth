@@ -108,16 +108,18 @@ const profileEditSuccess= (response) => {
 }
 
 const changeData = (change, token) => {
-    let username = sessionStorage.getItem('username')
+    // let username = sessionStorage.getItem('username')
     return dispatch => {
         
         dispatch(profileEditSubmitted(change))
 
         profileService.editProfile(change, token).then((updated) => {
             console.log('updated', updated);
+            const { username } = updated.response.updatedData
             dispatch(profileEditSuccess(updated.updatedData));
-            //
             history.push('/profile/' + username);
+        }).catch((err) => {
+            console.log('err',err);
         })
     }
     

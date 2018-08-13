@@ -52,6 +52,7 @@ const fetchUsersPosts = (token) => {
 }
 
 const editProfile = (changes, token) => {
+    console.log(changes);
     
     let options = {
         method: "PUT",
@@ -66,6 +67,8 @@ const editProfile = (changes, token) => {
     
     return fetch(URL, options)
         .then(response => {
+            console.log('response',response);
+            
             if (!response.ok) { 
                 return Promise.reject(response.statusText);
             }

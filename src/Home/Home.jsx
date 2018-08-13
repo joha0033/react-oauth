@@ -41,6 +41,7 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
+      // loading: true,
       posts: [],
       searchCriteria: [],
       filterCriteria: [],
@@ -68,8 +69,14 @@ class Home extends React.Component {
   * @returns {func} calls fetchPosts to GET all post data
   */
   componentDidMount() {
-    
+    // console.log(this.state.loading);
     this.fetchPosts()
+    // setTimeout(() => {
+      // return this.setState({loading: false}) 
+    // }, 1200)
+   
+   
+     
 
   } // END OF COMPONENT WILL MOUNT
 
@@ -95,7 +102,6 @@ class Home extends React.Component {
       
       
       const posts = fillsBlankData(result)
-      console.log(posts);
       
       // /////////////////////////////
       // FILL FILTER CRITERIA IF EMPTY
@@ -580,13 +586,20 @@ class Home extends React.Component {
               <SideNav>
 
                   <ul>
-
+                  {/* {this.state.loading  
+                    ? (<div>LOADING!</div>)
+                    : (
                     <FormGroup>
 
                       {this.sideBarCreator()}
 
                     </FormGroup>
+                    )} */}
+                    <FormGroup>
 
+                      {this.sideBarCreator()}
+
+                    </FormGroup>
                     <hr />
 
                     <h4 >Other</h4>
@@ -610,9 +623,14 @@ class Home extends React.Component {
             <Col xs={7}>
 
               <PostLink>
-
+                {/* {
+                  this.state.loading  
+                    ? (<div>LOADING!</div>)
+                    : (<div>{this.postsMap()}</div>)
+                    
+                } */}
+                
                 <div>{this.postsMap()}</div>
-
                 <hr/>
 
               </PostLink>

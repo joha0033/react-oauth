@@ -21,7 +21,7 @@ class EditProfile extends React.Component {
 
     render() {
         let editProfileForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
-          if(inputProps.name !== 'password') {
+          if(inputProps.name !== 'password' && inputProps.name !== 'email') {
             return (<div key={index} >
               <InputContainer
                 label={inputProps.label}
