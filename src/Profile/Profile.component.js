@@ -3,14 +3,12 @@ import { PageHeader, Row, Panel, ListGroup, ListGroupItem, Button, Col, Image } 
 import { profileActions } from './Profile.actions'
 import { connect } from "react-redux"
 import { Link, withRouter } from "react-router-dom";
-import history from "../_Helpers/history.js";
 // import EditProfile from './Profile.Edit'
 
 
 
 class Profile extends Component {
   componentDidMount() {
-    console.log(history);
     let token = this.props.credentials.token
     return this.props.fetchProfile(token)
 

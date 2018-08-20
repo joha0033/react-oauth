@@ -1,6 +1,4 @@
 const login = (email, password) => { 
-	console.log(email, password);
-	   
 	const requestOptions = {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -20,8 +18,6 @@ const login = (email, password) => {
 		})
 		.then(response => {
 			if (response.token) {
-				console.log(response);
-				
 				// store user details and jwt token in local storage to keep user logged in between page refreshes
 				sessionStorage.setItem("token", response.token);
 				sessionStorage.setItem("username", response.username)

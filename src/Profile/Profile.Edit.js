@@ -5,22 +5,26 @@ import { formActions } from "../containers/Forms/Form.actions"
 import { InputContainer } from "../containers/Forms/Inputs/Input.container"
 import SubmitComponent from "../containers/Forms/Buttons/SubmitButton.component"
 import { profileActions } from "./Profile.actions";
+import { Col, Row  } from 'react-bootstrap'
 
 class EditProfile extends React.Component {
-
+  
     sendDataToStore(e) {
         e.preventDefault()
+        console.log('e.target', e.target);
         console.log('sendDataBlah - ', this.props.form);
-        const profileEdit = this.props.form.formState.input;
+        let {password, ...profileEdit} = {...this.props.form.formState.input};
+        password = ''
+        console.log(profileEdit);
+        
         const token = this.props.credentials.token
         console.log('TOKEN____',token);
-        
         this.props.change(profileEdit, token)
         this.props.clearForm()
       }
 
     render() {
-        let editProfileForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
+        const editProfileForm = Object.values(this.props.form.formProps).map((inputProps, index) => {
           if(inputProps.name !== 'password' && inputProps.name !== 'email') {
             return (<div key={index} >
               <InputContainer
@@ -39,21 +43,56 @@ class EditProfile extends React.Component {
           }
           
         })
+
+        const profilePictureHandler = (image) => {
+          console.log('images', image.target.files[0]);
+          const file = image.target.files[0]
+          return this.props.handleProfilePicture(file)
+        }
+
+        const bannerPictureHandler = (image) => {
+          console.log('images', image.target.files[0]);
+          const file = image.target.files[0]
+          return this.props.handleBannerPicture(file)
+        }
+        // const BannerPictureHandler = (images) => {
+        //   console.log('images', images.target.files[0]);
+        //   this.props.
+        // }
+
+        const ImagesUpload = (
+            <div>
+              <label>{'Profile Image'}</label>
+              <input
+                name='profileImage' 
+                type={'file'} 
+                onChange={profilePictureHandler}
+              />
+              <br/>
+              <label>{'Banner Image'}</label>
+              <input 
+                name='bannerImage'
+                type={'file'} 
+                onChange={bannerPictureHandler}
+              />
+            </div>)
+        
         
 
         const submitButton = (<SubmitComponent text='Submit Changes'/>)
         const backButton = (<Link to={`/profile/${this.props.profile.details.username}`}> Back </Link>)
 
         
+        
         return (
           <div >
             <div >
               <style type='text/css'>
                 {`.padding {
-                    padding: 2em;
+                    padding: 1.5em;
                   }
                   .padding-bottom{
-                    margin-bottom: 2.1em;
+                    margin-bottom: 1em;
                 }`}
               </style>
             </div>
@@ -62,7 +101,22 @@ class EditProfile extends React.Component {
             <br/>
               <form
                 onSubmit={(e) => this.sendDataToStore(e)}>
-                {editProfileForm}
+                <Row>
+                <Col xs={4}>
+                  
+                  </Col>
+                  <Col xs={4}>
+                    {editProfileForm}
+                    {ImagesUpload}
+                  </Col>
+                  <Col xs={4}>
+                  
+                  </Col>
+                </Row>
+                 
+                
+                
+                
                 {submitButton}
                 <div className='padding'>
                 {backButton}
@@ -98,6 +152,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     clearForm: () => {
     dispatch(formActions.clearForm())
+    },
+    handleProfilePicture: (image) => {
+      dispatch(formActions.handleProfilePicture(image))
+    },
+    handleBannerPicture: (image) => {
+      dispatch(formActions.handleBannerPicture(image))
     }
   }
 }

@@ -10,8 +10,8 @@ export const developmentRegisterData = {
         },
     },
     input: {
-        firstName:"Tay",
-        lastName: "Boo",
+        firstName:"Test",
+        lastName: "Local",
         email: "testLocal@gmail.com",
         password: "test321"
     }
@@ -28,9 +28,9 @@ export const developmentEditData = {
         },
     },
     input: {
-        firstName:"NewTay",
-        lastName: "NewBoo",
-        email: "testEdit@gmail.com",
+        firstName:"Captain",
+        lastName: "Ron",
+        email: "CaptainRon@gmail.com",
         password: "test321"
     }
 }

@@ -26,7 +26,7 @@ const register = (newUser) => {
 		firstName, 
 		lastName, 
 		email, 
-		password 
+		password
 		} = newUser
 		
 	

@@ -15,7 +15,7 @@ import RegisterModalContainer from '../../containers/Modals/Modal.containers/Reg
 import PrivateRoute from '../../Profile/Profile.Redirect'
 import EditPrivateRoute from '../../Profile/Profile.Edit.Redirect'
 import PostsPrivateRoute from '../../containers/Profile/PostPage/Post'
-import {  withRouter } from 'react-router-dom'
+import {  withRouter, Redirect } from 'react-router-dom'
 
 const App = (props) =>  (
   <div>
@@ -24,6 +24,19 @@ const App = (props) =>  (
 
       <div className='App-intro'>
         <Route path='/' component={SigninModalContainer} />
+        <Route path='/trello-board' component={() => { 
+          window.open('https://trello.com/b/87NBQqI8/smallthingstech', '_blank')
+          return (<Redirect to="/"/>)
+        }}/>
+        <Route path='/github-frontend' component={() => {
+          window.open('https://github.com/joha0033/smAllThingsTech', '_blank')
+          return (<Redirect to="/"/>)
+        }}/>
+        <Route path='/github-backend' component={() => {
+          window.open('https://github.com/joha0033/smAllThingsBackend', '_blank')
+          return (<Redirect to="/"/>)
+          }}/>
+       
         {/* <Route path='/' component={ModalContainer} /> */}
         <Route path='/' component={RegisterModalContainer} />
         <Route exact path='/' component={Home} />
@@ -36,8 +49,6 @@ const App = (props) =>  (
           return <EditPrivateRoute {...props} />
         }}/>
         <Route exact path='/profile/:username/posts' render={(props) => {
-          console.log('private post hit');
-          
           return <PostsPrivateRoute {...props} />
         }}/>
         

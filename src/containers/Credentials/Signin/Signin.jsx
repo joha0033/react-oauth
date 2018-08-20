@@ -16,8 +16,6 @@ class Signin extends React.Component {
   ///////////////
   // SIGNUP FLOW
   sendDataToStore(e) {
-    console.log(e);
-    
     e.preventDefault()
     const { email, password } = this.props.form.formState.input;
     this.props.fetchingProfile()

@@ -34,8 +34,38 @@ const clearForm = () => {
 	
 }
 
+const handleProfilePicture = (image) => {
+    console.log(image);
+    
+	const profilePicture = (file) => ({
+        type: "HANDLE_PROFILE_IMAGE",
+        payload: {file}
+	})
+	
+	return dispatch => {
+		dispatch(profilePicture(image));
+	};
+	
+}
+
+const handleBannerPicture = (image) => {
+    console.log(image);
+    
+	const bannerPicture = (file) => ({
+        type: "HANDLE_BANNER_IMAGE",
+        payload: {file}
+	})
+	
+	return dispatch => {
+		dispatch(bannerPicture(image));
+	};
+	
+}
+
 export const formActions = {
     handleInputChange,
     handleBlur,
-    clearForm
+    clearForm,
+    handleProfilePicture,
+    handleBannerPicture
 }

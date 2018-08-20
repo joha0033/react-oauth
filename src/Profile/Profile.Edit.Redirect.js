@@ -11,7 +11,6 @@ import EditProfile from '../Profile/Profile.Edit'
             return (
                 this.props.profile.success === true ? (
                     <div>
-                        {console.log(this.props)}
                         <Route exact to={this.props.profile.details.username} component={EditProfile}/>
                     </div>
                 ) : (

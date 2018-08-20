@@ -15,7 +15,8 @@ const Header = (props) => (
                             <a> 
                         </ul> */}
 
-                    <NavLinks /> 
+                    <NavLinks />
+                    
                     {/* <ul> NAVLINKS
                             <li>
                                 <a> 

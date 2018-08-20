@@ -50,7 +50,7 @@ const userPostFailure = (error) => {
 const profileEditSubmitted = (change) => {
     let token = sessionStorage.getItem('token')
     let username = sessionStorage.getItem('username')
-
+    console.log('submitted ACTION change from profile action - ', change);
     return {
         type: 'PROFILE_EDIT_SUBMITTED',
         crendentials: {
@@ -110,11 +110,12 @@ const profileEditSuccess= (response) => {
 const changeData = (change, token) => {
     // let username = sessionStorage.getItem('username')
     return dispatch => {
+        console.log('CHANGE DATA change from profile action - ', change);
         
         dispatch(profileEditSubmitted(change))
 
         profileService.editProfile(change, token).then((updated) => {
-            console.log('updated', updated);
+            // console.log('updated-----------', updated);
             const { username } = updated.response.updatedData
             dispatch(profileEditSuccess(updated.updatedData));
             history.push('/profile/' + username);

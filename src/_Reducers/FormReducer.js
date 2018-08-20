@@ -17,6 +17,8 @@ export const form = (
 	state = initialState,
 	action
 ) => {
+	console.log(action);
+	
 	switch (action.type) {
 	case "INPUT_CHANGE":
 		return { 
@@ -57,6 +59,30 @@ export const form = (
 					}
 				}
 			}
+		}
+	case "HANDLE_PROFILE_IMAGE":
+		return { 
+			...state,
+				formState:{
+					...state.formState,
+					input: {
+						...state.formState.input,
+							profileImage: {...action.payload}
+					}
+				}
+				
+		}
+	case "HANDLE_BANNER_IMAGE":
+		return { 
+			...state,
+				formState:{
+					...state.formState,
+					input: {
+						...state.formState.input,
+							bannerImage: {...action.payload}
+					}
+				}
+				
 		}
 	case "CLEAR_FORM":
 		return state = initialState

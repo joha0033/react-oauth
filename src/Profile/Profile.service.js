@@ -52,30 +52,68 @@ const fetchUsersPosts = (token) => {
 }
 
 const editProfile = (changes, token) => {
-    console.log(changes);
+    const URL = `http://localhost:5000/users/profile/edit`
+    let {
+        profileImage, 
+        bannerImage, 
+        ...profileEdit
+        } = changes
     
-    let options = {
+        // upload image fetch if images exist create forom data fetch
+    if( typeof profileImage === 'object' || typeof bannerImage === 'object' ) {
+        const formData = new FormData()
+
+        // eslint-disable-next-line
+        profileImage    
+            ? formData.append('profileImage', profileImage.file)
+            : null
+        // eslint-disable-next-line
+        bannerImage 
+            ? formData.append('bannerImage', bannerImage.file)
+            : null
+        
+        const imageUpdateOptions = {
+            method: "PUT",
+            headers: {
+                'authorization': token
+            },
+            body: formData
+        }
+
+        // ERROR HANDLE THIS BETTER ASYNC AWAIT, TOO
+        fetch(URL, imageUpdateOptions)
+            .then(response => {
+                if (!response.ok) { 
+                    return Promise.reject(response.statusText);
+                }
+                return response.json();
+            })
+            .then(response => {
+                return null
+            })  
+    } // END of if statement --> if(typeof profileImage = 'object' || bannerImage)
+    console.log(profileEdit);
+    
+    let stringUpdateOptions = {
         method: "PUT",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             'authorization': token
         },
-        body: JSON.stringify(changes)
+        body: JSON.stringify(profileEdit)
     }
-
-    let URL = `http://localhost:5000/users/profile/edit`
+    console.log(stringUpdateOptions);
     
-    return fetch(URL, options)
-        .then(response => {
-            console.log('response',response);
-            
+    
+    return fetch(URL, stringUpdateOptions)
+        .then((response) => {
+            console.log('response', response);
             if (!response.ok) { 
                 return Promise.reject(response.statusText);
             }
             return response.json();
-        })
-        .then(response => {
-            let newProfile = fetchProfile(token).then(res => res.json)
+        }).then((response) => {
+            let newProfile = fetchProfile(response.token)
             let updatedProfile = {
                 data: newProfile, 
                 response
@@ -83,8 +121,7 @@ const editProfile = (changes, token) => {
             if (response) {
                 return updatedProfile
             }
-            return null
-        });
+        })
 }
 
 export const profileService = {
